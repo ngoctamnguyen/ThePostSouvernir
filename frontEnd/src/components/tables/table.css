@@ -1,0 +1,43 @@
+.dataTop {
+  background-color: cyan;
+}
+
+.tableFont {
+  font-family: '.VnArial', Arial, Helvetica, sans-serif;
+}
+
+.tableRight {
+  text-align: right;
+  width: 200px;
+}
+
+.orderNumber {
+  text-align: left;
+  width: 100px;
+}
+
+.mahang {
+  text-align: center;
+  width: 200px;
+}
+
+.tenhangHeader {
+  text-align: left;
+  width: 200px;
+}
+
+.tenhang {
+  text-align: left;
+  width: 200px;
+  font-family: '.VnArial';
+}
+
+.tableCenter {
+  text-align: center;
+  width: 200px;
+}
+
+.btn {
+  width: 20px;
+  text-align: center;
+}
