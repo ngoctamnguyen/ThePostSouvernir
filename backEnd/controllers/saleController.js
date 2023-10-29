@@ -1,4 +1,5 @@
-const ADODB = require('@el3um4s/node-adodb');
+//const ADODB = require('@el3um4s/node-adodb');
+const ADODB = require('node-adodb');
 const { DB_URL, DB_KEY } = require('../config.json')
 const { json } = require('express');
 
@@ -12,14 +13,16 @@ module.exports.saveSale = async (req, res, next) => {
         stringSQL += "'" + req.body.data.Mahang + "', ";
         stringSQL += "'" + req.body.data.Catruc + "', ";
         stringSQL += "'" + req.body.data.Nhanvien + "', ";
-        stringSQL += "#" + req.body.data.Gio + "#, ";
-        stringSQL += "'" + req.body.data.Soluong + "', ";
+        stringSQL += "'" + req.body.data.Gio + "', ";
+        stringSQL += "" + req.body.data.Soluong + ", ";
         stringSQL += "'" + req.body.data.Giavon + "', ";
         stringSQL += "'" + req.body.data.price + "', ";
         stringSQL += "'" + req.body.data.Dongia + "', ";
         stringSQL += "'" + req.body.data.Thanhtien + "')";
-        const results = await connection.query(stringSQL);
-        res.json({ success: true, data: results })
+
+        const results = await connection.execute(stringSQL);
+        res.json({ success: true, data: results });
+
     } catch (e) {
         next(e)
         console.log(e)

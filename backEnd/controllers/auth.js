@@ -1,11 +1,12 @@
-const ADODB = require('@el3um4s/node-adodb');
+//const ADODB = require('@el3um4s/node-adodb');
+const ADODB = require('node-adodb');
 const { DB_URL, DB_KEY, PRIVATE_KEY } = require('../config.json')
 const { json } = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const connection = ADODB.open('Provider=Microsoft.Jet.OLEDB.4.0;Data Source=' + DB_URL + ';Jet OLEDB:Database Password= ' + DB_KEY + ';');
-
+ 
 
 module.exports.login = async (req, res, next) => {
 

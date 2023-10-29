@@ -18,7 +18,7 @@ module.exports.getBillNumber = async (req, res, next) => {
 addNewBillNumber = async (num)=> {
     try {
         const str = "INSERT INTO Phieubanle (Sopbl, Manv) VALUES ('" + num + "', '');" ;
-        const results = await connection.query(str);
+        const results = await connection.execute(str);
         return results;
     } catch (err) {
         console.log(err)

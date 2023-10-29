@@ -94,7 +94,7 @@ function GhiseTableForm() {
       itemsList.forEach(element => {
          //update table mathang: tonban, tonhientai
          console.log(element)
-         updateMathang(element.mahang, element.soluong);
+         //updateMathang(element.mahang, element.soluong);
 
          //insert current list into table CTBL
          saveSale(element);
@@ -133,7 +133,7 @@ function GhiseTableForm() {
             Mahang: list.mahang,
             Catruc: list.catruc,
             Nhanvien: list.nhanvien,
-            Gio: date.format('MM/DD/YYYY HH:MM:SS'),
+            Gio: date.format('MM/DD/YYYY HH:mm:ss'),
             Soluong: list.slNhapBanThem,
             Giavon: list.Giavon,
             price: list.price,
