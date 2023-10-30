@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import ReactToPrint from "react-to-print";
+import DateObject from "react-date-object";
 import './check.css';
 
 export default function Check(props) {
@@ -8,9 +9,14 @@ export default function Check(props) {
 
    let grandTotal = 0;
    let itemsTotal = 0;
+   
+   let sophieu = '';
+   const date = (new DateObject()).format('MM/DD/YYYY HH:mm:ss');
+   
    for (let i = 0; i < props.data.length; i++) {
       grandTotal += props.data[i].thanhtien;
       itemsTotal += props.data[i].slNhapBanThem;
+      sophieu = props.data[i].sophieu;
    }
 
    const tableRows = props.data.map((data) => {
@@ -34,11 +40,13 @@ export default function Check(props) {
             <div>
                <div className="row justify-content-center">
                   <div class="col-sm-4 shop">
-                     <label>MINH PHAT</label>
+                     <label>MINH PHAT</label><br></br>
                      <label>02 Cong xa Paris</label>
                   </div>
                   <div class="col-sm-8 title">
                      <h5 style={{ textAlign: "center" }}>Hóa đơn bán lẻ</h5>
+                     <label>Ngày: {date}</label><br></br>
+                     <label>Số phiếu: {sophieu} </label>
                   </div>
                </div>
                <hr></hr>

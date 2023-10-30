@@ -93,12 +93,10 @@ function GhiseTableForm() {
 
       itemsList.forEach(element => {
          //update table mathang: tonban, tonhientai
-         console.log(element)
-         //updateMathang(element.mahang, element.soluong);
+         updateMathang(element.mahang, element.slNhapBanThem);
 
          //insert current list into table CTBL
          saveSale(element);
-
       });
       //clear current list => clear table
       setItemData([]);
@@ -109,7 +107,7 @@ function GhiseTableForm() {
          const results = await axios.put(DB_URL + 'items/' + itemCode,
             {
                mahang: itemCode,
-               itemNumber: itemNum
+               soluong: itemNum
             },
             {
                headers: {
@@ -127,7 +125,6 @@ function GhiseTableForm() {
    async function saveSale(list) {
       try {
          const date = new DateObject();
-         console.log(date.format('MM/DD/YYYY HH:MM:SS'))
          const data = {
             Sopbl: list.sophieu,
             Mahang: list.mahang,

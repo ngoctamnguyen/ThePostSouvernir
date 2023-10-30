@@ -32,9 +32,13 @@ module.exports.getTygia = async (req, res, next) => {
 
 module.exports.updateMathang = async (req, res, next) => {
      try {
-          console.log(req.body)
-          //Not finished
-          const results = await connection.query('SELECT tygia FROM Tygia ');
+          const mahang = req.body.mahang;
+          const soluong = req.body.soluong;
+          let stringSQL = "UPDATE mathang SET Tonhientai = Tonhientai - " + soluong;
+          stringSQL += ", tonban = tonban - " + soluong;
+          stringSQL += " WHERE mahang = '" + mahang + "';";
+          console.log(stringSQL)
+          const results = await connection.execute(stringSQL);
           res.json({ success: true, data: results })
      } catch (e) {
           next(e)

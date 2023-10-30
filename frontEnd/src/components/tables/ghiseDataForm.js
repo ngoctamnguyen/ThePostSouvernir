@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from "axios";
 import './table.css';
 import { Context } from "../../context/Context";
+const { DB_URL } = require('../../config.json');
 
 // **********************************
 // This data form use query directly to server each time mahang input 
@@ -29,7 +30,7 @@ function GhiseDataForm(props) {
    async function getItem(mahang) {
       try {
          const headers = { 'Authorization': 'Bearer ' + user.token };
-         const results = await axios.get('http://localhost:8080/items/' + mahang, { headers });
+         const results = await axios.get(DB_URL + 'items/' + mahang, { headers });
          return results.data.data;
       } catch (err) {
          console.log(err);
@@ -39,7 +40,7 @@ function GhiseDataForm(props) {
    async function getBillNumber() {
       try {
          const headers = { 'Authorization': 'Bearer ' + user.token };
-         await axios.get('http://localhost:8080/bills', { headers })
+         await axios.get(DB_URL + 'bills', { headers })
             .then(res => {
                setBillNumber(res.data.data)
             })

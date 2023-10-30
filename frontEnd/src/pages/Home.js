@@ -40,9 +40,9 @@ export default function Home() {
    return (
       <>
          <section className="vh-100">
-            <div className="container-fluid h-custom">
+            <div className="container-fluid h-custom" >
                <div className="row d-flex justify-content-center align-items-center h-200">
-                  <div className="row d-flex justify-content-center align-items-center h-200">
+                  <div className="row d-flex justify-content-center align-items-center h-200" >
                      {user ?
                         <img
                            style={{ width: "80%", height: "50%" }}
@@ -51,12 +51,13 @@ export default function Home() {
                            alt="Sample..."
                         />
                         :
-                        <img
-                           style={{ width: "45%", height: "50%" }}
-                           src={useImage}
-                           className="img-fluid"
-                           alt="Sample..."
-                        />
+                        ""
+                        // <img
+                        //    style={{ width: "45%", height: "50%" }}
+                        //    src={useImage}
+                        //    className="img-fluid"
+                        //    alt="Sample..."
+                        // />
                      }
 
                   </div>
@@ -66,9 +67,9 @@ export default function Home() {
             <div
 
             >
-               <div className="text-center mb-3 mb-md-0">
+               {/* <div className="text-center mb-3 mb-md-0">
                   Copyright © 2023. All rights reserved.
-               </div>
+               </div> */}
             </div>
          </section>
 
