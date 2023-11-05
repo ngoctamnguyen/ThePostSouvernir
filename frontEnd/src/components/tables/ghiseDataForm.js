@@ -50,6 +50,9 @@ function GhiseDataForm(props) {
    }
 
    useEffect(() => {
+      console.log(props.func)
+   })
+   useEffect(() => {
       if (mahang.length === 7) {
          if (+slNhapBanThem < 1) {
             alert('Số lượng cho phép từ 1');
