@@ -44,7 +44,7 @@ function GhiseTableForm() {
 
    const tableRows = itemData.map((info) => {
       return (
-         <tr key={info.id}>
+         <tr key={info.id} style={{backgroundColor: info.id%2===0 ? "aqua" : ""}}>
             <td className='orderNumber'>{info.id}</td>
             <td className='mahang'>{info.mahang}</td>
             <td className='tenhang' >{info.tenhang}</td>
@@ -194,9 +194,9 @@ function GhiseTableForm() {
    return (
       <div>
          <Check data={itemData} clearCurrentList={clearCurrentList} disabled={true} />
-         <GhiseDataForm func={addRows} checkout={checkout} />
+         <GhiseDataForm func={addRows} checkout={checkout}/>
          <table className="table table-stripped">
-            <thead>
+            <thead className="banner">
                <tr>
                   <th className='orderNumber'>Number</th>
                   <th className='mahang'>Mã hàng</th>

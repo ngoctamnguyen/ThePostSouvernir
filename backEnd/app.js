@@ -17,7 +17,7 @@ app.use(cors())
 app.use(express.json())
 
 //routes
-app.use('/reports', checkToken, reportRouter);
+app.use('/reports', reportRouter);
 app.use('/suppliers', checkToken, suppliersRouter);
 app.use('/users', userRouter);
 app.use('/login', authRouter);

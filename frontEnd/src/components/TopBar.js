@@ -31,12 +31,13 @@ export default function Topbar() {
         <ul className="topList">
           <li className="topListItem"><Link className="link" to="/">HOME</Link></li>
           <li className="topListItem">{user && <Link className="link" to="/ghise">GHISE</Link>}</li>
+          <li className="topListItem">{user && <Link className="link" to="/saleReport">SALE</Link>}</li>
         </ul>
 
       </div>
-      <div className="topRight">
+      {/* <div className="topRight">
         {user && user.shop +  " WELCOME " + user.Tennv}
-      </div>
+      </div> */}
       <div className="topRight">
         {user && user.catruc}
       </div>

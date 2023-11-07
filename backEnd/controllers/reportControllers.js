@@ -23,4 +23,13 @@ module.exports.getDailySaleReport = async (req, res, next) => {
      } catch (e) {
           next(e)
      }
-  }
+}
+
+module.exports.getItemGroup = async (req, res, next) => {
+     try {
+          const results = await connection.query("SELECT Mahang, Tenhang, Tonhientai, tonkho, tonban FROM Mathang where Manhom = '001';");
+          res.json({success: true, data: results});
+     } catch (e) {
+          next(e)
+     }
+}

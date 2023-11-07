@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
 
-const { getNcc, getDailySaleReport } = require('../controllers/reportControllers')
+const { getNcc, getDailySaleReport, getItemGroup } = require('../controllers/reportControllers')
 
+router.get('/', getItemGroup);
 router.get('/suppliers', getNcc)
-router.get('/dailysalereports', getDailySaleReport)
 
 module.exports = router;

@@ -48,10 +48,6 @@ function GhiseDataForm(props) {
          console.log(err);
       }
    }
-
-   useEffect(() => {
-      console.log(props.func)
-   })
    useEffect(() => {
       if (mahang.length === 7) {
          if (+slNhapBanThem < 1) {
@@ -99,7 +95,7 @@ function GhiseDataForm(props) {
          <input type="text"
             style={{ textAlign: 'center', fontWeight: 'bold' }}
             value={mahang}
-            onChange={changeMahang} />
+            onChange={(e) => changeMahang(e)} />
          <label style={{ paddingLeft: 20 }}>Số lượng</label>
          <input type="number" min="1" max="10" maxlength="5" style={{ textAlign: 'center', fontWeight: 'bold' }} value={slNhapBanThem} onChange={changeSoluong} />
          <label style={{ paddingLeft: 20 }}>Số phiếu bán lẻ</label>
