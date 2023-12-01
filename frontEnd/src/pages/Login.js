@@ -1,7 +1,7 @@
 import { useState } from "react";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { Context } from "../context/Context";
 const { DB_URL } = require('../config.json');
@@ -18,6 +18,10 @@ export default function Login() {
     const navigate = useNavigate();
 
     async function handleSubmit(loginUser, e) {
+        if (loginUser.catruc === "") {
+            alert("Nhân viên phải chọn ca làm việc");
+            return 0;
+        }
         e.preventDefault()
         dispatch({ type: "LOGIN_START" });
         try {
@@ -42,7 +46,7 @@ export default function Login() {
     }
 
     return (
-        <>
+        <div style={{ width: '100%', height: '75%', backgroundColor: "rgba(0, 0, 255, 0.1)" }}>
             <section className="vh-100">
                 <div className="container-fluid h-custom">
                     <div className="row d-flex justify-content-center align-items-center h-100">
@@ -82,7 +86,7 @@ export default function Login() {
                                 </div>
                                 <div className="form-outline mb-3">
                                     <input className="form-control form-control-lg" placeholder="Chọn ca trực" list="opts" onChange={(e) => handleCatruc(e)} />
-                                    <datalist id="opts">
+                                    <datalist id="opts" > 
                                         <option>Ca Ngay</option>
                                         <option>Ca Sang</option>
                                         <option>Ca Chieu</option>
@@ -116,24 +120,17 @@ export default function Login() {
                                     </button>
                                     <br></br>
                                     {" "}{errMessage}
-                                    <p className="small fw-bold mt-2 pt-1 mb-0">
+                                    {/* <p className="small fw-bold mt-2 pt-1 mb-0">
                                         Don't have an account? {" "}
                                         <Link to="/signup" >Register</Link>
-                                    </p>
+                                    </p> */}
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
-                <div
-                    className="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary" >
-                    <div className="text-white text-center mb-3 mb-md-0">
-                        Copyright © 2023. All rights reserved.
-                    </div>
-                    {/* <!-- Copyright --> */}
-                </div>
             </section>
 
-        </>
+        </div>
     )
 }

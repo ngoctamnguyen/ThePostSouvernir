@@ -9,10 +9,10 @@ export default function Check(props) {
 
    let grandTotal = 0;
    let itemsTotal = 0;
-   
+
    let sophieu = '';
    const date = (new DateObject()).format('MM/DD/YYYY HH:mm:ss');
-   
+
    for (let i = 0; i < props.data.length; i++) {
       grandTotal += props.data[i].thanhtien;
       itemsTotal += props.data[i].slNhapBanThem;
@@ -81,8 +81,9 @@ export default function Check(props) {
    }
    return (
       <>
-         <div id="print_component" style={{ paddingBottom: 10, display: "none"  }} >
+         <div id="print_component" style={{ paddingBottom: 10, display: "none" }} >
             <ReactToPrint
+               // pageStyle="@page { size: 58mm 210mm}"
                trigger={() => <div >
                   <button type="button" id="checkOut" onClick={handleClick} >Kết thúc Bill bằng dấu chấm</button>
                </div>}

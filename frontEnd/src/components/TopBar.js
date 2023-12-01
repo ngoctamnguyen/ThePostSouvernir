@@ -18,27 +18,22 @@ export default function Topbar() {
 
 
   return (
-    <div className="top">
-      <div className="topLeft">
+    <div className="top" style={{ color: 'blue' }}>
+      <div className="topLeft" style={{ paddingLeft: "1px", margin: "1px" }}>
         <img src={user ? user.shop === 'MINH PHAT SOUVENIR' ? logoMinhphat : logoThepost : ""} />
-        <i className="topIcon fab fa-facebook-square"></i>
-        <i className="topIcon fab fa-instagram-square"></i>
-        <i className="topIcon fab fa-pinterest-square"></i>
-        <i className="topIcon fab fa-twitter-square"></i>
-
       </div>
-      <div className="topCenter">
+      <div className="topCenter" style={{ alignItems: 'center' }}>
         <ul className="topList">
           <li className="topListItem"><Link className="link" to="/">HOME</Link></li>
           <li className="topListItem">{user && <Link className="link" to="/ghise">GHISE</Link>}</li>
-          <li className="topListItem">{user && <Link className="link" to="/saleReport">SALE</Link>}</li>
+          <li className="topListItem">{user && <Link className="link" to="/mathang">MAT HANG</Link>}</li>
+          <li className="topListItem">{user && <Link className="link" to="/kiemhang">Kiểm hàng</Link>}</li>
+          <li className="topListItem">{user && <Link className="link" to="/hdv">HDV</Link>}</li>
         </ul>
 
       </div>
-      {/* <div className="topRight">
-        {user && user.shop +  " WELCOME " + user.Tennv}
-      </div> */}
       <div className="topRight">
+        {user && "WELCOME " + user.Tennv + " : "}
         {user && user.catruc}
       </div>
       <div className="topRight">

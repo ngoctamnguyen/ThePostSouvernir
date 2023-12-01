@@ -7,6 +7,8 @@ import Home from "./pages/Home";
 import Topbar from "./components/TopBar";
 import Ghise from "./pages/Ghise";
 import KiemHang from "./pages/Kiemhang";
+import HDV from "./pages/hdv";
+import Mathang from "./pages/Mathang";
 
 axios.defaults.baseURL = "http://localhost:8080";
 
@@ -17,7 +19,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/ghise" element={<Ghise />}></Route>
-        <Route path="/saleReport" element={<KiemHang />}></Route>
+        <Route path="/mathang" element={<Mathang />}></Route>
+        <Route path="/kiemhang" element={<KiemHang />}></Route>
+        <Route path="/hdv" element={<HDV />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
       </Routes>

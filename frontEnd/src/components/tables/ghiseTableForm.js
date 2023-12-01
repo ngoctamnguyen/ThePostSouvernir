@@ -25,8 +25,8 @@ function GhiseTableForm() {
       return currentDate < expiryDate;
    }
    useEffect(() => {
-      if (!tokenValid()) {
-         console.log("Quá thời gian đăng nhập, hãy đăng nhập lại")
+      if (!tokenValid() && user) { //if user on local storage was cleared => not do
+         alert("Quá thời gian đăng nhập, hãy đăng nhập lại")
          dispatch({ type: "LOGOUT" });
          localStorage.clear('user');
          navigate("/")
@@ -44,7 +44,7 @@ function GhiseTableForm() {
 
    const tableRows = itemData.map((info) => {
       return (
-         <tr key={info.id} style={{backgroundColor: info.id%2===0 ? "aqua" : ""}}>
+         <tr key={info.id} style={{ backgroundColor: info.id % 2 === 0 ? "aqua" : "" }}>
             <td className='orderNumber'>{info.id}</td>
             <td className='mahang'>{info.mahang}</td>
             <td className='tenhang' >{info.tenhang}</td>
@@ -194,7 +194,7 @@ function GhiseTableForm() {
    return (
       <div>
          <Check data={itemData} clearCurrentList={clearCurrentList} disabled={true} />
-         <GhiseDataForm func={addRows} checkout={checkout}/>
+         <GhiseDataForm func={addRows} checkout={checkout} />
          <table className="table table-stripped">
             <thead className="banner">
                <tr>

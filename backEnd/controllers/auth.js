@@ -6,10 +6,9 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const connection = ADODB.open('Provider=Microsoft.Jet.OLEDB.4.0;Data Source=' + DB_URL + ';Jet OLEDB:Database Password= ' + DB_KEY + ';');
- 
+
 
 module.exports.login = async (req, res, next) => {
-
    try {
       const results = await connection.query('SELECT Tennv, pass, quyen FROM Nhanvien where Tennv = "' + req.body.username + '";');
       if (results.length === 0) {
@@ -20,9 +19,9 @@ module.exports.login = async (req, res, next) => {
             const Token = jwt.sign(
                { Tennv: results[0].Tennv, quyen: results[0].quyen, catruc: req.body.catruc, shop: shop[0].shop },
                PRIVATE_KEY,
-               { expiresIn: 12 * 60* 60 }//60 seconds * 60 * 12 = 1/2 day
+               { expiresIn: 12 * 60 * 60 }//60 seconds * 60 * 12 = 1/2 day
             )
-            res.json({ success: true, data: Token  })
+            res.json({ success: true, data: Token })
          } else {
             res.status(403).json({ success: false, data: "Invalid password" })
          }

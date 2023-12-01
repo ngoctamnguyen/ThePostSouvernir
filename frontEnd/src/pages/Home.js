@@ -1,13 +1,23 @@
 import { useContext, useEffect, useState } from "react";
 import { Context } from "../context/Context";
-import useImage from "../images/signup2.jpg";
+import useImage from "../images/signup1.webp";
 import logoMinhphat from "../images/LOGO_MINHPHAT.png";
 import logoThepost from "../images/LOGO_THEPOST.png";
 import { useNavigate } from "react-router-dom";
-
+import { TypeAnimation } from 'react-type-animation';
 export default function Home() {
 
    const { user, dispatch } = useContext(Context);
+   const [greeting, setGreeting] = useState([
+      'THEPOST SOUVENIR',
+      2000,
+      'MINHPHAT SOUVENIR',
+      2000,
+      'VIETNAMESE TRADITIONAL HANDMADE',
+      2000,
+      'THANK YOU FOR SHOPPING WITH US',
+      2000
+   ])
    const [shop, setShop] = useState('');
    const navigate = useNavigate();
 
@@ -42,6 +52,15 @@ export default function Home() {
          <section className="vh-100">
             <div className="container-fluid h-custom" >
                <div className="row d-flex justify-content-center align-items-center h-200">
+                  <div className="row d-flex justify-content-center align-items-center h-200" style={{ textAlign: 'center', color: 'red', fontFamily: 'Segoe Print' }}>
+                     <TypeAnimation
+                        sequence={greeting}
+                        wrapper="span"
+                        speed={20}
+                        style={{ fontSize: '2em', display: 'inline-block' }}
+                        repeat={Infinity}
+                     />
+                  </div>
                   <div className="row d-flex justify-content-center align-items-center h-200" >
                      {user ?
                         <img
@@ -51,13 +70,12 @@ export default function Home() {
                            alt="Sample..."
                         />
                         :
-                        ""
-                        // <img
-                        //    style={{ width: "45%", height: "50%" }}
-                        //    src={useImage}
-                        //    className="img-fluid"
-                        //    alt="Sample..."
-                        // />
+                        <img
+                           style={{ width: "60%", height: "60%" }}
+                           src={useImage}
+                           className="img-fluid"
+                           alt="Sample..."
+                        />
                      }
 
                   </div>

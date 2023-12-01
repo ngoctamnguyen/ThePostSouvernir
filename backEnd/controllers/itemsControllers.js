@@ -1,5 +1,6 @@
+
 const ADODB = require('@el3um4s/node-adodb');
-const { DB_URL, DB_KEY } = require('../config.json')
+const { DB_URL, DB_KEY } = require('../config.json');
 const { json } = require('express');
 
 const connection = ADODB.open('Provider=Microsoft.Jet.OLEDB.4.0;Data Source=' + DB_URL + ';Jet OLEDB:Database Password= ' + DB_KEY + ';');
@@ -21,6 +22,61 @@ module.exports.getItem = async (req, res, next) => {
      }
 }
 
+module.exports.getGroupItem = async (req, res, next) => {
+     try {
+          //Query Qr_getKiemHang_Thang in database lấy những kiểm hàng trong tháng hiện hành
+          let str = "SELECT Mathang.Mahang AS Mahang, Mathang.Tenhang AS Tenhang, Mathang.Manhom AS Manhom, Mathang.tonkho AS tonkho, Mathang.tonban AS tonban, Mathang.Tonhientai AS Tonhientai, kiemhang.chenhLech AS chenhlech, FORMAT(kiemhang.Ngay, 'MM/dd/yyyy HH:mm:ss') AS ngaykiem ";
+          str += "FROM Qr_getKiemHang_Thang AS kiemhang RIGHT JOIN Mathang ON kiemhang.Mahang = Mathang.Mahang ";
+          str += "WHERE Mathang.Manhom='" + req.params.manhom + "'";
+          str += "GROUP BY Mathang.Mahang, Mathang.Tenhang, Mathang.Manhom, Mathang.tonkho, Mathang.tonban, Mathang.Tonhientai, kiemhang.chenhLech, kiemhang.Ngay ";
+          str += "ORDER BY Mathang.Mahang, kiemhang.Ngay DESC;"
+          const results = await connection.query(str);
+          res.json({ success: true, data: results })
+     } catch (e) {
+          next(e)
+     }
+}
+
+module.exports.getNhomKiemhang = async (req, res, next) => {
+     try {
+          const results = await connection.query('SELECT Mahang, Ngay, Tonhientai AS Tonluckiem, slKiem, chenhLech FROM kiemhang where Manhom = "' + req.params.manhom + '"');
+          res.json({ success: true, data: results })
+     } catch (e) {
+          next(e)
+     }
+}
+
+module.exports.saveKiemhang = async (req, res, next) => {
+     try {
+          if (req.body.dataPost.Ngay === '') {
+               //chưa kiểm lần nào trong tháng => thêm mới
+               let stringSQL = "INSERT INTO kiemhang (Ngay, Mahang, Manhom, Tonhientai, slKiem, chenhLech) VALUES ";
+               stringSQL += "('" + req.body.dataPost.NgayMoi + "', ";
+               stringSQL += "'" + req.body.dataPost.Mahang + "', ";
+               stringSQL += "'" + req.body.dataPost.Manhom + "', ";
+               stringSQL += "" + req.body.dataPost.Tonhientai + ", ";
+               stringSQL += "" + req.body.dataPost.slKiem + ", ";
+               stringSQL += "" + req.body.dataPost.Chenhlech + ")";
+               const results = await connection.execute(stringSQL);
+               res.json({ success: true, data: results });
+          } else {
+               //Đã kiểm trong tháng, => cập nhật số kiểm mới
+               let stringSQL = "UPDATE kiemhang SET Ngay = '" + req.body.dataPost.NgayMoi + "' ";
+               stringSQL += ", Tonhientai = " + req.body.dataPost.Tonhientai;
+               stringSQL += ", slKiem = " + req.body.dataPost.slKiem;
+               stringSQL += ", chenhLech = " + req.body.dataPost.Chenhlech;
+               stringSQL += ", ghichu = ghichu & 'Ngay " + req.body.dataPost.Ngay + " CLech " + req.body.dataPost.ChenhlechCu + "**'";
+               stringSQL += " WHERE mahang = '" + req.body.dataPost.Mahang + "' AND Ngay=#" + req.body.dataPost.Ngay + "#;";
+               const results = await connection.execute(stringSQL);
+               console.log(stringSQL)
+               res.json({ success: true, data: results });
+          }
+     } catch (e) {
+          next(e)
+          console.log(e)
+     }
+}
+
 module.exports.getTygia = async (req, res, next) => {
      try {
           const results = await connection.query('SELECT tygia FROM Tygia ');
@@ -37,7 +93,6 @@ module.exports.updateMathang = async (req, res, next) => {
           let stringSQL = "UPDATE mathang SET Tonhientai = Tonhientai - " + soluong;
           stringSQL += ", tonban = tonban - " + soluong;
           stringSQL += " WHERE mahang = '" + mahang + "';";
-          console.log(stringSQL)
           const results = await connection.execute(stringSQL);
           res.json({ success: true, data: results })
      } catch (e) {
@@ -45,3 +100,11 @@ module.exports.updateMathang = async (req, res, next) => {
      }
 }
 
+module.exports.getNhomHang = async (req, res, next) => {
+     try {
+          const results = await connection.query('SELECT Manhom, Tennhom FROM Nhomhang;');
+          res.json({ success: true, data: results })
+     } catch (e) {
+          next(e)
+     }
+}
