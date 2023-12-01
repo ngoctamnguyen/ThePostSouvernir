@@ -55,25 +55,25 @@ export default function KiemHang() {
             width: '80px',
             textAlign: 'center'
         },
+        // {
+        //     name: 'Tồn kho',
+        //     selector: row => row.tonkho,
+        //     width: '40px'
+        // },
+        // {
+        //     name: 'Tồn bán',
+        //     selector: row => row.tonban,
+        //     width: '40px'
+        // },
         {
-            name: 'Tồn kho',
-            selector: row => row.tonkho,
-            width: '80px'
-        },
-        {
-            name: 'Tồn bán',
-            selector: row => row.tonban,
-            width: '80px'
-        },
-        {
-            name: 'chênh lệch',
+            name: 'c.lệch',
             selector: row => row.chenhlech,
             width: '80px'
         },
         {
             name: 'Ngày kiểm',
             selector: row => row.ngaykiem,
-            width: '150px'
+            width: '130px'
         }
     ];
     const paginationComponentOptions = {
@@ -166,18 +166,11 @@ export default function KiemHang() {
         } catch (err) {
             console.log(err.response)
         }
-
-        // const index = data.findIndex((item) => item.Mahang === param.Mahang)
-        // if (index >= 0) {
-        //     let temp = data;
-        //     temp[index].tonhientai = document.getElementById('checkedNumber').value;
-        //     setData(temp);
-        // }
     }
 
-    const ExpandedComponent = ({data}) =>
+    const ExpandedComponent = ({ data }) =>
         <div>
-            <input type='text' id='checkedNumber' placeholder='SL kiểm...' style={{width:'100px'}}></input>
+            <input type='text' id='checkedNumber' placeholder='SL kiểm...' style={{ width: '100px' }}></input>
             <button type="button" onClick={() => handleSLkiem(data)}>Ok</button>
         </div>;
 
@@ -244,14 +237,15 @@ export default function KiemHang() {
     }, [isChecked])
     useEffect(() => {
         if (isDakiem) {
-            setData(tempData.filter(item => item.chenhlech != null));
+            setData(tempData.filter(item => +item.chenhlech != 0));
         } else {
             setData(tempData);
         }
     }, [isDakiem])
     useEffect(() => {
+        console.log(tempData)
         if (isChuakiem) {
-            setData(tempData.filter(item => item.chenhlech === null));
+            setData(tempData.filter(item => item.ngaykiem === ''));
         } else {
             setData(tempData);
         }
@@ -262,18 +256,18 @@ export default function KiemHang() {
                 <MDBRow center style={{ height: "100vh" }}>
                     <MDBCol size='20'>
                         <label style={{ padding: '5px', color: 'red', textAlign: 'center' }}><h3>KIỂM HÀNG</h3></label>
-                        <Dropdown className="tenhang" id="dropDownNhomhang" options={nhomhang} onChange={(e) => handleDropdownList(e)} value={defaultOption} placeholder="Chọn nhóm hàng" />
-                        <span style={{ paddingRight: '15px' }}><button id='loadDSKH' onClick={() => loadDSkiemhang()}>Tải danh dách kiểm hàng</button></span>
+                        <Dropdown className="tenhang" options={nhomhang} onChange={(e) => handleDropdownList(e)} value={defaultOption} placeholder="Chọn nhóm hàng" />
+                        <span style={{ paddingRight: '15px' }}><button id='loadDSKH' onClick={() => loadDSkiemhang()}>Tải DS kiểm hàng</button></span>
                         <input className="tenhang" type='text' value={searchItemCode} onChange={handleItemCode} placeholder='Tìm mã hàng'></input>
                         <span style={{ paddingRight: '15px' }}><button onClick={() => clearSearchItemCode()}>X</button></span>
                         <input className="tenhang" type='text' value={searchItem} onChange={handleItemname} placeholder='Tìm tên hàng'></input>
                         <span style={{ paddingRight: '15px' }}><button onClick={() => clearSearchItem()}>X</button></span>
                         <input type="checkbox" id="topping" name="topping" onChange={handleCheckBoxTongton} style={{ paddingLeft: '10px' }} />
                         <span style={{ paddingRight: '15px' }}>Hiển thị số tồn lớn hơn 0</span>
-                        <input type="checkbox" id="topping1" name="topping" onChange={handleCheckBoxDakiem} style={{ paddingLeft: '10px' }} />
-                        <span style={{ paddingRight: '15px' }}>Hiển thị đã kiểm</span>
                         <input type="checkbox" id="topping1" name="topping" onChange={handleCheckBoxChuakiem} style={{ paddingLeft: '10px' }} />
-                        <span>Hiển thị chưa kiểm</span>
+                        <span style={{ paddingRight: '15px' }}>Hiển thị chưa kiểm</span>
+                        <input type="checkbox" id="topping1" name="topping" onChange={handleCheckBoxDakiem} style={{ paddingLeft: '10px' }} />
+                        <span style={{ paddingRight: '15px' }}>Hiển thị dư thiếu</span>
                         <DataTable
                             title="Danh sách nhóm hàng"
                             // className="tenhang"

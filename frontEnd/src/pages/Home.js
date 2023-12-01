@@ -49,7 +49,7 @@ export default function Home() {
 
    return (
       <>
-         <section className="vh-100">
+         <section className="vh-100" style={{ width: '100%', height: '100%', backgroundColor: "rgba(0, 0, 255, 0.1)" }}>
             <div className="container-fluid h-custom" >
                <div className="row d-flex justify-content-center align-items-center h-200">
                   <div className="row d-flex justify-content-center align-items-center h-200" style={{ textAlign: 'center', color: 'red', fontFamily: 'Segoe Print' }}>
@@ -64,7 +64,7 @@ export default function Home() {
                   <div className="row d-flex justify-content-center align-items-center h-200" >
                      {user ?
                         <img
-                           style={{ width: "80%", height: "50%" }}
+                           style={{ width: "50%", height: "50%" }}
                            src={shop === 'MP' ? logoMinhphat : logoThepost}
                            className="img-fluid"
                            alt="Sample..."
@@ -81,13 +81,6 @@ export default function Home() {
                   </div>
                </div>
 
-            </div>
-            <div
-
-            >
-               {/* <div className="text-center mb-3 mb-md-0">
-                  Copyright © 2023. All rights reserved.
-               </div> */}
             </div>
          </section>
 
