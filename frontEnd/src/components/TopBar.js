@@ -28,7 +28,8 @@ export default function Topbar() {
           <li className="topListItem">{user && <Link className="link" to="/ghise">GHISE</Link>}</li>
           <li className="topListItem">{user && <Link className="link" to="/mathang">MAT HANG</Link>}</li>
           <li className="topListItem">{user && <Link className="link" to="/kiemhang">Kiểm hàng</Link>}</li>
-          <li className="topListItem">{user && <Link className="link" to="/hdv">HDV</Link>}</li>
+          <li className="topListItem">{user && <Link className="link" to="/tongketkiemhang">Tổng hợp Kiểm hàng</Link>}</li>
+          {/* <li className="topListItem">{user && <Link className="link" to="/hdv">HDV</Link>}</li> */}
         </ul>
 
       </div>
@@ -44,11 +45,11 @@ export default function Topbar() {
               {!user && "LOGIN"}
             </Link>
           </li>
-          <li className="topListItem">
+          {/* <li className="topListItem">
             <Link className="link" to="/signup">
               {!user && "REGISTER"}
             </Link>
-          </li>
+          </li> */}
         </ul>
         <i className="topSearchIcon fa-solid fa-user"></i>
       </div>

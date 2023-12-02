@@ -46,6 +46,20 @@ module.exports.getNhomKiemhang = async (req, res, next) => {
      }
 }
 
+module.exports.getTongKetKiemhang = async (req, res, next) => {
+     try {
+          let stringSQL = "SELECT kiemhang.Mahang, Mathang.Tenhang, kiemhang.chenhLech, FORMAT(kiemhang.Ngay, 'MM/dd/yyyy') AS Ngay, Mathang.kygoi, kiemhang.ghichu ";
+          stringSQL += "FROM kiemhang LEFT JOIN Mathang ON kiemhang.Mahang = Mathang.Mahang ";
+          stringSQL += "WHERE kiemhang.chenhLech<>0 AND Month([Ngay])='" + req.params.thang + "' ";
+          stringSQL += "ORDER BY kiemhang.Ngay;"
+
+          const results = await connection.query(stringSQL);
+          res.json({ success: true, data: results })
+     } catch (e) {
+          next(e)
+     }
+}
+
 module.exports.saveKiemhang = async (req, res, next) => {
      try {
           if (req.body.dataPost.Ngay === '') {
@@ -65,10 +79,9 @@ module.exports.saveKiemhang = async (req, res, next) => {
                stringSQL += ", Tonhientai = " + req.body.dataPost.Tonhientai;
                stringSQL += ", slKiem = " + req.body.dataPost.slKiem;
                stringSQL += ", chenhLech = " + req.body.dataPost.Chenhlech;
-               stringSQL += ", ghichu = ghichu & 'Ngay " + req.body.dataPost.Ngay + " CLech " + req.body.dataPost.ChenhlechCu + "**'";
+               stringSQL += ", ghichu = ghichu & '@" + req.body.dataPost.Ngay + "**" + req.body.dataPost.ChenhlechCu + "'";
                stringSQL += " WHERE mahang = '" + req.body.dataPost.Mahang + "' AND Ngay=#" + req.body.dataPost.Ngay + "#;";
                const results = await connection.execute(stringSQL);
-               console.log(stringSQL)
                res.json({ success: true, data: results });
           }
      } catch (e) {

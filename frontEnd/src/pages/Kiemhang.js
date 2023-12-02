@@ -30,7 +30,22 @@ export default function KiemHang() {
     const [isChuakiem, setIsChuakiem] = useState(false);
     const [currentRow, setCurrentRow] = useState(null);
     const navigate = useNavigate();
-    const { user } = useContext(Context);
+    const { user, dispatch } = useContext(Context);
+
+    function tokenValid() {
+        if (!user) return 1;
+        const currentDate = new Date();
+        const expiryDate = new Date(parseInt(+user.exp) * 1000);
+        return currentDate < expiryDate;
+    }
+    useEffect(() => {
+        if (!tokenValid() && user) { //if user on local storage was cleared => not do
+            alert("Quá thời gian đăng nhập, hãy đăng nhập lại")
+            dispatch({ type: "LOGOUT" });
+            localStorage.clear('user');
+            navigate("/")
+        }
+    })
 
     const columns = [
         {
@@ -224,26 +239,27 @@ export default function KiemHang() {
         setIsChuakiem(!isChuakiem)
     }
     const loadDSkiemhang = () => {
-        if (maNhom != '') {
+        if (maNhom !== '') {
             getData(maNhom);
         }
     }
+
     useEffect(() => {
         if (isChecked) {
             setData(tempData.filter(item => +item.Tonhientai > 0));
         } else {
             setData(tempData);
         }
-    }, [isChecked])
+    }, [isChecked]);
+
     useEffect(() => {
         if (isDakiem) {
-            setData(tempData.filter(item => +item.chenhlech != 0));
+            setData(tempData.filter(item => +item.chenhlech !== 0));
         } else {
             setData(tempData);
         }
     }, [isDakiem])
     useEffect(() => {
-        console.log(tempData)
         if (isChuakiem) {
             setData(tempData.filter(item => item.ngaykiem === ''));
         } else {
@@ -256,8 +272,14 @@ export default function KiemHang() {
                 <MDBRow center style={{ height: "100vh" }}>
                     <MDBCol size='20'>
                         <label style={{ padding: '5px', color: 'red', textAlign: 'center' }}><h3>KIỂM HÀNG</h3></label>
-                        <Dropdown className="tenhang" options={nhomhang} onChange={(e) => handleDropdownList(e)} value={defaultOption} placeholder="Chọn nhóm hàng" />
-                        <span style={{ paddingRight: '15px' }}><button id='loadDSKH' onClick={() => loadDSkiemhang()}>Tải DS kiểm hàng</button></span>
+                        <MDBRow>
+                            <MDBCol size='4'>
+                                <Dropdown className="tenhang" options={nhomhang} onChange={(e) => handleDropdownList(e)} value={defaultOption} placeholder="Chọn nhóm hàng" />
+                            </MDBCol>
+                            <MDBCol size='5'>
+                                <span style={{ paddingRight: '15px' }}><button id='loadDSKH' onClick={() => loadDSkiemhang()}>Tải DS kiểm hàng</button></span>
+                            </MDBCol>
+                        </MDBRow>
                         <input className="tenhang" type='text' value={searchItemCode} onChange={handleItemCode} placeholder='Tìm mã hàng'></input>
                         <span style={{ paddingRight: '15px' }}><button onClick={() => clearSearchItemCode()}>X</button></span>
                         <input className="tenhang" type='text' value={searchItem} onChange={handleItemname} placeholder='Tìm tên hàng'></input>
