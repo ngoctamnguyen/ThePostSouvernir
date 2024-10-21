@@ -20,7 +20,7 @@ export default function Topbar() {
   return (
     <div className="top" style={{ color: 'blue' }}>
       <div className="topLeft" style={{ paddingLeft: "1px", margin: "1px" }}>
-        <img src={user ? user.shop === 'MINH PHAT SOUVENIR' ? logoMinhphat : logoThepost : ""} />
+        <img src={user ? user.shop === 'MINH PHAT SOUVENIR' ? logoMinhphat : logoThepost : ""} alt="SOUVENIR SHOP" />
       </div>
       <div className="topCenter" style={{ alignItems: 'center' }}>
         <ul className="topList">

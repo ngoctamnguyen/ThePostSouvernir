@@ -86,7 +86,7 @@ export default function Login() {
                                 </div>
                                 <div className="form-outline mb-3">
                                     <input className="form-control form-control-lg" placeholder="Chọn ca trực" list="opts" onChange={(e) => handleCatruc(e)} />
-                                    <datalist id="opts" > 
+                                    <datalist id="opts" >
                                         <option>Ca Ngay</option>
                                         <option>Ca Sang</option>
                                         <option>Ca Chieu</option>

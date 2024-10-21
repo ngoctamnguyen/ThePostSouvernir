@@ -26,8 +26,8 @@ app.use('/tygia', checkToken, tygiaRouter);
 app.use('/bills', checkToken, billRouter);
 app.use('/sales', checkToken, saleRouter);
 
-app.use(function(err, req, res, next) {
-     res.status(500).json({success: false, data: err.message})
+app.use(function (err, req, res, next) {
+     res.status(500).json({ success: false, data: err.message })
 })
 
 app.listen(8080, () => console.log('Listening on 8080...'))

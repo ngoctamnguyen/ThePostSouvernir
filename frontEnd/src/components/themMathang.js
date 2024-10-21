@@ -1,137 +1,166 @@
+import { MDBBtn } from 'mdb-react-ui-kit';
 import { useState } from "react";
 import axios from "axios";
 
 export default function ThemMathang() {
-    const [success, setSuccess] = useState(false);
-    const [isSignup, setisSignup] = useState(true);
-    const [newUser, setNewUser] = useState({
-        Manv: "",
-        Tennv: "",
-        password: "",
-        diachi: "",
-        tel: "",
-        roll: ""
-    });
+  const [matHang, setMathang] = useState({
+    Mahang: "",
+    Tenhang: "",
+    dvt: "",
+    giabanle: "",
+    giabansi: "",
+    kugui: "",
+    mancc: "",
+    giavon: "",
+    price: "",
+  });
 
-    function checkInfo(newUser, e) {
-        console.log(newUser)
-        e.preventDefault()
-        try {
-            axios.post('http://localhost:8080/users', newUser)
-                .then((result) => {
-                    console.log(result)
-                    setSuccess(true);
-                    setisSignup(false);
-                });
-        } catch (e) {
-            console.log(e);
-        }
-    }
 
-    function cleanForm() {
-        // setNewUser({
-        //     Manv: "",
-        //     Tennv: "",
-        //     password: "",
-        //     diachi: "",
-        //     tel: "",
-        //     roll: "user"
-        // })
-    }
+  function cleanForm() {
+    setMathang({
+      Mahang: "",
+      Tenhang: "",
+      dvt: "",
+      giabanle: "",
+      giabansi: "",
+      kugui: "",
+      mancc: "",
+      giavon: "",
+      price: "",
+    })
+  }
 
-    function handleChanged(e) {
-        setNewUser({ ...newUser, [e.target.name]: e.target.value });
-    }
+  function handleSubmit(e) {
 
-    return (
-        <div style={{ width: '100%', height: '75%', backgroundColor: "transparent" }}>
-            <section className="vh-100" >
-                <p className="text-center h4 fw-bold mb-5 mx-1 mx-md-4 mt-4">Điều chỉnh mặt hàng</p>
-                <form className="mx-1 mx-md-4" onSubmit={(e) => checkInfo(newUser, e)}>
+  }
 
-                    {isSignup && <div className="d-flex flex-row align-items-center mb-4">
-                        <i className="fas fa-user fa-lg me-3 fa-fw"></i>
-                        <div className="form-outline flex-fill mb-0">
-                            <input type="text" id="form3Example1c" className="form-control"
-                                name="Manv"
-                                // value={newUser.name}
-                                required
-                                onChange={(e) => handleChanged(e)}
-                                placeholder="Mã nhân viên..." />
-                        </div>
-                    </div>}
+  function handleChanged(e) {
+    setMathang({ ...matHang, [e.target.name]: e.target.value });
+  }
 
-                    {isSignup && <div className="d-flex flex-row align-items-center mb-4">
-                        <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                        <div className="form-outline flex-fill mb-0">
-                            <input type="text" id="form3Example3c" className="form-control"
-                                name="Tennv"
-                                // value={newUser.username}
-                                required
-                                onChange={(e) => handleChanged(e)}
-                                placeholder="Tên nhân viên..." />
-                            {/* <label className="form-label" htmlFor="form3Example3c">Your Email</label> */}
-                        </div>
-                    </div>}
+  return (
+    <div style={{ width: '100%', height: '75%', backgroundColor: "transparent" }}>
+      <section className="vh-100" >
+        <form className="mx-1 mx-md-4" onSubmit={(e) => handleSubmit(e)}>
 
-                    {isSignup && <div className="d-flex flex-row align-items-center mb-4">
-                        <i className="fas fa-lock fa-lg me-3 fa-fw"></i>
-                        <div className="form-outline flex-fill mb-0">
-                            <input type="password" id="form3Example4c" className="form-control"
-                                name="password"
-                                // value={newUser.password}
-                                required
-                                onChange={(e) => handleChanged(e)}
-                                placeholder="Password..." />
-                        </div>
-                    </div>}
 
-                    {isSignup && <div className="d-flex flex-row align-items-center mb-4">
-                        <i className="fas fa-key fa-lg me-3 fa-fw"></i>
-                        <div className="form-outline flex-fill mb-0">
-                            <input type="text" id="diachi" className="form-control"
-                                name="diachi"
-                                // value={newUser.email}
-                                required
-                                onChange={(e) => handleChanged(e)}
-                                placeholder="Địa chỉ ..." />
+          <div className="d-flex flex-row align-items-center mb-2">
 
-                        </div>
-                    </div>}
 
-                    {isSignup && <div className="d-flex flex-row align-items-center mb-4">
-                        <i className="fas fa-key fa-lg me-3 fa-fw"></i>
-                        <div className="form-outline flex-fill mb-0">
-                            <input type="tel" id="tel" className="form-control"
-                                name="tel"
-                                // value={newUser.tel}
-                                //pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                                required
-                                onChange={(e) => handleChanged(e)}
-                                placeholder="Điện thoại (123-456-7890)....." />
+            <div className="form-outline flex-fill mb-0">
+            <p className="text-center text-primary h4 fw-bold mt-4 text-primary">CHI TIẾT MẶT HÀNG</p>
+            </div>
+          </div>
 
-                        </div>
-                    </div>}
 
-                    {isSignup && <div className="d-flex flex-row align-items-center mb-4">
-                        <i className="fas fa-key fa-lg me-3 fa-fw"></i>
-                        <div className="form-outline flex-fill mb-0">
-                            <input type="text" id="form3Example4cd" className="form-control"
-                                name="roll"
-                                // value={newUser.email}
-                                required
-                                onChange={(e) => handleChanged(e)}
-                                placeholder="Role ..." />
+          <div className="d-flex flex-row align-items-center mb-2">
+            <i className="me-3 w-25">Mã hàng</i>
+            <div className="form-outline flex-fill mb-0">
+              <input type="text" id="form3Example1c" className="form-control"
+                name="Mahang"
+                required
+                onChange={(e) => handleChanged(e)}
+                placeholder="Mã hàng..." />
+            </div>
+          </div>
 
-                        </div>
-                    </div>}
+          <div className="d-flex flex-row align-items-center mb-2">
+            <i className="me-3 w-25">Tên hàng</i>
+            <div className="form-outline flex-fill mb-0">
+              <input type="text" id="form3Example3c" className="form-control"
+                name="Tenhang"
+                required
+                onChange={(e) => handleChanged(e)}
+                placeholder="Tên hàng..." />
+            </div>
+          </div>
 
-                    {isSignup && <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                        <button type="submit" onClick={cleanForm}>Register</button>
-                    </div>}
+          <div className="d-flex flex-row align-items-center mb-2">
+            <i className="me-3 w-25">Đơn vị tính</i>
+            <div className="form-outline flex-fill mb-0">
+              <input type="text" id="form3Example3c" className="form-control"
+                name="dvt"
+                required
+                onChange={(e) => handleChanged(e)}
+                placeholder="Đơn vị tính..." />
+            </div>
+          </div>
 
-                </form>
-            </section>
-        </div>
-    )
+          <div className="d-flex flex-row align-items-center mb-2">
+            <i className="me-3 w-25">Giá bán lẻ</i>
+            <div className="form-outline flex-fill mb-0">
+              <input type="text" id="form3Example3c" className="form-control"
+                name="giabanle"
+                required
+                onChange={(e) => handleChanged(e)}
+                placeholder="Giá bán lẻ..." />
+            </div>
+          </div>
+
+          <div className="d-flex flex-row align-items-center mb-2">
+            <i className="me-3 w-25">Giá bán sỉ</i>
+            <div className="form-outline flex-fill mb-0">
+              <input type="text" id="form3Example3c" className="form-control"
+                name="giabansi"
+                required
+                onChange={(e) => handleChanged(e)}
+                placeholder="Giá bán sỉ..." />
+            </div>
+          </div>
+
+          <div className="d-flex flex-row align-items-center mb-2">
+            <i className="me-3 w-25">Ký gửi</i>
+            <div className="form-outline flex-fill mb-0">
+              <input type="text" id="form3Example3c" className="form-control"
+                name="kygui"
+                required
+                onChange={(e) => handleChanged(e)}
+                placeholder="Hàng ký gửi..." />
+            </div>
+          </div>
+
+          <div className="d-flex flex-row align-items-center mb-2">
+            <i className="me-3 w-25">Mã NCC</i>
+            <div className="form-outline flex-fill mb-0">
+              <input type="text" id="form3Example3c" className="form-control"
+                name="Mancc"
+                required
+                onChange={(e) => handleChanged(e)}
+                placeholder="Mã nhà cung cấp..." />
+            </div>
+          </div>
+
+          <div className="d-flex flex-row align-items-center mb-2">
+            <i className="me-3 w-25">Giá vốn</i>
+            <div className="form-outline flex-fill mb-0">
+              <input type="text" id="form3Example3c" className="form-control"
+                name="giavon"
+                required
+                onChange={(e) => handleChanged(e)}
+                placeholder="Giá vốn..." />
+            </div>
+          </div>
+
+          <div className="d-flex flex-row align-items-center mb-2">
+            <i className="me-3 w-25">Price</i>
+            <div className="form-outline flex-fill mb-0">
+              <input type="text" id="form3Example3c" className="form-control"
+                name="price"
+                required
+                onChange={(e) => handleChanged(e)}
+                placeholder="price..." />
+            </div>
+          </div>
+
+          <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+            <MDBBtn className='me-1 w-50' type="submit" onClick={cleanForm} >
+              Submit
+            </MDBBtn>
+
+          </div>
+
+        </form>
+      </section>
+    </div>
+  )
 }

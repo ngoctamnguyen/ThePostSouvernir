@@ -49,7 +49,7 @@ export default function Home() {
 
    return (
       <>
-         <section className="vh-100" style={{ width: '100%', height: '100%', backgroundColor: "rgba(0, 0, 255, 0.1)" }}>
+         <section className="vh-100" style={{ width: '100%', height: '100%', backgroundColor: "white" }}>
             <div className="container-fluid h-custom" >
                <div className="row d-flex justify-content-center align-items-center h-200">
                   <div className="row d-flex justify-content-center align-items-center h-200" style={{ textAlign: 'center', color: 'red', fontFamily: 'Segoe Print' }}>

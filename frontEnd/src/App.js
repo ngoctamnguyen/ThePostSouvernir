@@ -28,6 +28,7 @@ function App() {
         <Route path="/signup" element={<Signup />}></Route>
       </Routes>
     </BrowserRouter>
+    
   );
 }
 
