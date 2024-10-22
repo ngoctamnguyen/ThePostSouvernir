@@ -14,9 +14,10 @@ import TongKetKiemHang from "./pages/TongKetKiemHang";
 axios.defaults.baseURL = "http://localhost:8080";
 
 function App() {
+
   return (
     <BrowserRouter>
-      <Topbar/>
+      <Topbar />
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/ghise" element={<Ghise />}></Route>
@@ -28,7 +29,7 @@ function App() {
         <Route path="/signup" element={<Signup />}></Route>
       </Routes>
     </BrowserRouter>
-    
+
   );
 }
 
