@@ -136,7 +136,7 @@ export default function TongKetKiemHang() {
                                 <input type="text" id='thang' style={{ textAlign: 'center', fontWeight: 'bold', width: '70px' }} onChange={(e) => changeMonth(e)} />
                             </MDBCol>
                             <MDBCol size='5'>
-                                <span style={{ paddingRight: '15px' }}><button id='loadDSKH' onClick={() => loadDSkiemhang()}>Tải DS kiểm hàng</button></span>
+                                <span style={{ paddingRight: '15px' }}><button id='loadDSKH' onClick={() => loadDSkiemhang()}>XEM DANH SÁCH</button></span>
                             </MDBCol>
                         </MDBRow>
                         <input type="checkbox" id="topping" name="topping" onChange={handleCheckBoxKygui} style={{ paddingLeft: '10px' }} />

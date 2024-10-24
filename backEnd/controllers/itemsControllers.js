@@ -79,7 +79,7 @@ module.exports.saveKiemhang = async (req, res, next) => {
                stringSQL += ", Tonhientai = " + req.body.dataPost.Tonhientai;
                stringSQL += ", slKiem = " + req.body.dataPost.slKiem;
                stringSQL += ", chenhLech = " + req.body.dataPost.Chenhlech;
-               stringSQL += ", ghichu = ghichu & '@" + req.body.dataPost.Ngay + "**" + req.body.dataPost.ChenhlechCu + "'";
+               stringSQL += ", ghichu = ghichu & '@" + req.body.dataPost.Ngay + "CL" + req.body.dataPost.ChenhlechCu + "'";
                stringSQL += " WHERE mahang = '" + req.body.dataPost.Mahang + "' AND Ngay=#" + req.body.dataPost.Ngay + "#;";
                const results = await connection.execute(stringSQL);
                res.json({ success: true, data: results });

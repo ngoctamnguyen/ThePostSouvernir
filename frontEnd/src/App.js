@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import axios from "axios";
 
+import Menu from "./components/Menu";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Home from "./pages/Home";
-import Topbar from "./components/TopBar";
 import Ghise from "./pages/Ghise";
 import KiemHang from "./pages/Kiemhang";
 import HDV from "./pages/hdv";
@@ -17,7 +17,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Topbar />
+      <Menu />
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/ghise" element={<Ghise />}></Route>
