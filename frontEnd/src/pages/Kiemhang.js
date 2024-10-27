@@ -1,10 +1,18 @@
 import DataTable from 'react-data-table-component';
 import Dropdown from 'react-dropdown';
+import ReactToPrint from "react-to-print";
 import DateObject from "react-date-object";
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import 'react-dropdown/style.css';
 import { MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit';
-import { useEffect, useState, useMemo } from "react";
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import React, { useRef } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import './login.css';
 import axios from "axios";
@@ -13,6 +21,8 @@ const { DB_URL } = require('../config.json');
 
 
 export default function KiemHang() {
+
+  let componentRef = useRef();
 
   const [data, setData] = useState([]);
   const [dataKiemhang, setDataKiemhang] = useState([]);
@@ -24,10 +34,10 @@ export default function KiemHang() {
   const [options, setOptions] = useState([]);
   const defaultOption = options[0];
   const [pending, setPending] = useState(true);
-  const [selectedData, setSelectedData] = useState();
-  const [isChecked, setIsChecked] = useState(false);
-  const [isDakiem, setIsDakiem] = useState(false);
-  const [isChuakiem, setIsChuakiem] = useState(false);
+
+
+  const [radioValue, setRadioValue] = useState("tatca");
+
   const [currentRow, setCurrentRow] = useState(null);
   const navigate = useNavigate();
   const { user, dispatch } = useContext(Context);
@@ -177,16 +187,9 @@ export default function KiemHang() {
   const ExpandedComponent = ({ data }) =>
     <div>
       <input type='text' id='checkedNumber' placeholder='SL kiểm...' style={{ width: '100px' }}></input>
-      <button type="button" onClick={() => handleSLkiem(data)}>Ok</button>
+      <Button variant="contained" size="small" onClick={() => handleSLkiem(data)}>Submit</Button>
     </div>;
 
-  const handleRowClick = (mahang) => {
-    console.log(mahang)
-  }
-
-  const handleChange = (state) => {
-    setSelectedData(state.selectedRows);
-  };
 
   const handleDropdownList = (event) => {
     const manhom = event.value.substring(0, 3);
@@ -220,69 +223,130 @@ export default function KiemHang() {
     setSearchItemCode('');
     setData(tempData);
   }
-  const handleCheckBoxTongton = () => {
-    setIsChecked(!isChecked);
-  };
-  const handleCheckBoxDakiem = () => {
-    setIsDakiem(!isDakiem)
-  }
-  const handleCheckBoxChuakiem = () => {
-    setIsChuakiem(!isChuakiem)
-  }
   const loadDSkiemhang = () => {
     if (maNhom !== '') {
       getData(maNhom);
     }
   }
 
-  useEffect(() => {
-    if (isChecked) {
+  const handleRadioChange = (event) => {
+    setRadioValue(event.target.value);
+    if (event.target.value === "lonhon0") {
       setData(tempData.filter(item => +item.Tonhientai > 0));
     } else {
-      setData(tempData);
+      if (event.target.value === "chuakiem") {
+        setData(tempData.filter(item => item.ngaykiem === ''));
+      } else {
+        if (event.target.value === "dakiem") {
+          setData(tempData.filter(item => item.ngaykiem !== ''));
+        } else {
+          if (event.target.value === "duthieu") {
+            setData(tempData.filter(item => +item.chenhlech !== 0));
+          } else {
+            setData(tempData);
+          }
+        }
+      }
     }
-  }, [isChecked]);
+  }
 
-  useEffect(() => {
-    if (isDakiem) {
-      setData(tempData.filter(item => +item.chenhlech !== 0));
-    } else {
-      setData(tempData);
+  // Print Table
+  const tableToPrint = data.map((data) => {
+    return (
+      <tr key={data.id}>
+        <td className='mahang' >{data.Mahang}</td>
+        <td className='tenhang'>{data.Tenhang}</td>
+        <td className='tableRightNumber'>{data.Tonhientai}</td>
+        <td className='tableRightNumber'>{data.chenhlech}</td>
+        <td className='tableRightDate'>{data.ngaykiem}</td>
+      </tr>
+    );
+  });
+  class ComponentToPrint extends React.PureComponent {
+    render() {
+      return (
+        <div>
+          <div>
+            <h3>{user.shop}</h3>
+            <h5>PHIẾU KIỂM HÀNG</h5>
+            <label>In ngày: {Date()}</label> <br /> <br />
+          </div>
+          <table>
+            <thead>
+              <th className='tenhangHeader' >Mã hàng</th>
+              <th className='tenhangHeader' >Tên hàng</th>
+              <th className='tableRightNumberHeader'>SL tồn</th>
+              <th className='tableRightNumberHeader'>SL lệch</th>
+              <th className='tableRightDateHeader'>Ngày kiểm</th>
+            </thead>
+            <tbody>
+              {tableToPrint}
+            </tbody>
+          </table>
+        </div>
+
+      );
     }
-  }, [isDakiem])
-  useEffect(() => {
-    if (isChuakiem) {
-      setData(tempData.filter(item => item.ngaykiem === ''));
-    } else {
-      setData(tempData);
-    }
-  }, [isChuakiem])
+  }
+
   return (
-    <div style={{ width: '100%', height: '75%', backgroundColor: "rgba(0, 0, 255, 0.1)"}}>
+    <div style={{ width: '100%', height: '75%', backgroundColor: "rgba(0, 0, 255, 0.1)" }}>
       <MDBContainer>
-        <MDBRow center style={{ height: "100vh" }}>
+        <MDBRow center style={{ height: "100vh", margin: "0", padding: "0" }}>
           <MDBCol size='20'>
             <label style={{ padding: '5px', color: 'red', textAlign: 'center' }}><h3>KIỂM ĐẾM SỐ LƯỢNG HÀNG TỒN</h3></label>
             <MDBRow>
-              <MDBCol size='4'>
+              <MDBCol size='2'>
                 <Dropdown className="tenhang" options={nhomhang} onChange={(e) => handleDropdownList(e)} value={defaultOption} placeholder="Chän nhãm hµng" />
-              </MDBCol>
-              <MDBCol size='5'>
-                <span style={{ paddingRight: '15px' }}><button id='loadDSKH' onClick={() => loadDSkiemhang()}>Tải DS kiểm hàng</button></span>
               </MDBCol>
             </MDBRow>
             <input className="tenhang" type='text' value={searchItemCode} onChange={handleItemCode} placeholder='T×m m· hµng'></input>
-            <span style={{ paddingRight: '15px' }}><button onClick={() => clearSearchItemCode()}>X</button></span>
+            <span style={{ paddingLeft: '1px', paddingRight: '20px' }}>
+              <IconButton aria-label="delete" onClick={() => clearSearchItemCode()}>
+                <DeleteIcon />
+              </IconButton>
+            </span>
             <input className="tenhang" type='text' value={searchItem} onChange={handleItemname} placeholder='T×m tªn hµng'></input>
-            <span style={{ paddingRight: '15px' }}><button onClick={() => clearSearchItem()}>X</button></span>
-            <input type="checkbox" id="topping" name="topping" onChange={handleCheckBoxTongton} style={{ paddingLeft: '10px' }} />
-            <span style={{ paddingRight: '15px' }}>Hiển thị số tồn lớn hơn 0</span>
-            <input type="checkbox" id="topping1" name="topping" onChange={handleCheckBoxChuakiem} style={{ paddingLeft: '10px' }} />
-            <span style={{ paddingRight: '15px' }}>Hiển thị chưa kiểm</span>
-            <input type="checkbox" id="topping1" name="topping" onChange={handleCheckBoxDakiem} style={{ paddingLeft: '10px' }} />
-            <span style={{ paddingRight: '15px' }}>Hiển thị dư thiếu</span>
+            <span style={{ paddingRight: '15px' }}>
+              <IconButton aria-label="delete" onClick={() => clearSearchItem()}>
+                <DeleteIcon />
+              </IconButton>
+            </span>
+
+            <RadioGroup
+              row
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              name="row-radio-buttons-group"
+              value={radioValue}
+              onChange={handleRadioChange}
+            >
+              <FormControlLabel
+                value="tatca"
+                // disabled
+                control={<Radio />}
+                label="Hiển thị tất cả"
+              />
+              <FormControlLabel value="lonhon0" control={<Radio />} label="Hiển thị số tồn lớn hơn 0" />
+              <FormControlLabel value="chuakiem" control={<Radio />} label="Hiển thị chưa kiểm" />
+              <FormControlLabel value="dakiem" control={<Radio />} label="Hiển thị đã kiểm" />
+              <FormControlLabel value="duthieu" control={<Radio />} label="Hiển thị dư thiếu" />
+
+            </RadioGroup>
+            {/* Print table */}
+            <div>
+              <ReactToPrint
+                trigger={() => <div >
+                  <Button variant="outlined" size="medium" id="checkOut" >In danh sách</Button>
+                </div>}
+                content={() => componentRef}
+              />
+              <div style={{ display: "none" }} >
+                <ComponentToPrint ref={el => (componentRef = el)} />
+              </div>
+            </div>
+            {/* Table */}
             <DataTable
-              title="Danh sách nhóm hàng"
+              // title="Danh sách nhóm hàng"
               className="tenhang"
               columns={columns}
               data={data}

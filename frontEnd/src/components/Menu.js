@@ -91,7 +91,7 @@ export default function FadeMenu() {
         Home
       </Button>}
       {/* *********Menu Ghi Sê********* */}
-      {user &&  <Button
+      {user && false && <Button
         id="mnuGhiSe"
         aria-controls={openGhiSe ? 'fade-menuGhise' : undefined}
         aria-haspopup="true"

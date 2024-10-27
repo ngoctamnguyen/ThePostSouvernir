@@ -1,3 +1,24 @@
+@media screen and (min-width: 480px) {
+  #leftsidebar {width: 200px; float: left;}
+  #main {margin-left: 216px;}
+}
+
+@media print {
+  .page-break {
+    margin-top: 1rem;
+    display: block;
+    page-break-before: auto;
+  }
+}
+
+@page {
+  size: auto;
+  margin: 20mm;
+}
+
+/* Print multipages */
+@media print { html, body { height: initial !important; overflow: initial !important; }}
+
 .login {
     height: calc(100vh - 50px);
     display: flex;
@@ -63,7 +84,62 @@
     border-radius: 10px;
   }
 
-  .tenhang {
+   .tableFont {
+    font-family: '.VnArial', Arial, Helvetica, sans-serif;
+  }
+
+  .tableRight {
+    text-align: right;
     width: 200px;
-    font-family: '.vnTime';
+  }
+
+  .tableRightNumber {
+    text-align: right;
+    width: 150px;
+  }
+
+  .tableRightDate {
+    text-align: right;
+    width: 300px;
+  }
+
+  .tableRightNumberHeader {
+    text-align: right;
+    width: 150px;
+  }
+
+  .tableRightDateHeader {
+    text-align: center;
+    width: 300px;
+  }
+
+  .orderNumber {
+    text-align: left;
+    width: 100px;
+  }
+
+  .mahangHeader {
+    text-align: center;
+    width: 100px;
+  }
+  .mahang {
+    text-align: center;
+    width: 100px;
+    font-family: '.VnArial';
+  }
+
+  .tenhangHeader {
+    text-align: center;
+    width: 200px;
+  }
+
+  .tenhang {
+    text-align: left;
+    width: 250px;
+    font-family: '.VnArial';
+  }
+
+  .tableCenter {
+    text-align: center;
+    width: 200px;
   }
