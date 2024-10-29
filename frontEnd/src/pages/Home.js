@@ -9,9 +9,7 @@ export default function Home() {
 
    const { user, dispatch } = useContext(Context);
    const [greeting, setGreeting] = useState([
-      'THEPOST SOUVENIR',
-      2000,
-      'MINHPHAT SOUVENIR',
+      user ? user.shop : '',
       2000,
       'VIETNAMESE TRADITIONAL HANDMADE',
       2000,

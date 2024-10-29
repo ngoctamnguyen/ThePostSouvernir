@@ -44,18 +44,18 @@ export default function Check(props) {
               <label>02 Cong xa Paris</label>
             </div>
             <div class="col-sm-8 title">
-              <h5 style={{ textAlign: "center" }}>Hóa đơn bán lẻ</h5>
-              <label>Ngày: {date}</label><br></br>
-              <label>Số phiếu: {sophieu} </label>
+              <h5 style={{ textAlign: "center" }}>Sales Invoive</h5>
+              <label>Date: {date}</label><br></br>
+              <label>Order Number: {sophieu} </label>
             </div>
           </div>
           <hr></hr>
           <table>
             <thead>
-              <th className='tenhangHeaderCk' >Tên hàng</th>
-              <th className='tableRightCk'>SL</th>
-              <th className='tableRightCk'>Đơn giá</th>
-              <th className='tableRightCk'>Thành tiền</th>
+              <th className='tenhangHeaderCk' >Item</th>
+              <th className='tableRightCk'>Qty</th>
+              <th className='tableRightCk'>Price</th>
+              <th className='tableRightCk'>Amount</th>
             </thead>
             <tbody>
               {tableRows}
@@ -64,11 +64,11 @@ export default function Check(props) {
           <hr></hr>
           <div className="row justify-content-left">
             <div className="col-sm-6 footer">
-              <label>Tổng số lượng: {itemsTotal.toLocaleString('en-US')}</label><br />
+              <label>Grand Total: {itemsTotal.toLocaleString('en-US')}</label><br />
             </div>
             <div className="col-sm-6 footer">
 
-              <label>Tổng số tiền: {grandTotal.toLocaleString('en-US')}</label><br />
+              <label>Total: {grandTotal.toLocaleString('en-US')}</label><br />
             </div>
 
           </div>

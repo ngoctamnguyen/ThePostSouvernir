@@ -106,11 +106,13 @@
   .tableRightNumberHeader {
     text-align: right;
     width: 150px;
+    font-family: 'vnTime';
   }
 
   .tableRightDateHeader {
     text-align: center;
     width: 300px;
+    font-family: 'vnTime';
   }
 
   .orderNumber {

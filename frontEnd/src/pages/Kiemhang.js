@@ -273,9 +273,9 @@ export default function KiemHang() {
           </div>
           <table>
             <thead>
-              <th className='tenhangHeader' >Mã hàng</th>
-              <th className='tenhangHeader' >Tên hàng</th>
-              <th className='tableRightNumberHeader'>SL tồn</th>
+              <th className='tenhangHeader' >ID</th>
+              <th className='tenhangHeader' >Item</th>
+              <th className='tableRightNumberHeader'></th>
               <th className='tableRightNumberHeader'>SL lệch</th>
               <th className='tableRightDateHeader'>Ngày kiểm</th>
             </thead>

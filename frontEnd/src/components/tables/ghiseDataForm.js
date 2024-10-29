@@ -5,7 +5,7 @@ import { Context } from "../../context/Context";
 const { DB_URL } = require('../../config.json');
 
 // **********************************
-// This data form use query directly to server each time mahang input 
+// This data form use query directly to server each time mahang input
 // **********************************
 function GhiseDataForm(props) {
    const [mahang, setMahang] = useState('');
@@ -91,14 +91,14 @@ function GhiseDataForm(props) {
 
    return (
       <div className="dataTop">
-         <label>Mã hàng</label>
+         <label>Item ID</label>
          <input type="text"
             style={{ textAlign: 'center', fontWeight: 'bold' }}
             value={mahang}
             onChange={(e) => changeMahang(e)} />
-         <label style={{ paddingLeft: 20 }}>Số lượng</label>
+         <label style={{ paddingLeft: 20 }}>Quantity</label>
          <input type="number" min="1" max="10" maxlength="5" style={{ textAlign: 'center', fontWeight: 'bold' }} value={slNhapBanThem} onChange={changeSoluong} />
-         <label style={{ paddingLeft: 20 }}>Số phiếu bán lẻ</label>
+         <label style={{ paddingLeft: 20 }}>Order Number</label>
          <input type="text" id="billNumber" style={{ textAlign: 'center', fontWeight: 'bold' }} disabled={true} value={billNumber} />
       </div>
    );

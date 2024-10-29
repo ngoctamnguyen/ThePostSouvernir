@@ -200,12 +200,12 @@ function GhiseTableForm() {
         <thead className="banner">
           <tr>
             <th className='orderNumber'>Number</th>
-            <th className='mahang'>Mã hàng</th>
-            <th className='tenhangHeader'>Tên hàng</th>
-            <th className='tableRight'>Số lượng <h5>{quantity}</h5></th>
-            <th className='tableRight'>Đơn giá <br /></th>
+            <th className='mahang'>ID</th>
+            <th className='tenhangHeader'>Item</th>
+            <th className='tableRight'>Quantity<h5>{quantity}</h5></th>
+            <th className='tableRight'>Price<br /></th>
             <th className='tableRight'>
-              TỔNG CỘNG <br />
+              Total <br />
               <h5>$: {(grandTotal / tygia).toLocaleString('en-US')}</h5>
               <h5>VND: {grandTotal.toLocaleString('en-US')}</h5>
             </th>
