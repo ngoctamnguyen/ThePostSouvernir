@@ -1,6 +1,7 @@
 {
      "DB_URL1": "./models/banle.mdb",
      "DB_URL": "E:/MIU/MinhPhat/ThePost/ThePostSouvernir/backEnd/models/banle.mdb",
+     "DB_URL2": "D:/Post shop/data/banle.mdb",
      "DB_KEY": "0123456789",
      "PRIVATE_KEY": "12345"
 }

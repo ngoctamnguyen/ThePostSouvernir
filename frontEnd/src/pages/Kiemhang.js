@@ -34,10 +34,7 @@ export default function KiemHang() {
   const [options, setOptions] = useState([]);
   const defaultOption = options[0];
   const [pending, setPending] = useState(true);
-
-
   const [radioValue, setRadioValue] = useState("tatca");
-
   const [currentRow, setCurrentRow] = useState(null);
   const navigate = useNavigate();
   const { user, dispatch } = useContext(Context);
@@ -108,12 +105,18 @@ export default function KiemHang() {
   }, []);
 
   async function getData(manhom) {
+    console.log(radioValue);
     try {
       const headers = { 'Authorization': 'Bearer ' + user.token };
       await axios.get(DB_URL + 'items/nhomhang/' + manhom, { headers })
         .then((result) => {
           setData(result.data.data);
-          setTempData(result.data.data)
+          if (radioValue === "tatca") {
+            setTempData(result.data.data);
+          } else {
+            handleFilterGetData(result.data.data, radioValue);
+          }
+
           setPending(false);
         });
     } catch (err) {
@@ -226,6 +229,26 @@ export default function KiemHang() {
   const loadDSkiemhang = () => {
     if (maNhom !== '') {
       getData(maNhom);
+    }
+  }
+
+  const handleFilterGetData = (showlist, event) => {
+    if (event === "lonhon0") {
+      setData(showlist.filter(item => +item.Tonhientai > 0));
+    } else {
+      if (event === "chuakiem") {
+        setData(showlist.filter(item => item.ngaykiem === ''));
+      } else {
+        if (event === "dakiem") {
+          setData(showlist.filter(item => item.ngaykiem !== ''));
+        } else {
+          if (event === "duthieu") {
+            setData(showlist.filter(item => +item.chenhlech !== 0));
+          } else {
+            setData(showlist);
+          }
+        }
+      }
     }
   }
 
