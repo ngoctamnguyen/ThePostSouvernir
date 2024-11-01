@@ -1,3 +1,3 @@
 @echo Off
-cd E:\MIU\MinhPhat\ThePost\ThePostSouvernir\frontEnd
-serve -s build
+cd D:\POS\ThePostSouvernir\frontEnd\src
+npm start

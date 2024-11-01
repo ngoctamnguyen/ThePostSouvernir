@@ -105,7 +105,6 @@ export default function KiemHang() {
   }, []);
 
   async function getData(manhom) {
-    console.log(radioValue);
     try {
       const headers = { 'Authorization': 'Bearer ' + user.token };
       await axios.get(DB_URL + 'items/nhomhang/' + manhom, { headers })
@@ -237,7 +236,7 @@ export default function KiemHang() {
       setData(showlist.filter(item => +item.Tonhientai > 0));
     } else {
       if (event === "chuakiem") {
-        setData(showlist.filter(item => item.ngaykiem === ''));
+        setData(showlist.filter(item => item.ngaykiem === '' && +item.Tonhientai > 0));
       } else {
         if (event === "dakiem") {
           setData(showlist.filter(item => item.ngaykiem !== ''));
@@ -245,7 +244,23 @@ export default function KiemHang() {
           if (event === "duthieu") {
             setData(showlist.filter(item => +item.chenhlech !== 0));
           } else {
-            setData(showlist);
+            if (event === "homnay") {
+              const today = new Date();
+              setData(showlist.filter(item => {
+                if (item.ngaykiem !== '') {
+                  const CurrentDay = new Date(Date.parse(item.ngaykiem)).getDate();
+                  if (CurrentDay === today.getDate()) {
+                    return 1
+                  } else {
+                    return 0;
+                  }
+                }
+                return 0;
+              }));
+            } else {
+              setData(showlist);
+            }
+
           }
         }
       }
@@ -258,7 +273,7 @@ export default function KiemHang() {
       setData(tempData.filter(item => +item.Tonhientai > 0));
     } else {
       if (event.target.value === "chuakiem") {
-        setData(tempData.filter(item => item.ngaykiem === ''));
+        setData(tempData.filter(item => item.ngaykiem === '' && +item.Tonhientai > 0));
       } else {
         if (event.target.value === "dakiem") {
           setData(tempData.filter(item => item.ngaykiem !== ''));
@@ -266,7 +281,23 @@ export default function KiemHang() {
           if (event.target.value === "duthieu") {
             setData(tempData.filter(item => +item.chenhlech !== 0));
           } else {
-            setData(tempData);
+            if (event.target.value === "homnay") {
+              const today = new Date();
+              setData(tempData.filter(item => {
+                if (item.ngaykiem !== '') {
+                  const CurrentDay = new Date(Date.parse(item.ngaykiem)).getDate();
+                  if (CurrentDay === today.getDate()) {
+                    return 1
+                  } else {
+                    return 0;
+                  }
+                }
+                return 0;
+              }));
+            } else {
+              setData(tempData);
+            }
+
           }
         }
       }
@@ -350,10 +381,10 @@ export default function KiemHang() {
                 label="Hiển thị tất cả"
               />
               <FormControlLabel value="lonhon0" control={<Radio />} label="Hiển thị số tồn lớn hơn 0" />
-              <FormControlLabel value="chuakiem" control={<Radio />} label="Hiển thị chưa kiểm" />
+              <FormControlLabel value="chuakiem" control={<Radio />} label="Hiển thị chưa kiểm (Tồn >0)" />
               <FormControlLabel value="dakiem" control={<Radio />} label="Hiển thị đã kiểm" />
               <FormControlLabel value="duthieu" control={<Radio />} label="Hiển thị dư thiếu" />
-
+              <FormControlLabel value="homnay" control={<Radio />} label="Hiển thị Hôm nay" />
             </RadioGroup>
             {/* Print table */}
             <div>
