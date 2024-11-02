@@ -185,7 +185,6 @@ export default function KiemHang() {
     const manhom = event.value.substring(0, 3);
     setMaNhom(event.value.substring(0, 3))
     getData(manhom);
-    // getDataKiemhang(manhom);
   }
   const handleItemname = (e) => {
     if (e.target.value === '') {
