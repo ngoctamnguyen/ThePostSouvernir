@@ -25,7 +25,7 @@ export default function KiemHang() {
   let componentRef = useRef();
 
   const [data, setData] = useState([]);
-  // const [dataKiemhang, setDataKiemhang] = useState([]);
+  const [dataKiemhang, setDataKiemhang] = useState([]);
   const [tempData, setTempData] = useState([]);
   const [searchItem, setSearchItem] = useState('');
   const [searchItemCode, setSearchItemCode] = useState('');
@@ -34,7 +34,10 @@ export default function KiemHang() {
   const [options, setOptions] = useState([]);
   const defaultOption = options[0];
   const [pending, setPending] = useState(true);
+
+
   const [radioValue, setRadioValue] = useState("tatca");
+
   const [currentRow, setCurrentRow] = useState(null);
   const navigate = useNavigate();
   const { user, dispatch } = useContext(Context);
@@ -110,13 +113,19 @@ export default function KiemHang() {
       await axios.get(DB_URL + 'items/nhomhang/' + manhom, { headers })
         .then((result) => {
           setData(result.data.data);
-          if (radioValue === "tatca") {
-            setTempData(result.data.data);
-          } else {
-            setTempData(result.data.data);
-            handleFilterGetData(result.data.data, radioValue);
-          }
+          setTempData(result.data.data)
           setPending(false);
+        });
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+  async function getDataKiemhang(manhom) {
+    try {
+      const headers = { 'Authorization': 'Bearer ' + user.token };
+      await axios.get(DB_URL + 'items/kiemhang/' + manhom, { headers })
+        .then((result) => {
+          setDataKiemhang(result.data.data);
         });
     } catch (err) {
       console.log(err.message);
@@ -167,13 +176,14 @@ export default function KiemHang() {
             'Authorization': 'Bearer ' + user.token
           }
         })
-      getData(maNhom);
+      loadDSkiemhang();
       document.getElementById('checkedNumber').value = '';
       return results.data.data;
     } catch (err) {
       console.log(err.response)
     }
   }
+
   const ExpandedComponent = ({ data }) =>
     <div>
       <input type='text' id='checkedNumber' placeholder='SL kiểm...' style={{ width: '100px' }}></input>
@@ -185,6 +195,10 @@ export default function KiemHang() {
     const manhom = event.value.substring(0, 3);
     setMaNhom(event.value.substring(0, 3))
     getData(manhom);
+<<<<<<< HEAD
+=======
+    getDataKiemhang(manhom);
+>>>>>>> 2aec6c94dbd7656ef6a0e5470da982999303f78f
   }
   const handleItemname = (e) => {
     if (e.target.value === '') {
@@ -212,46 +226,31 @@ export default function KiemHang() {
     setSearchItemCode('');
     setData(tempData);
   }
-
-  const handleFilterGetData = (showlist, event) => {
-    if (event === "lonhon0") {
-      setData(showlist.filter(item => +item.Tonhientai > 0));
-    } else {
-      if (event === "chuakiem") {
-        setData(showlist.filter(item => item.ngaykiem === '' && +item.Tonhientai > 0));
-      } else {
-        if (event === "dakiem") {
-          setData(showlist.filter(item => item.ngaykiem !== ''));
-        } else {
-          if (event === "duthieu") {
-            setData(showlist.filter(item => +item.chenhlech !== 0));
-          } else {
-            if (event === "homnay") {
-              const today = new Date();
-              setData(showlist.filter(item => {
-                if (item.ngaykiem !== '') {
-                  const CurrentDay = new Date(Date.parse(item.ngaykiem)).getDate();
-                  if (CurrentDay === today.getDate()) {
-                    return 1
-                  } else {
-                    return 0;
-                  }
-                }
-                return 0;
-              }));
-            } else {
-              setData(showlist);
-            }
-
-          }
-        }
-      }
+  const loadDSkiemhang = () => {
+    if (maNhom !== '') {
+      getData(maNhom);
     }
   }
 
   const handleRadioChange = (event) => {
     setRadioValue(event.target.value);
-    handleFilterGetData(tempData, event.target.value);
+    if (event.target.value === "lonhon0") {
+      setData(tempData.filter(item => +item.Tonhientai > 0));
+    } else {
+      if (event.target.value === "chuakiem") {
+        setData(tempData.filter(item => item.ngaykiem === ''));
+      } else {
+        if (event.target.value === "dakiem") {
+          setData(tempData.filter(item => item.ngaykiem !== ''));
+        } else {
+          if (event.target.value === "duthieu") {
+            setData(tempData.filter(item => +item.chenhlech !== 0));
+          } else {
+            setData(tempData);
+          }
+        }
+      }
+    }
   }
 
   // Print Table
@@ -331,10 +330,10 @@ export default function KiemHang() {
                 label="Hiển thị tất cả"
               />
               <FormControlLabel value="lonhon0" control={<Radio />} label="Hiển thị số tồn lớn hơn 0" />
-              <FormControlLabel value="chuakiem" control={<Radio />} label="Hiển thị chưa kiểm (Tồn >0)" />
+              <FormControlLabel value="chuakiem" control={<Radio />} label="Hiển thị chưa kiểm" />
               <FormControlLabel value="dakiem" control={<Radio />} label="Hiển thị đã kiểm" />
               <FormControlLabel value="duthieu" control={<Radio />} label="Hiển thị dư thiếu" />
-              <FormControlLabel value="homnay" control={<Radio />} label="Hiển thị Hôm nay" />
+
             </RadioGroup>
             {/* Print table */}
             <div>
