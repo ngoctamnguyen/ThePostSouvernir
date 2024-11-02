@@ -1,6 +1,6 @@
 {
      "DB_URL1": "./models/banle.mdb",
-     "DB_URL": "D:/Post shop/data/banle.mdb",
+     "DB_URL": "D:/POST SHOP/data/banle.mdb",
      "DB_KEY": "0123456789",
      "PRIVATE_KEY": "12345"
 }
