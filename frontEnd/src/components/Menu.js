@@ -79,6 +79,9 @@ export default function FadeMenu() {
   function handleLOGIN() {
     navigate("/login")
   }
+  function handleSignIn() {
+    navigate("/signin")
+  }
 
   return (
     <div style={{backgroundColor: 'lightblue'}}>

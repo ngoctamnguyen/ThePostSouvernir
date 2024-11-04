@@ -48,11 +48,29 @@ module.exports.getNhomKiemhang = async (req, res, next) => {
 
 module.exports.getTongKetKiemhang = async (req, res, next) => {
      try {
+          const today= new Date();
+          const thisMonth = today.getMonth() + 1; //Note: 0=January, 1=February etc.
           let stringSQL = "SELECT kiemhang.Mahang, Mathang.Tenhang, kiemhang.chenhLech, FORMAT(kiemhang.Ngay, 'MM/dd/yyyy') AS Ngay, Mathang.kygoi, kiemhang.ghichu ";
           stringSQL += "FROM kiemhang LEFT JOIN Mathang ON kiemhang.Mahang = Mathang.Mahang ";
-          stringSQL += "WHERE kiemhang.chenhLech<>0 AND Month([Ngay])='" + req.params.thang + "' ";
+          stringSQL += "WHERE kiemhang.chenhLech<>0 AND Month([Ngay])='" + thisMonth + "' ";
           stringSQL += "ORDER BY kiemhang.Ngay;"
 
+          const results = await connection.query(stringSQL);
+          res.json({ success: true, data: results })
+     } catch (e) {
+          next(e)
+     }
+}
+
+module.exports.getTongKetKiemhangNgay = async (req, res, next) => {
+     try {
+          const today= new Date();
+          const thisMonth = today.getMonth() + 1; //Note: 0=January, 1=February etc.
+          let stringSQL = "SELECT kiemhang.Mahang, Mathang.Tenhang, kiemhang.chenhLech, FORMAT(kiemhang.Ngay, 'MM/dd/yyyy') AS Ngay, Mathang.kygoi, kiemhang.ghichu ";
+          stringSQL += "FROM kiemhang LEFT JOIN Mathang ON kiemhang.Mahang = Mathang.Mahang ";
+          stringSQL += "WHERE Month([Ngay])='" + thisMonth + "' AND Day([Ngay]) = '" + today.getDate() + "' ";
+          stringSQL += "ORDER BY kiemhang.Ngay;"
+          console.log(stringSQL)
           const results = await connection.query(stringSQL);
           res.json({ success: true, data: results })
      } catch (e) {

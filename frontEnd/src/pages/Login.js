@@ -1,5 +1,6 @@
 import { useState } from "react";
 import jwt_decode from "jwt-decode";
+import Button from '@mui/material/Button';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
@@ -51,7 +52,7 @@ export default function Login() {
         <div className="container-fluid h-custom">
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-              <div className="text-center fs-1">
+              <div className="text-center fs-2" style={{color:"green"}}>
                 ĐĂNG NHẬP
               </div>
               <form onSubmit={(e) => handleSubmit(loginUser, e)}>
@@ -110,14 +111,14 @@ export default function Login() {
                 </div>
 
                 <div className="text-center">
-                  <button
-                    type="submit"
-
+                  <Button
                     id="signinBtn"
-                    disabled={isFetching}
+                    type="submit"
+                    size="medium"
+                    variant="contained"
                   >
                     Login
-                  </button>
+                  </Button>
                   <br></br>
                   {" "}{errMessage}
                   {/* <p className="small fw-bold mt-2 pt-1 mb-0">

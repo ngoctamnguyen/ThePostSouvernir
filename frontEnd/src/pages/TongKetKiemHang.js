@@ -2,6 +2,9 @@ import DataTable from 'react-data-table-component';
 import React, { useRef } from "react";
 import ReactToPrint from "react-to-print";
 import Button from '@mui/material/Button';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import 'react-dropdown/style.css';
 import { MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import { useEffect, useState } from "react";
@@ -22,6 +25,7 @@ export default function TongKetKiemHang() {
   const [tempData, setTempData] = useState([]);
   const [isCheckedKG, setIsCheckedKG] = useState(false);
   const [isCheckedNoKG, setIsCheckedNoKG] = useState(false);
+  const [radioValue, setRadioValue] = useState("today");
   const navigate = useNavigate();
   const { user, dispatch } = useContext(Context);
 
@@ -87,10 +91,23 @@ export default function TongKetKiemHang() {
 
   async function loadDSkiemhang() {
     try {
-      if (month < 1 || month > 12) {
-        alert("Nhập sai tháng");
-        return 0;
+      if (radioValue === "today") {
+        getDataCheckedToday();
+      } else {
+        if (radioValue === "month") {
+          getDataCheckedThisMonth();
+        } else {
+          return 0;
+        }
       }
+
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+
+  async function getDataCheckedThisMonth() {
+    try {
       const headers = { 'Authorization': 'Bearer ' + user.token };
       await axios.get(DB_URL + 'items/kiemhang/thang/' + month, { headers })
         .then((result) => {
@@ -101,10 +118,19 @@ export default function TongKetKiemHang() {
       console.log(err.message);
     }
   }
-
-  const changeMonth = (event) => {
-    setMonth(event.target.value);
+  async function getDataCheckedToday() {
+    try {
+      const headers = { 'Authorization': 'Bearer ' + user.token };
+      await axios.get(DB_URL + 'items/kiemhang/today', { headers })
+        .then((result) => {
+          setData(result.data.data);
+          setTempData(result.data.data);
+        });
+    } catch (err) {
+      console.log(err.message);
+    }
   }
+
   const handleCheckBoxKygui = () => {
     setIsCheckedKG(!isCheckedKG)
   }
@@ -114,7 +140,7 @@ export default function TongKetKiemHang() {
 
   useEffect(() => {
     if (isCheckedKG) {
-      setData(tempData.filter(item => item.kygoi === 'y'));
+      setData(tempData.filter(item => item.kygoi === 'y' || item.kygoi === 'Y'));
     } else {
       setData(tempData);
     }
@@ -122,7 +148,7 @@ export default function TongKetKiemHang() {
 
   useEffect(() => {
     if (isCheckedNoKG) {
-      setData(tempData.filter(item => item.kygoi !== 'y'));
+      setData(tempData.filter(item => (item.kygoi !== 'y' && item.kygoi !== 'Y')));
     } else {
       setData(tempData);
     }
@@ -167,6 +193,9 @@ export default function TongKetKiemHang() {
     }
   }
 
+  const handleRadioChange = (event) => {
+    setRadioValue(event.target.value);
+  }
 
   return (
     <div style={{ width: '100%', height: '75%', backgroundColor: "rgba(0, 0, 255, 0.1)" }}>
@@ -175,13 +204,22 @@ export default function TongKetKiemHang() {
           <MDBCol size='20'>
             <label style={{ padding: '5px', color: 'red', textAlign: 'center' }}><h3>TỔNG HỢP KIỂM HÀNG</h3></label>
             <MDBRow>
-              <MDBCol size='2'>
-                <span style={{ paddingRight: '8px' }}>Tháng xem</span>
-                <input type="text" id='thang' style={{ textAlign: 'center', fontWeight: 'bold', width: '70px' }} onChange={(e) => changeMonth(e)} />
-              </MDBCol>
-              <MDBCol size='5'>
-                <span style={{ paddingRight: '15px' }}><Button size="small" variant="contained" id='loadDSKH' onClick={() => loadDSkiemhang()}>Xem</Button></span>
-              </MDBCol>
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+                value={radioValue}
+                onChange={handleRadioChange}
+              >
+                <FormControlLabel
+                  value="today"
+                  // disabled
+                  control={<Radio />}
+                  label="Xem kết quả kiểm hàng hôm nay"
+                />
+                <FormControlLabel value="month" control={<Radio />} label="Xem kết quả kiểm hàng trong tháng" />
+                <Button size="small" variant="contained" id='loadDSKH' onClick={() => loadDSkiemhang()}>Hiển thị</Button>
+              </RadioGroup>
             </MDBRow>
             <input type="checkbox" id="topping" name="topping" onChange={handleCheckBoxKygui} style={{ paddingLeft: '10px' }} />
             <span style={{ paddingRight: '15px' }}>Hiển thị ký gửi</span>
