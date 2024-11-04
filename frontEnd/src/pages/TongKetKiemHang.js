@@ -64,6 +64,7 @@ export default function TongKetKiemHang() {
     {
       name: 'Chênh lệch',
       selector: row => row.chenhLech,
+      sortable: true,
       width: '80px',
       textAlign: 'center'
     },
