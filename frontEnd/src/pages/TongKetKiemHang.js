@@ -25,6 +25,7 @@ export default function TongKetKiemHang() {
   const [tempData, setTempData] = useState([]);
   const [isCheckedKG, setIsCheckedKG] = useState(false);
   const [isCheckedNoKG, setIsCheckedNoKG] = useState(false);
+  const [isCheckedKhac0, setIsCheckedKhac0] = useState(false)
   const [radioValue, setRadioValue] = useState("today");
   const navigate = useNavigate();
   const { user, dispatch } = useContext(Context);
@@ -138,6 +139,9 @@ export default function TongKetKiemHang() {
   const handleCheckBoxKhongKygui = () => {
     setIsCheckedNoKG(!isCheckedNoKG)
   }
+  const handleCheckBoxKhac0 = () => {
+    setIsCheckedKhac0(!isCheckedKhac0);
+  }
 
   useEffect(() => {
     if (isCheckedKG) {
@@ -153,7 +157,15 @@ export default function TongKetKiemHang() {
     } else {
       setData(tempData);
     }
-  }, [isCheckedNoKG])
+  }, [isCheckedNoKG]);
+
+  useEffect(() => {
+    if (isCheckedKhac0) {
+      setData(tempData.filter(item => item.chenhLech !== 0));
+    } else {
+      setData(tempData);
+    }
+  }, [isCheckedKhac0])
 
   // Print Table
   const tableToPrint = data.map((data) => {
@@ -174,7 +186,7 @@ export default function TongKetKiemHang() {
           <div>
             <h3>{user.shop}</h3>
             <h5>BẢNG TỔNG HỢP KIỂM HÀNG</h5>
-            <label>In ngày: {Date()}</label> <br /> <br />
+            <label>In ngày: {Date().toLocaleString('en-US', {  hour: 'numeric',  minute: 'numeric',  hour12: true})}</label> <br /> <br />
           </div>
           <table>
             <thead>
@@ -226,6 +238,8 @@ export default function TongKetKiemHang() {
             <span style={{ paddingRight: '15px' }}>Hiển thị ký gửi</span>
             <input type="checkbox" id="topping1" name="topping" onChange={handleCheckBoxKhongKygui} style={{ paddingLeft: '10px' }} />
             <span style={{ paddingRight: '15px' }}>Hiển thị KHÔNG ký gửi</span>
+            <input type="checkbox" id="topping1" name="topping" onChange={handleCheckBoxKhac0} style={{ paddingLeft: '10px' }} />
+            <span style={{ paddingRight: '15px' }}>Hiển thị khác 0</span>
             {/* Print table */}
             <div>
               <ReactToPrint

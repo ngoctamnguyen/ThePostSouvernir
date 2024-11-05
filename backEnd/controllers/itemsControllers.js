@@ -50,7 +50,6 @@ module.exports.getTongKetKiemhang = async (req, res, next) => {
      try {
           const today= new Date();
           const thisMonth = today.getMonth() + 1; //Note: 0=January, 1=February etc.
-          console.log(today.getFullYear())
           let stringSQL = "SELECT kiemhang.Mahang, Mathang.Tenhang, kiemhang.chenhLech, FORMAT(kiemhang.Ngay, 'MM/dd/yyyy') AS Ngay, Mathang.kygoi, kiemhang.ghichu ";
           stringSQL += "FROM kiemhang LEFT JOIN Mathang ON kiemhang.Mahang = Mathang.Mahang ";
           stringSQL += "WHERE kiemhang.chenhLech<>0 AND Month([Ngay])='" + thisMonth + "' AND Year([Ngay]) = '"+ today.getFullYear() + "' ";
