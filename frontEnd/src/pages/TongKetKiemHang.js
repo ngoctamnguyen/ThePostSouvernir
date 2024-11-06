@@ -21,7 +21,6 @@ export default function TongKetKiemHang() {
   let componentRef = useRef();
 
   const [data, setData] = useState([]);
-  const [month, setMonth] = useState(0)
   const [tempData, setTempData] = useState([]);
   const [isCheckedKG, setIsCheckedKG] = useState(false);
   const [isCheckedNoKG, setIsCheckedNoKG] = useState(false);
@@ -59,7 +58,7 @@ export default function TongKetKiemHang() {
     },
     {
       name: 'Tên hàng',
-      selector: row => row.Tenhang,
+      selector: row => row.TenhangUnicode,
       width: '150px',
     },
     {
@@ -111,8 +110,9 @@ export default function TongKetKiemHang() {
   async function getDataCheckedThisMonth() {
     try {
       const headers = { 'Authorization': 'Bearer ' + user.token };
-      await axios.get(DB_URL + 'items/kiemhang/thang/' + month, { headers })
+      await axios.get(DB_URL + 'items/kiemhang/thang', { headers })
         .then((result) => {
+          console.log(result.data.data)
           setData(result.data.data);
           setTempData(result.data.data);
         });
@@ -125,6 +125,7 @@ export default function TongKetKiemHang() {
       const headers = { 'Authorization': 'Bearer ' + user.token };
       await axios.get(DB_URL + 'items/kiemhang/today', { headers })
         .then((result) => {
+          console.log(result.data.data)
           setData(result.data.data);
           setTempData(result.data.data);
         });
@@ -169,10 +170,11 @@ export default function TongKetKiemHang() {
 
   // Print Table
   const tableToPrint = data.map((data) => {
+    console.log(data)
     return (
       <tr key={data.id}>
         <td className='mahang' >{data.Mahang}</td>
-        <td className='tenhang'>{data.Tenhang}</td>
+        <td className='tenhang'>{data.TenhangUnicode}</td>
         <td className='tableRightNumber'>{data.chenhLech}</td>
         <td className='tableRightNumber'>{data.kygoi}</td>
         <td className='tableRightDate'>{data.ghichu}</td>

@@ -106,13 +106,13 @@
   .tableRightNumberHeader {
     text-align: right;
     width: 150px;
-    font-family: 'vnTime';
+    font-family: 'Arial';
   }
 
   .tableRightDateHeader {
     text-align: center;
     width: 300px;
-    font-family: 'vnTime';
+    font-family: 'Arial';
   }
 
   .orderNumber {
@@ -127,7 +127,7 @@
   .mahang {
     text-align: center;
     width: 100px;
-    font-family: '.VnArial';
+    font-family: '.Arial';
   }
 
   .tenhangHeader {
@@ -138,7 +138,7 @@
   .tenhang {
     text-align: left;
     width: 250px;
-    font-family: '.VnArial';
+    font-family: 'Arial';
   }
 
   .tableCenter {

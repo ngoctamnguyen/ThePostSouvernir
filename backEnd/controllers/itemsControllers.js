@@ -7,7 +7,7 @@ const connection = ADODB.open('Provider=Microsoft.Jet.OLEDB.4.0;Data Source=' + 
 
 module.exports.getItems = async (req, res, next) => {
      try {
-          const results = await connection.query("SELECT Mahang, Tenhang, mancc, dvt, Manhom, Giavon, price, Giaban, Giabansi, Tonhientai, tonkho, tonban, kygoi FROM Mathang");
+          const results = await connection.query("SELECT Mahang, TenhangUnicode, mancc, dvt, Manhom, Giavon, price, Giaban, Giabansi, Tonhientai, tonkho, tonban, kygoi FROM Mathang");
           res.json({ success: true, data: results })
      } catch (e) {
           next(e)
@@ -15,7 +15,7 @@ module.exports.getItems = async (req, res, next) => {
 }
 module.exports.getItem = async (req, res, next) => {
      try {
-          const results = await connection.query('SELECT Mahang, Tenhang, mancc, dvt, Manhom, Giavon, price, Giaban, Giabansi, Tonhientai, tonkho, tonban, kygoi FROM Mathang where Mahang = "' + req.params.mahang + '"');
+          const results = await connection.query('SELECT Mahang, TenhangUnicode, mancc, dvt, Manhom, Giavon, price, Giaban, Giabansi, Tonhientai, tonkho, tonban, kygoi FROM Mathang where Mahang = "' + req.params.mahang + '"');
           res.json({ success: true, data: results })
      } catch (e) {
           next(e)
@@ -25,10 +25,10 @@ module.exports.getItem = async (req, res, next) => {
 module.exports.getGroupItem = async (req, res, next) => {
      try {
           //Query Qr_getKiemHang_Thang in database lấy những kiểm hàng trong tháng hiện hành
-          let str = "SELECT Mathang.Mahang AS Mahang, Mathang.Tenhang AS Tenhang, Mathang.Manhom AS Manhom, Mathang.tonkho AS tonkho, Mathang.tonban AS tonban, Mathang.Tonhientai AS Tonhientai, kiemhang.chenhLech AS chenhlech, FORMAT(kiemhang.Ngay, 'MM/dd/yyyy HH:mm:ss') AS ngaykiem ";
+          let str = "SELECT Mathang.Mahang AS Mahang, Mathang.TenhangUnicode AS Tenhang, Mathang.Manhom AS Manhom, Mathang.tonkho AS tonkho, Mathang.tonban AS tonban, Mathang.Tonhientai AS Tonhientai, kiemhang.chenhLech AS chenhlech, FORMAT(kiemhang.Ngay, 'MM/dd/yyyy HH:mm:ss') AS ngaykiem ";
           str += "FROM Qr_getKiemHang_Thang AS kiemhang RIGHT JOIN Mathang ON kiemhang.Mahang = Mathang.Mahang ";
           str += "WHERE Mathang.Manhom='" + req.params.manhom + "'";
-          str += "GROUP BY Mathang.Mahang, Mathang.Tenhang, Mathang.Manhom, Mathang.tonkho, Mathang.tonban, Mathang.Tonhientai, kiemhang.chenhLech, kiemhang.Ngay ";
+          str += "GROUP BY Mathang.Mahang, Mathang.TenhangUnicode, Mathang.Manhom, Mathang.tonkho, Mathang.tonban, Mathang.Tonhientai, kiemhang.chenhLech, kiemhang.Ngay ";
           str += "ORDER BY Mathang.Mahang, kiemhang.Ngay DESC;"
           const results = await connection.query(str);
           res.json({ success: true, data: results })
@@ -50,7 +50,7 @@ module.exports.getTongKetKiemhang = async (req, res, next) => {
      try {
           const today= new Date();
           const thisMonth = today.getMonth() + 1; //Note: 0=January, 1=February etc.
-          let stringSQL = "SELECT kiemhang.Mahang, Mathang.Tenhang, kiemhang.chenhLech, FORMAT(kiemhang.Ngay, 'MM/dd/yyyy') AS Ngay, Mathang.kygoi, kiemhang.ghichu ";
+          let stringSQL = "SELECT kiemhang.Mahang, Mathang.TenhangUnicode, kiemhang.chenhLech, FORMAT(kiemhang.Ngay, 'MM/dd/yyyy') AS Ngay, Mathang.kygoi, kiemhang.ghichu ";
           stringSQL += "FROM kiemhang LEFT JOIN Mathang ON kiemhang.Mahang = Mathang.Mahang ";
           stringSQL += "WHERE kiemhang.chenhLech<>0 AND Month([Ngay])='" + thisMonth + "' AND Year([Ngay]) = '"+ today.getFullYear() + "' ";
           stringSQL += "ORDER BY kiemhang.Ngay;"
@@ -65,7 +65,7 @@ module.exports.getTongKetKiemhangNgay = async (req, res, next) => {
      try {
           const today= new Date();
           const thisMonth = today.getMonth() + 1; //Note: 0=January, 1=February etc.
-          let stringSQL = "SELECT kiemhang.Mahang, Mathang.Tenhang, kiemhang.chenhLech, FORMAT(kiemhang.Ngay, 'MM/dd/yyyy') AS Ngay, Mathang.kygoi, kiemhang.ghichu ";
+          let stringSQL = "SELECT kiemhang.Mahang, Mathang.TenhangUnicode, kiemhang.chenhLech, FORMAT(kiemhang.Ngay, 'MM/dd/yyyy') AS Ngay, Mathang.kygoi, kiemhang.ghichu ";
           stringSQL += "FROM kiemhang LEFT JOIN Mathang ON kiemhang.Mahang = Mathang.Mahang ";
           stringSQL += "WHERE Day([Ngay])='" + today.getDate() + "' AND Month([Ngay]) = '" + thisMonth + "' AND Year([Ngay]) = '"+ today.getFullYear() + "' ";
           stringSQL += "ORDER BY kiemhang.Ngay;"
@@ -131,7 +131,7 @@ module.exports.updateMathang = async (req, res, next) => {
 
 module.exports.getNhomHang = async (req, res, next) => {
      try {
-          const results = await connection.query('SELECT Manhom, Tennhom FROM Nhomhang;');
+          const results = await connection.query('SELECT Manhom, TennhomUnicode FROM Nhomhang;');
           res.json({ success: true, data: results })
      } catch (e) {
           next(e)

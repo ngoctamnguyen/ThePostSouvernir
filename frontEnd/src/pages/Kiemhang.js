@@ -129,7 +129,7 @@ export default function KiemHang() {
       const headers = { 'Authorization': 'Bearer ' + user.token };
       await axios.get(DB_URL + 'items/nhomhang', { headers })
         .then((result) => {
-          const stringNhom = result.data.data.map(item => item.Manhom + ': ' + item.Tennhom);
+          const stringNhom = result.data.data.map(item => item.Manhom + ': ' + item.TennhomUnicode);
           setNhomHang(stringNhom);
         });
     } catch (err) {
@@ -304,16 +304,16 @@ export default function KiemHang() {
             <label style={{ padding: '5px', color: 'red', textAlign: 'center' }}><h3>KIỂM ĐẾM SỐ LƯỢNG HÀNG TỒN</h3></label>
             <MDBRow>
               <MDBCol size='2'>
-                <Dropdown className="tenhang" options={nhomhang} onChange={(e) => handleDropdownList(e)} value={defaultOption} placeholder="Chän nhãm hµng" />
+                <Dropdown className="tenhang" options={nhomhang} onChange={(e) => handleDropdownList(e)} value={defaultOption} placeholder="Chọn nhóm hàng" />
               </MDBCol>
             </MDBRow>
-            <input className="tenhang" type='text' value={searchItemCode} onChange={handleItemCode} placeholder='T×m m· hµng'></input>
+            <input className="tenhang" type='text' value={searchItemCode} onChange={handleItemCode} placeholder='Tìm mã hàng'></input>
             <span style={{ paddingLeft: '1px', paddingRight: '20px' }}>
               <IconButton aria-label="delete" onClick={() => clearSearchItemCode()}>
                 <DeleteIcon />
               </IconButton>
             </span>
-            <input className="tenhang" type='text' value={searchItem} onChange={handleItemname} placeholder='T×m tªn hµng'></input>
+            <input className="tenhang" type='text' value={searchItem} onChange={handleItemname} placeholder='Tìm tên hàng'></input>
             <span style={{ paddingRight: '15px' }}>
               <IconButton aria-label="delete" onClick={() => clearSearchItem()}>
                 <DeleteIcon />
