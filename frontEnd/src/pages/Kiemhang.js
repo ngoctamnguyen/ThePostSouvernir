@@ -59,7 +59,7 @@ export default function KiemHang() {
       name: 'Mã H',
       selector: row => row.Mahang,
       sortable: true,
-      width: '80px',
+      width: '70px',
       style: {
         background: "cyan",
         paddingRight: '1px',
