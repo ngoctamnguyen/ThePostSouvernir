@@ -119,7 +119,7 @@ export default function FadeMenu() {
 
 
       {/* *********Menu Kiem hang********* */}
-      {<Button
+      {user && <Button
         id="kiemHang"
         aria-controls={openKiemHang ? 'fade_mnuKiemHang' : undefined}
         aria-haspopup="true"
