@@ -23,7 +23,6 @@ export default function Home() {
       if (!user) return 1;
       const currentDate = new Date();
       const expiryDate = new Date(parseInt(+user.exp) * 1000);
-      console.log(currentDate, expiryDate, currentDate < expiryDate)
       return currentDate < expiryDate;
    }
 

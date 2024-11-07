@@ -29,7 +29,6 @@ export default function Login() {
       const results = await axios.post(DB_URL + 'login', loginUser);
       const decoded = await jwt_decode(results.data.data);
       const user = { ...decoded, token: results.data.data }
-      console.log(user)
       dispatch({ type: "LOGIN_SUCCESS", payload: user });
       navigate("/");
     } catch (err) {
