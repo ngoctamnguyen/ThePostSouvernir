@@ -27,14 +27,14 @@ export default function Home() {
       return currentDate < expiryDate;
    }
 
-  //  useEffect(() => {
-  //     if (!tokenValid()) {
-  //        console.log("Quá thời gian đăng nhập, hãy đăng nhập lại")
-  //        dispatch({ type: "LOGOUT" });
-  //        localStorage.clear('user');
-  //        navigate("/")
-  //     }
-  //  })
+   useEffect(() => {
+      if (!tokenValid()) {
+         console.log("Quá thời gian đăng nhập, hãy đăng nhập lại")
+         dispatch({ type: "LOGOUT" });
+         localStorage.clear('user');
+         navigate("/")
+      }
+   })
 
    useEffect(() => {
       if (user) {
