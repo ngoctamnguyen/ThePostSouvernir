@@ -19,7 +19,7 @@ module.exports.login = async (req, res, next) => {
             const Token = jwt.sign(
                { Tennv: results[0].Tennv, quyen: results[0].quyen, catruc: req.body.catruc, shop: shop[0].shop },
                PRIVATE_KEY,
-               { expiresIn: 24 * 60 * 60 }//60 seconds * 60 * 12 = 1/2 day
+               { expiresIn: 48 * 60 * 60 }//60 seconds * 60 * 12 = 1/2 day
             )
             res.json({ success: true, data: Token })
          } else {
