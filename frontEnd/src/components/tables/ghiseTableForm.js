@@ -190,7 +190,7 @@ function GhiseTableForm() {
         setTygia(results.tygia);
       });
     }
-  }, [])
+  })
 
   return (
     <div>

@@ -67,6 +67,10 @@ export default function FadeMenu() {
     navigate("/mathang")
     setAnchorMatHang(null);
   }
+  function handleChangeItemName() {
+    navigate("/changeItemName")
+    setAnchorMatHang(null);
+  }
 
   /* *********LOGOUT********* */
   function handleLogout() {
@@ -143,8 +147,8 @@ export default function FadeMenu() {
       </Menu>
 
       {/* *********Menu Mat Hang********* */}
-      {user && false && <Button
-        id="kiemHang"
+      {user && <Button
+        id="mathang"
         aria-controls={openMatHang ? 'fade_mnuMatHang' : undefined}
         aria-haspopup="true"
         aria-expanded={openKiemHang ? 'true' : undefined}
@@ -162,7 +166,8 @@ export default function FadeMenu() {
         onClose={handleCloseMatHang}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={handleItemMatHang}>Mặt Hàng</MenuItem>
+        {/* <MenuItem onClick={handleItemMatHang}>Mặt Hàng</MenuItem> */}
+        <MenuItem onClick={handleChangeItemName}>Đổi tên hàng</MenuItem>
       </Menu>
 
 

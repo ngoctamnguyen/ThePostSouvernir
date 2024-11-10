@@ -1,6 +1,8 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import DataTable from 'react-data-table-component';
+import Button from '@mui/material/Button';
 import Dropdown from 'react-dropdown';
-import ThemMathang from '../components/themMathang';
+import ChangeItemNameUnicode from '../components/changeItemNameUnicode';
 import 'react-dropdown/style.css';
 import { MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import { useEffect, useState } from "react";
@@ -12,24 +14,46 @@ import { Context } from "../context/Context";
 const { DB_URL } = require('../config.json');
 
 
-export default function Mathang() {
+export default function ChangeItemName() {
 
   const [data, setData] = useState([]);
   const [tempData, setTempData] = useState([]);
   const [searchItem, setSearchItem] = useState('')
   const [nhomhang, setNhomHang] = useState([])
-  const [options, setOptions] = useState([]);
+  const [maNhomHang, setMaNhomHang] = useState('')
+  const [options] = useState([]);
   const defaultOption = options[0];
   const [pending, setPending] = useState(true);
-  const [selectedData, setSelectedData] = useState();
   const navigate = useNavigate();
   const { user, dispatch } = useContext(Context);
 
-  const ExpandedComponent = ({ data }) => <div>
-    <h6>Số lượng kiểm thực tế: </h6>
-    <input type='text' id='checkedNumber' placeholder='Số lượng kiểm...' ></input>
-  </div>;
+  function tokenValid() {
+    if (!user) return 1;
+    const currentDate = new Date();
+    const expiryDate = new Date(parseInt(+user.exp) * 1000);
+    return currentDate < expiryDate;
+  }
+  useEffect(() => {
+    if (!tokenValid() && user) { //if user on local storage was cleared => not do
+      alert("Quá thời gian đăng nhập, hãy đăng nhập lại")
+      dispatch({ type: "LOGOUT" });
+      localStorage.clear('user');
+      navigate("/")
+    }
+  })
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      getNhomHang();
+    }, 1000);
+    return () => clearTimeout(timeout);
+  });
 
+
+  const [matHang, setMathang] = useState({
+    maHang: "",
+    tenHang: "",
+    tenHangUnicode: "",
+  });
 
   const columns = [
     {
@@ -37,37 +61,30 @@ export default function Mathang() {
       selector: row => row.Mahang,
       sortable: true,
       width: '100px',
-      style: {
-        background: "cyan",
-        FontFace: ".VnTime"
-      }
     },
     {
-      name: 'Tên hàng',
+      name: 'Tên hàng .vnTime',
+      selector: row => row.Tenhang,
+      width: '200px',
+    },
+    {
+      name: 'Tên hàng Arial',
       selector: row => row.TenhangUnicode,
       width: '200px',
     },
     {
-      name: 'Tổng tồn',
-      selector: row => row.Tonhientai,
-      width: '100px'
-    },
-    {
-      name: 'Tồn kho',
-      selector: row => row.tonkho,
-      width: '100px'
-    },
-    {
-      name: 'Tồn bán',
-      selector: row => row.tonban,
-      width: '100px'
-    },
-    {
-      name: 'action',
-      selector: row => <button onClick={(e) => handleRowClick(row.Mahang)}>delete</button>,
-      width: '100px'
+      name: 'Action',
+      selector: row => <Button variant="outlined" size="small" onClick={() => handleRowClick(row)}>Thay đổi</Button>,
+      width: '120px'
     },
   ];
+
+  const paginationComponentOptions = {
+    rowsPerPageText: 'Rows per page',
+    rangeSeparatorText: 'of',
+    selectAllRowsItem: true,
+    selectAllRowsItemText: 'All',
+  };
 
   async function getData(manhom) {
     try {
@@ -95,25 +112,41 @@ export default function Mathang() {
     }
   }
 
-  const handleRowClick = (mahang) => {
-    console.log(mahang)
+  async function handleChangeItemName() {
+    updateItemNameUnicode(matHang);
+    getData(maNhomHang);
   }
 
-  const paginationComponentOptions = {
-    rowsPerPageText: 'Rows per page',
-    rangeSeparatorText: 'of',
-    selectAllRowsItem: true,
-    selectAllRowsItemText: 'All',
-  };
+  async function updateItemNameUnicode(item) {
+    try {
+      const results = await axios.put(DB_URL + 'items/itemNameUni/' + item.maHang,
+        item,
+        {
+          headers: {
+            "Accept": "application/json",
+            "Content-type": "application/json",
+            'Authorization': 'Bearer ' + user.token
+          }
+        })
+        .then(cleanForm())
+        .catch(e => console.log(e))
+      return results.data.data;
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
 
-  const handleChange = (state) => {
-    setSelectedData(state.selectedRows);
-  };
+  function cleanForm() {
+    setMathang({ ...matHang, maHang: '', tenHang: '', tenHangUnicode: '' });
+    getData(maNhomHang);
+  }
 
+  const handleRowClick = (item) => {
+    setMathang({ ...matHang, maHang: item.Mahang, tenHang: item.Tenhang, tenHangUnicode: item.TenhangUnicode });
+  }
   const handleDropdownList = (event) => {
-    const manhom = event.value.substring(0, 3);
-    getData(manhom);
-    console.log(event.value.substring(0, 3));
+    setMaNhomHang(event.value.substring(0, 3))
+    getData(event.value.substring(0, 3));
   }
   const handleInputChange = (e) => {
     setData(tempData.filter(item => item.Tenhang.includes(e.target.value)))
@@ -125,53 +158,29 @@ export default function Mathang() {
     setData(tempData);
   }
 
-  function tokenValid() {
-    if (!user) return 1;
-    const currentDate = new Date();
-    const expiryDate = new Date(parseInt(+user.exp) * 1000);
-    return currentDate < expiryDate;
-  }
-  useEffect(() => {
-    if (!tokenValid() && user) { //if user on local storage was cleared => not do
-      alert("Quá thời gian đăng nhập, hãy đăng nhập lại")
-      dispatch({ type: "LOGOUT" });
-      localStorage.clear('user');
-      navigate("/")
-    }
-  })
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      getNhomHang();
-    }, 1000);
-    return () => clearTimeout(timeout);
-  });
-
   return (
     <div style={{ width: '100%', height: '75%', backgroundColor: "rgba(0, 0, 255, 0.1)" }}>
       <MDBContainer style={{ margin: '1%' }}>
         <MDBRow center style={{ height: "100vh", margin: "1%" }}>
-          <MDBCol size='6' style={{ margin: '0%' }}>
+          <MDBCol size='7' style={{ margin: '0%' }}>
             <Dropdown className="tenhang" options={nhomhang} onChange={(e) => handleDropdownList(e)} value={defaultOption} placeholder="Chọn nhóm hàng" />
             <input className="tenhang" type='text' value={searchItem} onChange={handleInputChange} placeholder='Tìm tên hàng'></input>
             <span><button onClick={() => clearSearchInput()}>X</button></span>
             <DataTable
-              title="Danh sách nhóm hàng"
+              title="Danh sách mặt hàng"
               className="tenhang"
               columns={columns}
               data={data}
-              expandableRows
-              expandableRowsComponent={ExpandedComponent}
-              selectableRows
-              onSelectedRowsChange={handleChange}
-              pagination
-              paginationComponentOptions={paginationComponentOptions}
               defaultSortFieldId={1}
               progressPending={pending}
+              pagination
+              paginationComponentOptions={paginationComponentOptions}
+              highlightOnHover
               dense
             />
           </MDBCol>
-          <MDBCol size='5' style={{ margin: '0%' }}>
-            <ThemMathang />
+          <MDBCol size='4' style={{ margin: '0%' }}>
+            <ChangeItemNameUnicode data={matHang} setMathang={setMathang} handleChangeItemName={handleChangeItemName} />
           </MDBCol>
         </MDBRow>
       </MDBContainer>

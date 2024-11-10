@@ -1,6 +1,5 @@
 import { MDBBtn } from 'mdb-react-ui-kit';
 import { useState } from "react";
-import axios from "axios";
 
 export default function ThemMathang() {
   const [matHang, setMathang] = useState({
@@ -48,7 +47,7 @@ export default function ThemMathang() {
 
 
             <div className="form-outline flex-fill mb-0">
-            <p className="text-center text-primary h4 fw-bold mt-4 text-primary">CHI TIẾT MẶT HÀNG</p>
+              <p className="text-center text-primary h4 fw-bold mt-4 text-primary">CHI TIẾT MẶT HÀNG</p>
             </div>
           </div>
 

@@ -25,10 +25,10 @@ module.exports.getItem = async (req, res, next) => {
 module.exports.getGroupItem = async (req, res, next) => {
      try {
           //Query Qr_getKiemHang_Thang in database lấy những kiểm hàng trong tháng hiện hành
-          let str = "SELECT Mathang.Mahang AS Mahang, Mathang.TenhangUnicode AS Tenhang, Mathang.Manhom AS Manhom, Mathang.tonkho AS tonkho, Mathang.tonban AS tonban, Mathang.Tonhientai AS Tonhientai, kiemhang.chenhLech AS chenhlech, FORMAT(kiemhang.Ngay, 'MM/dd/yyyy HH:mm:ss') AS ngaykiem ";
+          let str = "SELECT Mathang.Mahang AS Mahang, Mathang.Tenhang AS Tenhang, Mathang.TenhangUnicode AS TenhangUnicode, Mathang.Manhom AS Manhom, Mathang.tonkho AS tonkho, Mathang.tonban AS tonban, Mathang.Tonhientai AS Tonhientai, kiemhang.chenhLech AS chenhlech, FORMAT(kiemhang.Ngay, 'MM/dd/yyyy HH:mm:ss') AS ngaykiem ";
           str += "FROM Qr_getKiemHang_Thang AS kiemhang RIGHT JOIN Mathang ON kiemhang.Mahang = Mathang.Mahang ";
           str += "WHERE Mathang.Manhom='" + req.params.manhom + "'";
-          str += "GROUP BY Mathang.Mahang, Mathang.TenhangUnicode, Mathang.Manhom, Mathang.tonkho, Mathang.tonban, Mathang.Tonhientai, kiemhang.chenhLech, kiemhang.Ngay ";
+          str += "GROUP BY Mathang.Mahang, Mathang.Tenhang, Mathang.TenhangUnicode, Mathang.Manhom, Mathang.tonkho, Mathang.tonban, Mathang.Tonhientai, kiemhang.chenhLech, kiemhang.Ngay ";
           str += "ORDER BY Mathang.Mahang, kiemhang.Ngay DESC;"
           const results = await connection.query(str);
           res.json({ success: true, data: results })
@@ -126,6 +126,19 @@ module.exports.updateMathang = async (req, res, next) => {
           res.json({ success: true, data: results })
      } catch (e) {
           next(e)
+     }
+}
+
+module.exports.updateItemNameUnicode = async(req, res, next) => {
+     try {
+          const mahang = req.body.maHang;
+          let stringSQL = "UPDATE mathang SET TenhangUnicode = '" + req.body.tenHangUnicode;
+          stringSQL += "' WHERE mahang = '" + mahang + "';";
+          const results = await connection.execute(stringSQL);
+          res.json({ success: true, data: results })
+
+     } catch(e) {
+          next(e);
      }
 }
 

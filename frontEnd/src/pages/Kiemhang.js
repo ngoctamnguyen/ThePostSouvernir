@@ -68,7 +68,7 @@ export default function KiemHang() {
     },
     {
       name: 'Tên hàng',
-      selector: row => row.Tenhang,
+      selector: row => row.TenhangUnicode,
       width: '150px',
     },
     {
@@ -102,7 +102,7 @@ export default function KiemHang() {
 
   useEffect(() => {
     getNhomHang();
-  }, []);
+  });
 
   async function getData(manhom) {
     try {
@@ -367,6 +367,7 @@ export default function KiemHang() {
               paginationComponentOptions={paginationComponentOptions}
               defaultSortFieldId={1}
               progressPending={pending}
+              highlightOnHover
               dense
             />
             <h6>Chỉ hiển thị số liệu kiểm trong tháng này</h6>

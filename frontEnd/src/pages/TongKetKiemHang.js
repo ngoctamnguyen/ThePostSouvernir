@@ -261,6 +261,7 @@ export default function TongKetKiemHang() {
               data={data}
               pagination
               paginationComponentOptions={paginationComponentOptions}
+              highlightOnHover
               dense
             />
           </MDBCol>

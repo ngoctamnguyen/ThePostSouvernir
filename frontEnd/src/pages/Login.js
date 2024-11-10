@@ -39,7 +39,6 @@ export default function Login() {
 
   function handleChanged(e) {
     setLoginUser({ ...loginUser, [e.target.name]: e.target.value });
-
   }
 
   function handleCatruc(e) {
