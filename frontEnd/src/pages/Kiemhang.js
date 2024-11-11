@@ -36,6 +36,7 @@ export default function KiemHang() {
   const [pending, setPending] = useState(true);
   const [radioValue, setRadioValue] = useState("tatca");
   const [currentRow, setCurrentRow] = useState(null);
+  const [checkNumer, setCheckNumber] = useState(0);
   const navigate = useNavigate();
   const { user, dispatch } = useContext(Context);
 
@@ -69,19 +70,39 @@ export default function KiemHang() {
     {
       name: 'Tên hàng',
       selector: row => row.TenhangUnicode,
-      width: '150px',
+      width: '140px',
     },
     {
-      name: 'SL Tồn',
+      name: 'SL kiểm',
+      width: '170px',
+      selector: row => <div>
+        <input
+          style={{ width: '70px', height: '40px', paddingRight: '5px' }}
+          type='number'
+          id='checkedNumberInput'
+          placeholder='SL kiểm...'
+          onBlur={handleBlur}
+          // onKeyDown={(e) => {
+          //   if (e.key === "Enter") {
+          //     handleSLkiem(row);
+          //   }
+          // }}
+          onChange={(e) => handleInput(e)}></input>
+        <Button id='checkButtonNumber' variant="outlined" size="medium" onClick={() => handleSLkiem(row)}>OK</Button>
+      </div>
+    },
+    {
+      name: 'Tồn',
       selector: row => row.Tonhientai,
-      width: '80px',
+      width: '60px',
       textAlign: 'center'
     },
     {
       name: 'Lệch',
       selector: row => row.chenhlech,
-      width: '80px'
+      width: '60px'
     },
+
     {
       name: 'Ngày kiểm',
       sortable: true,
@@ -89,6 +110,15 @@ export default function KiemHang() {
       // width: '130px'
     }
   ];
+
+  const handleBlur = (event) => {
+    event.target.value= '';
+  };
+
+  const handleInput = (event) => {
+    setCheckNumber(event.target.value);
+  }
+
   const paginationComponentOptions = {
     rowsPerPageText: 'Rows per page',
     rangeSeparatorText: 'of',
@@ -98,7 +128,7 @@ export default function KiemHang() {
 
   useEffect(() => {
     if (!user) { navigate("/") }
-  }, [user]);
+  });
 
   useEffect(() => {
     getNhomHang();
@@ -142,13 +172,13 @@ export default function KiemHang() {
     //Nếu mã hàng chưa kiểm lần nào thì ngày kiểm chưa có (param.ngaykiem === null)=> thêm mới
     //Nếu ngày kiểm có rồi => update lại số kiểm mới
     try {
-      if (document.getElementById('checkedNumber').value === '') {
-        alert('Chưa nhập số lượng kiểm');
+      if (checkNumer < 0) {
+        alert('Chưa nhập số lượng kiểm hoặc nhập số âm');
         return 0;
       }
       const date = new DateObject();
-      const cl = document.getElementById('checkedNumber').value - param.Tonhientai;
-      const sl = parseInt(document.getElementById('checkedNumber').value);
+      const cl = checkNumer - param.Tonhientai;
+      const sl = parseInt(checkNumer);
 
       const dataPost = {
         Ngay: param.ngaykiem,
@@ -170,18 +200,12 @@ export default function KiemHang() {
           }
         })
       getData(maNhom);
-      document.getElementById('checkedNumber').value = '';
+      setCheckNumber(0);
       return results.data.data;
     } catch (err) {
       console.log(err.response)
     }
   }
-  const ExpandedComponent = ({ data }) =>
-    <div>
-      <input type='text' id='checkedNumber' placeholder='SL kiểm...' style={{ width: '100px' }}></input>
-      <Button variant="contained" size="small" onClick={() => handleSLkiem(data)}>Submit</Button>
-    </div>;
-
 
   const handleDropdownList = (event) => {
     const manhom = event.value.substring(0, 3);
@@ -245,7 +269,6 @@ export default function KiemHang() {
             } else {
               setData(showlist);
             }
-
           }
         }
       }
@@ -357,10 +380,6 @@ export default function KiemHang() {
               className="tenhang"
               columns={columns}
               data={data}
-              expandableRows={true}
-              expandableRowsComponent={ExpandedComponent}
-              expandableRowExpanded={(row) => (row === currentRow)}
-              expandOnRowClicked
               onRowClicked={(row) => setCurrentRow(row)}
               onRowExpandToggled={(bool, row) => setCurrentRow(row)}
               pagination

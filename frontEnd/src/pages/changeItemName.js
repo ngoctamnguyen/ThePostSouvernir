@@ -119,6 +119,10 @@ export default function ChangeItemName() {
 
   async function updateItemNameUnicode(item) {
     try {
+      if (item.maHang === '') {
+        alert('Chưa nhập dữ liệu');
+        return 0;
+      }
       const results = await axios.put(DB_URL + 'items/itemNameUni/' + item.maHang,
         item,
         {

@@ -54,7 +54,7 @@ export default function ChangeItemNameUnicode(props) {
             </div>
           </div>
           <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-            <Button variant="contained" size="large" onClick={handleSubmit}>Submit</Button>
+            <Button variant="contained" size="large" onClick={() => handleSubmit()}>Submit</Button>
           </div>
 
         </form>
