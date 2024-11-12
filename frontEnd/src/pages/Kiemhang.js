@@ -31,11 +31,10 @@ export default function KiemHang() {
   const [searchItemCode, setSearchItemCode] = useState('');
   const [nhomhang, setNhomHang] = useState([])
   const [maNhom, setMaNhom] = useState('')
-  const [options, setOptions] = useState([]);
+  const [options] = useState([]);
   const defaultOption = options[0];
   const [pending, setPending] = useState(true);
   const [radioValue, setRadioValue] = useState("tatca");
-  const [currentRow, setCurrentRow] = useState(null);
   const [checkNumer, setCheckNumber] = useState(0);
   const navigate = useNavigate();
   const { user, dispatch } = useContext(Context);
@@ -112,7 +111,7 @@ export default function KiemHang() {
   ];
 
   const handleBlur = (event) => {
-    event.target.value= '';
+    event.target.value = '';
   };
 
   const handleInput = (event) => {
@@ -179,7 +178,6 @@ export default function KiemHang() {
       const date = new DateObject();
       const cl = checkNumer - param.Tonhientai;
       const sl = parseInt(checkNumer);
-
       const dataPost = {
         Ngay: param.ngaykiem,
         NgayMoi: date.format('MM/DD/YYYY HH:mm:ss'),
@@ -188,7 +186,8 @@ export default function KiemHang() {
         Tonhientai: param.Tonhientai,
         slKiem: sl,
         Chenhlech: cl,
-        ChenhlechCu: param.chenhlech
+        ChenhlechCu: param.chenhlech,
+        firstCheck: param.ngaykiem === '' ? true : false
       }
       const results = await axios.post(DB_URL + 'items/kiemhang/',
         { dataPost },
@@ -217,7 +216,7 @@ export default function KiemHang() {
     if (e.target.value === '') {
       setData(tempData);
     } else {
-      setData(tempData.filter(item => item.Tenhang.includes(e.target.value)));
+      setData(tempData.filter(item => item.TenhangUnicode.includes(e.target.value)));
     }
     setSearchItem(e.target.value);
   }
@@ -281,11 +280,11 @@ export default function KiemHang() {
   }
 
   // Print Table
-  const tableToPrint = data.map((data) => {
+  const tableToPrint = data.map((data, i) => {
     return (
-      <tr key={data.id}>
+      <tr key={i}>
         <td className='mahang' >{data.Mahang}</td>
-        <td className='tenhang'>{data.Tenhang}</td>
+        <td className='tenhang'>{data.TenhangUnicode}</td>
         <td className='tableRightNumber'>{data.Tonhientai}</td>
         <td className='tableRightNumber'>{data.chenhlech}</td>
         <td className='tableRightDate'>{data.ngaykiem}</td>
@@ -295,26 +294,25 @@ export default function KiemHang() {
   class ComponentToPrint extends React.PureComponent {
     render() {
       return (
-        <div>
-          <div>
-            <h3>{user.shop}</h3>
-            <h5>PHIẾU KIỂM HÀNG</h5>
-            <label>In ngày: {Date()}</label> <br /> <br />
-          </div>
+        <>
+          <h3>{user.shop}</h3>
+          <h5>PHIẾU KIỂM HÀNG</h5>
+          <label>In ngày: {Date()}</label> <br /> <br />
           <table>
-            <thead>
-              <th className='tenhangHeader' >ID</th>
-              <th className='tenhangHeader' >Item</th>
-              <th className='tableRightNumberHeader'></th>
-              <th className='tableRightNumberHeader'>SL lệch</th>
-              <th className='tableRightDateHeader'>Ngày kiểm</th>
+            <thead id="tableHaed">
+              <tr>
+                <th className='tenhangHeader' >ID</th>
+                <th className='tenhangHeader' >Item</th>
+                <th className='tableRightNumberHeader'></th>
+                <th className='tableRightNumberHeader'>SL lệch</th>
+                <th className='tableRightDateHeader'>Ngày kiểm</th>
+              </tr>
             </thead>
             <tbody>
               {tableToPrint}
             </tbody>
           </table>
-        </div>
-
+        </>
       );
     }
   }
@@ -380,8 +378,6 @@ export default function KiemHang() {
               className="tenhang"
               columns={columns}
               data={data}
-              onRowClicked={(row) => setCurrentRow(row)}
-              onRowExpandToggled={(bool, row) => setCurrentRow(row)}
               pagination
               paginationComponentOptions={paginationComponentOptions}
               defaultSortFieldId={1}

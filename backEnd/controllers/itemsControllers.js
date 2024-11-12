@@ -78,7 +78,7 @@ module.exports.getTongKetKiemhangNgay = async (req, res, next) => {
 
 module.exports.saveKiemhang = async (req, res, next) => {
      try {
-          if (req.body.dataPost.Ngay === '') {
+          if (req.body.dataPost.firstCheck) {
                //chưa kiểm lần nào trong tháng => thêm mới
                let stringSQL = "INSERT INTO kiemhang (Ngay, Mahang, Manhom, Tonhientai, slKiem, chenhLech) VALUES ";
                stringSQL += "('" + req.body.dataPost.NgayMoi + "', ";

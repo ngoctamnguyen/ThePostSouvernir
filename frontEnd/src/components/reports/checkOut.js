@@ -39,11 +39,11 @@ export default function Check(props) {
       return (
         <div>
           <div className="row justify-content-center">
-            <div class="col-sm-4 shop">
+            <div className="col-sm-4 shop">
               <label>MINH PHAT</label><br></br>
               <label>02 Cong xa Paris</label>
             </div>
-            <div class="col-sm-8 title">
+            <div className="col-sm-8 title">
               <h5 style={{ textAlign: "center" }}>Sales Invoive</h5>
               <label>Date: {date}</label><br></br>
               <label>Order Number: {sophieu} </label>
@@ -52,10 +52,12 @@ export default function Check(props) {
           <hr></hr>
           <table>
             <thead>
-              <th className='tenhangHeaderCk' >Item</th>
-              <th className='tableRightCk'>Qty</th>
-              <th className='tableRightCk'>Price</th>
-              <th className='tableRightCk'>Amount</th>
+              <tr>
+                <th className='tenhangHeaderCk' >Item</th>
+                <th className='tableRightCk'>Qty</th>
+                <th className='tableRightCk'>Price</th>
+                <th className='tableRightCk'>Amount</th>
+              </tr>
             </thead>
             <tbody>
               {tableRows}
@@ -67,10 +69,8 @@ export default function Check(props) {
               <label>Grand Total: {itemsTotal.toLocaleString('en-US')}</label><br />
             </div>
             <div className="col-sm-6 footer">
-
               <label>Total: {grandTotal.toLocaleString('en-US')}</label><br />
             </div>
-
           </div>
           <div className="see">
             <label>Thank you & See You Again !!!</label>
