@@ -58,7 +58,11 @@ function GhiseDataForm(props) {
     }
   };
   const changeSoluong = (event) => {
-    setslNhapBanThem(event.target.value);
+    if (+event.target.value < 1) {
+      setslNhapBanThem(1);
+    } else {
+      setslNhapBanThem(+event.target.value);
+    }
   };
 
   async function getItem(mahang) {
@@ -101,7 +105,7 @@ function GhiseDataForm(props) {
       <label style={{ paddingLeft: 20 }}>Quantity
         <Input type='number'
           size="lg"
-          placeholder="Nhập mã hàng"
+          placeholder="Nhập số lượng"
           style={{ width: '200px', textAlign: 'center', fontWeight: 'bold' }}
           value={slNhapBanThem}
           onChange={(e) => changeSoluong(e)} /></label>
@@ -109,11 +113,37 @@ function GhiseDataForm(props) {
       <label style={{ paddingLeft: 20 }}>Order Number
         <Input type='text'
           id="billNumber"
-          disabled={true}
+          // disabled={true}
           size="lg"
           placeholder="Số phiếu"
           style={{ width: '200px', textAlign: 'center', fontWeight: 'bold' }}
           value={billNumber} /></label>
+      <label style={{ paddingLeft: 20 }}>Quantity
+        <Input type='text'
+          id="quantity"
+          // disabled={true}
+          size="lg"
+          placeholder="Tổng số lượng"
+          style={{ width: '200px', textAlign: 'center', fontWeight: 'bold' }}
+          value={props.quantity} /></label>
+
+      <label style={{ paddingLeft: 20 }}>Grand Total
+        <Input type='text'
+          id="totalVND"
+          // disabled={true}
+          size="lg"
+          placeholder="Tổng tiền"
+          style={{ width: '200px', textAlign: 'center', fontWeight: 'bold' }}
+          value={new Intl.NumberFormat('en-US').format(props.grandTotal)} /></label>
+
+      <label style={{ paddingLeft: 20 }}>$
+        <Input type='text'
+          id="totalUSD"
+          // disabled={true}
+          size="lg"
+          placeholder="$"
+          style={{ width: '200px', textAlign: 'center', fontWeight: 'bold' }}
+          value={new Intl.NumberFormat('en-US').format(props.grandTotal / props.tygia)} /></label>
     </div>
   );
 }

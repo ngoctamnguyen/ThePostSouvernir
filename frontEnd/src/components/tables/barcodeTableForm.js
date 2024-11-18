@@ -11,7 +11,7 @@ const { DB_URL } = require('../../config.json');
 
 
 
-function GhiseTableForm() {
+function BarcodeTableForm() {
   const { user, dispatch } = useContext(Context);
   const [itemData, setItemData] = useState([]);
   const [tygia, setTygia] = useState(0);
@@ -214,4 +214,4 @@ function GhiseTableForm() {
   );
 }
 
-export default GhiseTableForm;
+export default BarcodeTableForm;

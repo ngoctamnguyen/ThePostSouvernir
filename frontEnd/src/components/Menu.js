@@ -72,6 +72,16 @@ export default function FadeMenu() {
     setAnchorMatHang(null);
   }
 
+  function handlePrintBarcode() {
+    navigate("/barcode")
+    setAnchorMatHang(null);
+  }
+
+  function handleBarcodeLabel() {
+    navigate("/barcodelabel")
+    setAnchorMatHang(null);
+  }
+
   /* *********LOGOUT********* */
   function handleLogout() {
     dispatch({ type: "LOGOUT" });
@@ -82,9 +92,6 @@ export default function FadeMenu() {
   /* *********LOGOUT********* */
   function handleLOGIN() {
     navigate("/login")
-  }
-  function handleSignIn() {
-    navigate("/signin")
   }
 
   return (
@@ -98,7 +105,7 @@ export default function FadeMenu() {
         Home
       </Button>}
       {/* *********Menu Ghi Sê********* */}
-      {user && false && <Button
+      {!user ? false :(user.quyen.includes('banhang') || user.quyen.includes('superman'))  && <Button
         id="mnuGhiSe"
         aria-controls={openGhiSe ? 'fade-menuGhise' : undefined}
         aria-haspopup="true"
@@ -123,7 +130,7 @@ export default function FadeMenu() {
 
 
       {/* *********Menu Kiem hang********* */}
-      {user && <Button
+      {!user ? false :(user.quyen.includes('kiemhang') || user.quyen.includes('superman')) && <Button
         id="kiemHang"
         aria-controls={openKiemHang ? 'fade_mnuKiemHang' : undefined}
         aria-haspopup="true"
@@ -133,7 +140,7 @@ export default function FadeMenu() {
         Kiểm_hàng
       </Button>}
       <Menu
-        id="fade_mnuKiemHang"
+        id="mnuKiemHang"
         MenuListProps={{
           'aria-labelledby': 'kiemHang',
         }}
@@ -147,7 +154,7 @@ export default function FadeMenu() {
       </Menu>
 
       {/* *********Menu Mat Hang********* */}
-      {user && <Button
+      {!user ? false : user.quyen.includes('superman') && <Button
         id="mathang"
         aria-controls={openMatHang ? 'fade_mnuMatHang' : undefined}
         aria-haspopup="true"
@@ -168,6 +175,8 @@ export default function FadeMenu() {
       >
         {/* <MenuItem onClick={handleItemMatHang}>Mặt Hàng</MenuItem> */}
         <MenuItem onClick={handleChangeItemName}>Đổi tên hàng</MenuItem>
+        <MenuItem onClick={handlePrintBarcode}>Barcode</MenuItem>
+        <MenuItem onClick={handleBarcodeLabel}>Barcode Label</MenuItem>
       </Menu>
 
 

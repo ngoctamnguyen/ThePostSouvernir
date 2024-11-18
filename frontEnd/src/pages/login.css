@@ -145,3 +145,9 @@
     text-align: center;
     width: 200px;
   }
+
+  .dataTable {
+    text-align: left;
+    width: 250px;
+    font-family: 'Arial';
+  }

@@ -16,10 +16,11 @@ module.exports.login = async (req, res, next) => {
       } else {
          if (results[0].pass === req.body.password) {
             const shop = await connection.query('select shop from tshop;');
+            const timeOut = results[0].quyen === 'superman' ? 1 : 12
             const Token = jwt.sign(
                { Tennv: results[0].Tennv, quyen: results[0].quyen, catruc: req.body.catruc, shop: shop[0].shop },
                PRIVATE_KEY,
-               { expiresIn: 12 * 60 * 60 }//60 seconds * 60 * 12 = 1/2 day
+               { expiresIn: timeOut * 60 * 60 }//60 seconds * 60 * 12 = 1/2 day
             )
             res.json({ success: true, data: Token })
          } else {

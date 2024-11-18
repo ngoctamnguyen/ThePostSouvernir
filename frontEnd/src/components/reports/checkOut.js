@@ -1,11 +1,13 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import ReactToPrint from "react-to-print";
 import DateObject from "react-date-object";
+import { Context } from "../../context/Context";
 import './check.css';
 
 export default function Check(props) {
 
   let componentRef = useRef();
+  const { user } = useContext(Context);
 
   let grandTotal = 0;
   let itemsTotal = 0;
@@ -40,7 +42,7 @@ export default function Check(props) {
         <div>
           <div className="row justify-content-center">
             <div className="col-sm-4 shop">
-              <label>MINH PHAT</label><br></br>
+              <label>{user.shop}</label><br></br>
               <label>02 Cong xa Paris</label>
             </div>
             <div className="col-sm-8 title">

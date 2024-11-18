@@ -138,6 +138,7 @@ export default function KiemHang() {
       const headers = { 'Authorization': 'Bearer ' + user.token };
       await axios.get(DB_URL + 'items/nhomhang/' + manhom, { headers })
         .then((result) => {
+          console.log(result.data.data)
           setData(result.data.data);
           if (radioValue === "tatca") {
             setTempData(result.data.data);
@@ -210,7 +211,6 @@ export default function KiemHang() {
     const manhom = event.value.substring(0, 3);
     setMaNhom(event.value.substring(0, 3))
     getData(manhom);
-    // getDataKiemhang(manhom);
   }
   const handleItemname = (e) => {
     if (e.target.value === '') {
@@ -303,7 +303,7 @@ export default function KiemHang() {
               <tr>
                 <th className='tenhangHeader' >ID</th>
                 <th className='tenhangHeader' >Item</th>
-                <th className='tableRightNumberHeader'></th>
+                <th className='tableRightNumberHeader'>Tồn</th>
                 <th className='tableRightNumberHeader'>SL lệch</th>
                 <th className='tableRightDateHeader'>Ngày kiểm</th>
               </tr>
@@ -375,7 +375,7 @@ export default function KiemHang() {
             {/* Table */}
             <DataTable
               // title="Danh sách nhóm hàng"
-              className="tenhang"
+              className="dataTable"
               columns={columns}
               data={data}
               pagination

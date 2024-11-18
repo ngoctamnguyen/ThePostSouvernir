@@ -15,7 +15,7 @@ export default function Login() {
     catruc: ""
   });
   const [errMessage, setErrMessage] = useState("");
-  const { dispatch, isFetching } = useContext(Context);
+  const { dispatch } = useContext(Context);
   const navigate = useNavigate();
 
   async function handleSubmit(loginUser, e) {
@@ -28,7 +28,7 @@ export default function Login() {
     try {
       const results = await axios.post(DB_URL + 'login', loginUser);
       const decoded = await jwt_decode(results.data.data);
-      const user = { ...decoded, token: results.data.data }
+      const user = { ...decoded, token: results.data.data };
       dispatch({ type: "LOGIN_SUCCESS", payload: user });
       navigate("/");
     } catch (err) {
@@ -46,7 +46,7 @@ export default function Login() {
   }
 
   return (
-    <div style={{ width: '100%', height: '75%', backgroundColor: "rgba(0, 0, 255, 0.1)" }}>
+    <div style={{ width: '100%', height: '75%',  }}>
       <section className="vh-100">
         <div className="container-fluid h-custom">
           <div className="row d-flex justify-content-center align-items-center h-100">
@@ -54,7 +54,7 @@ export default function Login() {
               <div className="text-center fs-2" style={{color:"green"}}>
                 ĐĂNG NHẬP
               </div>
-              <form onSubmit={(e) => handleSubmit(loginUser, e)}>
+              <form onSubmit={(e) => handleSubmit(loginUser, e)} >
                 {/* <!-- Username input --> */}
                 <div className="form-outline mb-4">
                   <input
