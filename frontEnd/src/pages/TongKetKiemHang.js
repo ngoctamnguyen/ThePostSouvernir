@@ -22,10 +22,8 @@ export default function TongKetKiemHang() {
 
   const [data, setData] = useState([]);
   const [tempData, setTempData] = useState([]);
-  const [isCheckedKG, setIsCheckedKG] = useState(false);
-  const [isCheckedNoKG, setIsCheckedNoKG] = useState(false);
-  const [isCheckedKhac0, setIsCheckedKhac0] = useState(false)
   const [radioValue, setRadioValue] = useState("today");
+  const [radioValueKG, setRadioValueKG] = useState('all');
   const navigate = useNavigate();
   const { user, dispatch } = useContext(Context);
 
@@ -42,7 +40,7 @@ export default function TongKetKiemHang() {
       localStorage.clear('user');
       navigate("/")
     }
-  })
+  }, [user])
 
   const columns = [
     {
@@ -86,10 +84,6 @@ export default function TongKetKiemHang() {
     selectAllRowsItemText: 'All',
   };
 
-  useEffect(() => {
-    if (!user) { navigate("/") }
-  }, [user]);
-
   async function loadDSkiemhang() {
     try {
       if (radioValue === "today") {
@@ -101,7 +95,6 @@ export default function TongKetKiemHang() {
           return 0;
         }
       }
-
     } catch (err) {
       console.log(err.message);
     }
@@ -112,7 +105,6 @@ export default function TongKetKiemHang() {
       const headers = { 'Authorization': 'Bearer ' + user.token };
       await axios.get(DB_URL + 'items/kiemhang/thang', { headers })
         .then((result) => {
-          console.log(result.data.data)
           setData(result.data.data);
           setTempData(result.data.data);
         });
@@ -125,7 +117,6 @@ export default function TongKetKiemHang() {
       const headers = { 'Authorization': 'Bearer ' + user.token };
       await axios.get(DB_URL + 'items/kiemhang/today', { headers })
         .then((result) => {
-          console.log(result.data.data)
           setData(result.data.data);
           setTempData(result.data.data);
         });
@@ -133,51 +124,38 @@ export default function TongKetKiemHang() {
       console.log(err.message);
     }
   }
-
-  const handleCheckBoxKygui = () => {
-    setIsCheckedKG(!isCheckedKG)
+  const handleRadioChange = (event) => {
+    setRadioValue(event.target.value);
   }
-  const handleCheckBoxKhongKygui = () => {
-    setIsCheckedNoKG(!isCheckedNoKG)
+  const handleRadioKG = (event) => {
+    setRadioValueKG(event.target.value);
+    handleFilterDataKG(tempData, event.target.value);
+  };
+
+  const handleFilterDataKG = (showList, event) => {
+    if (event === 'kg') {
+      setData(showList.filter(item => item.kygoi === 'y' || item.kygoi === 'Y'));
+    } else {
+      if (event === 'Nonkg') {
+        setData(showList.filter(item => item.kygoi !== 'y' && item.kygoi !== 'Y'));
+      } else {
+        if (event === 'NonZero') {
+          setData(showList.filter(item => item.chenhLech !== 0));
+        } else {
+          setData(showList);
+        }
+      }
+    }
   }
-  const handleCheckBoxKhac0 = () => {
-    setIsCheckedKhac0(!isCheckedKhac0);
-  }
-
-  useEffect(() => {
-    if (isCheckedKG) {
-      setData(tempData.filter(item => item.kygoi === 'y' || item.kygoi === 'Y'));
-    } else {
-      setData(tempData);
-    }
-  }, [isCheckedKG])
-
-  useEffect(() => {
-    if (isCheckedNoKG) {
-      setData(tempData.filter(item => (item.kygoi !== 'y' && item.kygoi !== 'Y')));
-    } else {
-      setData(tempData);
-    }
-  }, [isCheckedNoKG]);
-
-  useEffect(() => {
-    if (isCheckedKhac0) {
-      setData(tempData.filter(item => item.chenhLech !== 0));
-    } else {
-      setData(tempData);
-    }
-  }, [isCheckedKhac0])
 
   // Print Table
-  const tableToPrint = data.map((data) => {
-    console.log(data)
+  const tableToPrint = data.map((data, i) => {
     return (
-      <tr key={data.id}>
+      <tr key={i}>
         <td className='mahang' >{data.Mahang}</td>
         <td className='tenhang'>{data.TenhangUnicode}</td>
         <td className='tableRightNumber'>{data.chenhLech}</td>
         <td className='tableRightNumber'>{data.kygoi}</td>
-        <td className='tableRightDate'>{data.ghichu}</td>
       </tr>
     );
   });
@@ -188,15 +166,16 @@ export default function TongKetKiemHang() {
           <div>
             <h3>{user.shop}</h3>
             <h5>BẢNG TỔNG HỢP KIỂM HÀNG</h5>
-            <label>In ngày: {Date().toLocaleString('en-US', {  hour: 'numeric',  minute: 'numeric',  hour12: true})}</label> <br /> <br />
+            <label>In ngày: {Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</label> <br /> <br />
           </div>
           <table>
             <thead>
-              <th className='tenhangHeader' >Mã hàng</th>
-              <th className='tenhangHeader' >Tên hàng</th>
-              <th className='tableRightNumberHeader'>Chênh lệch</th>
-              <th className='tableRightNumberHeader'>Ký gửi</th>
-              <th className='tableRightDateHeader'>Ngày kiểm</th>
+              <tr>
+                <th className='tenhangHeader' >Mã hàng</th>
+                <th className='tenhangHeader' >Tên hàng</th>
+                <th className='tableRightNumberHeader'>Chênh lệch</th>
+                <th className='tableRightNumberHeader'>Ký gửi</th>
+              </tr>
             </thead>
             <tbody>
               {tableToPrint}
@@ -207,11 +186,6 @@ export default function TongKetKiemHang() {
       );
     }
   }
-
-  const handleRadioChange = (event) => {
-    setRadioValue(event.target.value);
-  }
-
   return (
     <div style={{ width: '100%', height: '75%', backgroundColor: "rgba(0, 0, 255, 0.1)" }}>
       <MDBContainer>
@@ -224,24 +198,30 @@ export default function TongKetKiemHang() {
                 aria-labelledby="demo-row-radio-buttons-group-label"
                 name="row-radio-buttons-group"
                 value={radioValue}
-                onChange={handleRadioChange}
-              >
+                onChange={handleRadioChange}  >
                 <FormControlLabel
                   value="today"
                   // disabled
                   control={<Radio />}
-                  label="Xem kết quả kiểm hàng hôm nay"
-                />
+                  label="Xem kết quả kiểm hàng hôm nay" />
                 <FormControlLabel value="month" control={<Radio />} label="Xem kết quả kiểm hàng trong tháng" />
                 <Button size="small" variant="contained" id='loadDSKH' onClick={() => loadDSkiemhang()}>Hiển thị</Button>
               </RadioGroup>
             </MDBRow>
-            <input type="checkbox" id="topping" name="topping" onChange={handleCheckBoxKygui} style={{ paddingLeft: '10px' }} />
-            <span style={{ paddingRight: '15px' }}>Hiển thị ký gửi</span>
-            <input type="checkbox" id="topping1" name="topping" onChange={handleCheckBoxKhongKygui} style={{ paddingLeft: '10px' }} />
-            <span style={{ paddingRight: '15px' }}>Hiển thị KHÔNG ký gửi</span>
-            <input type="checkbox" id="topping1" name="topping" onChange={handleCheckBoxKhac0} style={{ paddingLeft: '10px' }} />
-            <span style={{ paddingRight: '15px' }}>Hiển thị khác 0</span>
+            <RadioGroup
+              row
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              name="row-radio-buttons-group"
+              value={radioValueKG}
+              onChange={handleRadioKG} >
+              <FormControlLabel
+                value="all"
+                control={<Radio />}
+                label="Xem tất cả" />
+              <FormControlLabel value="kg" control={<Radio />} label="Xem ký gửi" />
+              <FormControlLabel value="Nonkg" control={<Radio />} label="Xem không ký gửi" />
+              <FormControlLabel value="NonZero" control={<Radio />} label="Xem tồn khác 0" />
+            </RadioGroup>
             {/* Print table */}
             <div>
               <ReactToPrint

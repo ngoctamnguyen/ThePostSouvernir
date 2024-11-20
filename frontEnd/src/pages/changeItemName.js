@@ -42,11 +42,8 @@ export default function ChangeItemName() {
     }
   })
   useEffect(() => {
-    const timeout = setTimeout(() => {
       getNhomHang();
-    }, 1000);
-    return () => clearTimeout(timeout);
-  });
+  }, []);
 
 
   const [matHang, setMathang] = useState({

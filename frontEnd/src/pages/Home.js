@@ -8,7 +8,7 @@ import { TypeAnimation } from 'react-type-animation';
 export default function Home() {
 
    const { user, dispatch } = useContext(Context);
-   const [greeting, setGreeting] = useState([
+   const [greeting] = useState([
       user ? user.shop : '',
       2000,
       'VIETNAMESE TRADITIONAL HANDMADE',
@@ -28,7 +28,7 @@ export default function Home() {
 
    useEffect(() => {
       if (!tokenValid()) {
-         console.log("Quá thời gian đăng nhập, hãy đăng nhập lại")
+         alert("Quá thời gian đăng nhập, hãy đăng nhập lại")
          dispatch({ type: "LOGOUT" });
          localStorage.clear('user');
          navigate("/")

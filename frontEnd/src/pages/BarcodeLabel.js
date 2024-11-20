@@ -24,7 +24,6 @@ export default function BarcodeLabel() {
   const [groupedArray, setGroupedArray] = useState([])
   const [searchItem, setSearchItem] = useState('');
   const [nhomhang, setNhomHang] = useState([]);
-  const [maNhomHang, setMaNhomHang] = useState('');
   const [labelNmuber, setLabelNumber] = useState(1);
   const [totalLabel, setTotalLabel] = useState(0);
   const [options] = useState([]);
@@ -34,6 +33,7 @@ export default function BarcodeLabel() {
   const { user, dispatch } = useContext(Context);
   let componentRef = useRef();
 
+  //check token for valid user and time
   function tokenValid() {
     if (!user) return 1;
     const currentDate = new Date();
@@ -42,18 +42,35 @@ export default function BarcodeLabel() {
   }
   useEffect(() => {
     if (!tokenValid() && user) { //if user on local storage was cleared => not do
+      alert("Quá thời gian đăng nhập, hãy đăng nhập lại")
       dispatch({ type: "LOGOUT" });
       localStorage.clear('user');
       navigate("/")
     }
   })
+
+  //Get data for nhom hang combo box
   useEffect(() => {
     const timeout = setTimeout(() => {
       getNhomHang();
     }, 1000);
     return () => clearTimeout(timeout);
-  });
+  }, []); // Empty dependency array ensures the effect runs only once on mount
 
+  async function getNhomHang() {
+    try {
+      const headers = { 'Authorization': 'Bearer ' + user.token };
+      await axios.get(DB_URL + 'items/nhomhang', { headers })
+        .then((result) => {
+          const stringNhom = result.data.data.map(item => item.Manhom + ': ' + item.TennhomUnicode);
+          setNhomHang(stringNhom);
+        });
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+
+  //Actions when add items to print barcode list
   useEffect(() => {
     setDataPrint([]);
     for (let i = 0; i < labelData.length; i++) {
@@ -61,15 +78,16 @@ export default function BarcodeLabel() {
         setDataPrint(dataPrint => [...dataPrint, { maHang: labelData[i].maHang, tenHangUnicode: labelData[i].tenHangUnicode, Giaban: labelData[i].Giaban }])
       }
     }
-  }, [labelData]);
+  }, [labelData]); //add items to print code list
 
   useEffect(() => {
     setGroupedArray([]);
     for (let i = 0; i < dataPrint.length; i = i + 5) {
       setGroupedArray(groupedArray => [...groupedArray, dataPrint.slice(i, i + 5)])
     }
-  }, [dataPrint])
+  }, [dataPrint]); //grouped to 5 labels on each column
 
+  //data table for group of list items
   const columns = [
     {
       name: 'Mã hàng',
@@ -89,7 +107,7 @@ export default function BarcodeLabel() {
     },
   ];
 
-
+  //data table for items selected for print barcode
   const columnsSelected = [
     {
       name: 'Mã hàng',
@@ -134,37 +152,32 @@ export default function BarcodeLabel() {
       console.log(err.message);
     }
   }
-  async function getNhomHang() {
-    try {
-      const headers = { 'Authorization': 'Bearer ' + user.token };
-      await axios.get(DB_URL + 'items/nhomhang', { headers })
-        .then((result) => {
-          const stringNhom = result.data.data.map(item => item.Manhom + ': ' + item.TennhomUnicode);
-          setNhomHang(stringNhom);
-        });
-    } catch (err) {
-      console.log(err.message);
+  const handleAddItem = (item) => {
+    if (totalLabel + labelNmuber < 56) {
+      setLabelData(labelData => [...labelData, { maHang: item.Mahang, tenHangUnicode: item.TenhangUnicode, soluongTem: labelNmuber, Giaban: item.Giaban }]);
+      setLabelNumber(1);
+      setTotalLabel(totalLabel => totalLabel + labelNmuber);
+    } else {
+      alert('Số lượng tem in không lớn hơn 55');
+      return 0;
     }
   }
-  const handleAddItem = (item) => {
-    setLabelData(labelData => [...labelData, { maHang: item.Mahang, tenHangUnicode: item.TenhangUnicode, soluongTem: labelNmuber, Giaban: item.Giaban }]);
-    setLabelNumber(1);
-    setTotalLabel(totalLabel => totalLabel + labelNmuber);
-
-  }
+  //Action when chose nhom hang (item list)
   const handleDropdownList = (event) => {
-    setMaNhomHang(event.value.substring(0, 3))
     getData(event.value.substring(0, 3));
   }
+  //Action when input on searching box
   const handleInputChange = (e) => {
     setData(tempData.filter(item => item.Tenhang.includes(e.target.value)))
     if (e.target.value === '') setData(tempData)
     setSearchItem(e.target.value)
   }
+  //Action clear selected items list
   function clearSearchInput() {
     setSearchItem('');
     setData(tempData);
   }
+  //Action when change number of item when click add button
   function changeSoluong(event) {
     if (+event.target.value < 1) {
       setLabelNumber(1);
@@ -172,9 +185,11 @@ export default function BarcodeLabel() {
       setLabelNumber(+event.target.value);
     }
   }
+
   function handleDelete(event) {
     console.log(event)
   }
+  //Ations when click on button clear list to clear selected item list
   function handleClearList() {
     setLabelData([]);
     setDataPrint([]);
@@ -183,14 +198,14 @@ export default function BarcodeLabel() {
   }
   // Print Table
   // ?? check if undefined
-  const tableToPrint = groupedArray.map((data) => {
+  const tableToPrint = groupedArray.map((data, i) => {
     return (
-      <tr key={data.id}>
-        <td className='mahang' ><PrintBarcode value={data[0]} /></td>
-        <td className='tenhang'><PrintBarcode value={data[1]} /></td>
-        <td className='tableRightNumber'><PrintBarcode value={data[2]} /></td>
-        <td className='tableRightNumber'><PrintBarcode value={data[3]} /></td>
-        <td className='tableRightDate'><PrintBarcode value={data[4]} /></td>
+      <tr key={i}>
+        <td className='barCode'><PrintBarcode value={data[0]} /></td>
+        <td className='barCode'><PrintBarcode value={data[1]} /></td>
+        <td className='barCode'><PrintBarcode value={data[2]} /></td>
+        <td className='barCode'><PrintBarcode value={data[3]} /></td>
+        <td className='barCode'><PrintBarcode value={data[4]} /></td>
       </tr>
     );
   });

@@ -21,9 +21,9 @@ export default function Check(props) {
     sophieu = props.data[i].sophieu;
   }
 
-  const tableRows = props.data.map((data) => {
+  const tableRows = props.data.map((data, i) => {
     return (
-      <tr key={data.id}>
+      <tr key={i}>
         <td className='tenhangCk' >{data.tenhang}</td>
         <td className='tableRightCk'>{data.slNhapBanThem}</td>
         <td className='tableRightCk'>{data.dongia.toLocaleString('en-US')}</td>

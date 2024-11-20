@@ -25,7 +25,6 @@ export default function KiemHang() {
   let componentRef = useRef();
 
   const [data, setData] = useState([]);
-  // const [dataKiemhang, setDataKiemhang] = useState([]);
   const [tempData, setTempData] = useState([]);
   const [searchItem, setSearchItem] = useState('');
   const [searchItemCode, setSearchItemCode] = useState('');
@@ -126,19 +125,14 @@ export default function KiemHang() {
   };
 
   useEffect(() => {
-    if (!user) { navigate("/") }
-  });
-
-  useEffect(() => {
     getNhomHang();
-  });
+  },[user]);
 
   async function getData(manhom) {
     try {
       const headers = { 'Authorization': 'Bearer ' + user.token };
       await axios.get(DB_URL + 'items/nhomhang/' + manhom, { headers })
         .then((result) => {
-          console.log(result.data.data)
           setData(result.data.data);
           if (radioValue === "tatca") {
             setTempData(result.data.data);
@@ -294,10 +288,12 @@ export default function KiemHang() {
   class ComponentToPrint extends React.PureComponent {
     render() {
       return (
-        <>
+        <div>
+          <div>
           <h3>{user.shop}</h3>
           <h5>PHIẾU KIỂM HÀNG</h5>
           <label>In ngày: {Date()}</label> <br /> <br />
+          </div>
           <table>
             <thead id="tableHaed">
               <tr>
@@ -312,7 +308,7 @@ export default function KiemHang() {
               {tableToPrint}
             </tbody>
           </table>
-        </>
+        </div>
       );
     }
   }

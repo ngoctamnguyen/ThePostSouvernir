@@ -46,7 +46,7 @@ export default function InBarcode() {
     ],
   ]);
 
-  //check validation
+    //check validation
   const { user, dispatch } = useContext(Context);
   function tokenValid() {
     if (!user) return 1;
@@ -64,9 +64,9 @@ export default function InBarcode() {
   })
 
   // Print Table
-  const tableToPrint = data[0].map((data) => {
+  const tableToPrint = data[0].map((data, i) => {
     return (
-      <tr key={data.id}>
+      <tr key={i}>
         <td className='mahang' ><PrintBarcode value={data[0]} /></td>
         <td className='tenhang'><PrintBarcode value={data[1]} /></td>
         <td className='tableRightNumber'><PrintBarcode value={data[2]} /></td>
@@ -89,7 +89,6 @@ export default function InBarcode() {
       );
     }
   }
-
 
   return (
     <>

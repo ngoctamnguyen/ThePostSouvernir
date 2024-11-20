@@ -26,27 +26,31 @@ const Barcode = ({ value, format }) => {
 };
 
 export default function PrintBarcode(props) {
-  const [idItem, setIdItem] = useState('0');
-  const [priceItem, setPriceItem] = useState('0')
+  const [idItem, setIdItem] = useState('');
+  const [priceItem, setPriceItem] = useState('');
+  const [nameItem, setNameItem] = useState('');
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     setIdItem(props.value ? props.value.maHang : '');
-    setPriceItem(props.value ? props.value.Giaban : '')
+    setPriceItem(props.value ? props.value.Giaban : '');
+    setNameItem(props.value ? props.value.tenHangUnicode : '')
   })
   return (
     <div>
       <MDBCol size='8'>
         <div style={{
-          fontSize: "17px",
-          width: '30px',
+          fontSize: "11px",
+          width: '139.8px',
+          height: '45.35px',
           border: '0px',
           padding: '0px',
-          marginLeft: '6px',
+          marginLeft: '15px',
           marginBottom: '-5px'
         }} >
-          <span >{priceItem}</span>
+          <span style={{marginLeft: '6px'}}>{priceItem}</span> {' '}
+          <span style={{fontSize: "11px",marginBottom: '-3px', display: 'inline-block', width:'60px', height:'15px', overflow:'hidden', textWrap: 'nowrap'}}>{nameItem}</span>
+          {idItem && <Barcode value={idItem} format="CODE128" />}
         </div>
-        {idItem && <Barcode value={idItem} format="CODE128" />}
       </MDBCol>
 
     </div>

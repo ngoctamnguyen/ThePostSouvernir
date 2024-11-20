@@ -43,9 +43,9 @@ function GhiseTableForm() {
     setItemData(updatedItemsData);
   }
 
-  const tableRows = itemData.map((info) => {
+  const tableRows = itemData.map((info, i) => {
     return (
-      <tr key={info.id} style={{ backgroundColor: info.id % 2 === 0 ? "aqua" : "" }}>
+      <tr key={i} style={{ backgroundColor: info.id % 2 === 0 ? "aqua" : "" }}>
         <td className='orderNumber'>{info.id}</td>
         <td className='mahang'>{info.mahang}</td>
         <td className='tenhang' >{info.tenhang}</td>
