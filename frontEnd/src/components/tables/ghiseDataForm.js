@@ -118,7 +118,7 @@ function GhiseDataForm(props) {
           placeholder="Số phiếu"
           style={{ width: '200px', textAlign: 'center', fontWeight: 'bold' }}
           value={billNumber} /></label>
-      <label style={{ paddingLeft: 20 }}>Quantity
+      <label style={{ paddingLeft: 20 }}>Quantity of items
         <Input type='text'
           id="quantity"
           // disabled={true}

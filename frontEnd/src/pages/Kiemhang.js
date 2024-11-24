@@ -27,7 +27,6 @@ export default function KiemHang() {
   const [data, setData] = useState([]);
   const [tempData, setTempData] = useState([]);
   const [searchItem, setSearchItem] = useState('');
-  const [searchItemCode, setSearchItemCode] = useState('');
   const [nhomhang, setNhomHang] = useState([])
   const [maNhom, setMaNhom] = useState('')
   const [options] = useState([]);
@@ -126,7 +125,7 @@ export default function KiemHang() {
 
   useEffect(() => {
     getNhomHang();
-  },[user]);
+  }, []);
 
   async function getData(manhom) {
     try {
@@ -160,7 +159,6 @@ export default function KiemHang() {
       console.log(err.message);
     }
   }
-
   async function handleSLkiem(param) {
     //Chuyển dữ liệu dataPost về xử lý tại server.
     //Nếu mã hàng chưa kiểm lần nào thì ngày kiểm chưa có (param.ngaykiem === null)=> thêm mới
@@ -215,21 +213,8 @@ export default function KiemHang() {
     setSearchItem(e.target.value);
   }
 
-  const handleItemCode = (e) => {
-    if (e.target.value === '') {
-      setData(tempData);
-    } else {
-      setData(tempData.filter(item => item.Mahang.includes(e.target.value)));
-    }
-    setSearchItemCode(e.target.value);
-  }
-
   function clearSearchItem() {
     setSearchItem('');
-    setData(tempData);
-  }
-  function clearSearchItemCode() {
-    setSearchItemCode('');
     setData(tempData);
   }
 
@@ -290,9 +275,9 @@ export default function KiemHang() {
       return (
         <div>
           <div>
-          <h3>{user.shop}</h3>
-          <h5>PHIẾU KIỂM HÀNG</h5>
-          <label>In ngày: {Date()}</label> <br /> <br />
+            <h3>{user.shop}</h3>
+            <h5>PHIẾU KIỂM HÀNG</h5>
+            <label>In ngày: {Date()}</label> <br /> <br />
           </div>
           <table>
             <thead id="tableHaed">
@@ -318,25 +303,34 @@ export default function KiemHang() {
       <MDBContainer>
         <MDBRow center style={{ height: "100vh", margin: "0", padding: "0" }}>
           <MDBCol size='20'>
-            <label style={{ padding: '5px', color: 'red', textAlign: 'center' }}><h3>KIỂM ĐẾM SỐ LƯỢNG HÀNG TỒN</h3></label>
+            <label style={{ padding: '5px', color: 'red', textAlign: 'center' }}><h5>KIỂM ĐẾM SỐ LƯỢNG HÀNG TỒN</h5></label>
             <MDBRow>
-              <MDBCol size='2'>
+              <MDBCol size='3'>
                 <Dropdown className="tenhang" options={nhomhang} onChange={(e) => handleDropdownList(e)} value={defaultOption} placeholder="Chọn nhóm hàng" />
               </MDBCol>
+              <MDBCol size='4'>
+                <input className="tenhang" type='text' value={searchItem} onChange={handleItemname} placeholder='Tìm tên hàng'></input>
+                <span style={{ paddingRight: '15px' }}>
+                  <IconButton aria-label="delete" onClick={() => clearSearchItem()}>
+                    <DeleteIcon />
+                  </IconButton>
+                </span>
+              </MDBCol>
+              <MDBCol size='4'>
+                {/* Print table */}
+                <span>
+                  <ReactToPrint
+                    trigger={() => <div >
+                      <Button variant="contained" size="medium" id="checkOut" >In danh sách</Button>
+                    </div>}
+                    content={() => componentRef}
+                  />
+                  <div style={{ display: "none" }} >
+                    <ComponentToPrint ref={el => (componentRef = el)} />
+                  </div>
+                </span>
+              </MDBCol>
             </MDBRow>
-            <input className="tenhang" type='text' value={searchItemCode} onChange={handleItemCode} placeholder='Tìm mã hàng'></input>
-            <span style={{ paddingLeft: '1px', paddingRight: '20px' }}>
-              <IconButton aria-label="delete" onClick={() => clearSearchItemCode()}>
-                <DeleteIcon />
-              </IconButton>
-            </span>
-            <input className="tenhang" type='text' value={searchItem} onChange={handleItemname} placeholder='Tìm tên hàng'></input>
-            <span style={{ paddingRight: '15px' }}>
-              <IconButton aria-label="delete" onClick={() => clearSearchItem()}>
-                <DeleteIcon />
-              </IconButton>
-            </span>
-
             <RadioGroup
               row
               aria-labelledby="demo-row-radio-buttons-group-label"
@@ -356,18 +350,6 @@ export default function KiemHang() {
               <FormControlLabel value="duthieu" control={<Radio />} label="Hiển thị dư thiếu" />
               <FormControlLabel value="homnay" control={<Radio />} label="Hiển thị Hôm nay" />
             </RadioGroup>
-            {/* Print table */}
-            <div>
-              <ReactToPrint
-                trigger={() => <div >
-                  <Button variant="outlined" size="medium" id="checkOut" >In danh sách</Button>
-                </div>}
-                content={() => componentRef}
-              />
-              <div style={{ display: "none" }} >
-                <ComponentToPrint ref={el => (componentRef = el)} />
-              </div>
-            </div>
             {/* Table */}
             <DataTable
               // title="Danh sách nhóm hàng"

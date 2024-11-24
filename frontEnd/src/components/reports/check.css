@@ -11,6 +11,20 @@
     }
 }
 
+
+@media print {
+  .page-break {
+    margin-top: 1rem;
+    display: block;
+    page-break-before: auto;
+  }
+}
+
+@page {
+  size: auto;
+  margin: 20mm;
+}
+
 .shop {
    text-align: left;
    width: 20;
@@ -33,6 +47,11 @@
    text-align: center;
    width: 60;
    font-size: xx-small;
+}
+
+.orderNumber {
+  text-align: center;
+  width: 2px;
 }
 
 .tableRightCk {

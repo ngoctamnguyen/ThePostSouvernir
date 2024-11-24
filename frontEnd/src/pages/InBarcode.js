@@ -4,7 +4,6 @@ import ReactToPrint from "react-to-print";
 import Button from '@mui/material/Button';
 import PrintBarcode from "../components/printBarcode";
 import { Context } from "../context/Context";
-
 export default function InBarcode() {
   let componentRef = useRef();
   const navigate = useNavigate();

@@ -5,6 +5,8 @@ import Button from '@mui/material/Button';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import Box from '@mui/material/Box';
+import SendEmail from '../components/sendEmail';
 import 'react-dropdown/style.css';
 import { MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import { useEffect, useState } from "react";
@@ -89,7 +91,7 @@ export default function TongKetKiemHang() {
       if (radioValue === "today") {
         getDataCheckedToday();
       } else {
-        if (radioValue === "month") {
+        if (radioValue === "monthAll" || radioValue === "monthThieu" || radioValue === "monthDu") {
           getDataCheckedThisMonth();
         } else {
           return 0;
@@ -105,8 +107,21 @@ export default function TongKetKiemHang() {
       const headers = { 'Authorization': 'Bearer ' + user.token };
       await axios.get(DB_URL + 'items/kiemhang/thang', { headers })
         .then((result) => {
-          setData(result.data.data);
-          setTempData(result.data.data);
+          if (radioValue === 'monthAll') {
+            setData(result.data.data);
+            setTempData(result.data.data);
+          } else {
+            if (radioValue === 'monthThieu') {
+              setData(result.data.data.filter(item => item.chenhLech < 0));
+              setTempData(result.data.data.filter(item => item.chenhLech < 0));
+            } else {
+              if (radioValue === 'monthDu') {
+                setData(result.data.data.filter(item => item.chenhLech > 0));
+                setTempData(result.data.data.filter(item => item.chenhLech > 0));
+              }
+            }
+          }
+
         });
     } catch (err) {
       console.log(err.message);
@@ -139,7 +154,7 @@ export default function TongKetKiemHang() {
       if (event === 'Nonkg') {
         setData(showList.filter(item => item.kygoi !== 'y' && item.kygoi !== 'Y'));
       } else {
-        if (event === 'NonZero') {
+        if (event === 'nonZero') {
           setData(showList.filter(item => item.chenhLech !== 0));
         } else {
           setData(showList);
@@ -191,8 +206,8 @@ export default function TongKetKiemHang() {
       <MDBContainer>
         <MDBRow center style={{ height: "100vh" }}>
           <MDBCol size='20'>
-            <label style={{ padding: '5px', color: 'red', textAlign: 'center' }}><h3>TỔNG HỢP KIỂM HÀNG</h3></label>
-            <MDBRow>
+            <label style={{ padding: '5px', color: 'red', textAlign: 'center' }}><h5>TỔNG HỢP KIỂM HÀNG</h5></label>
+            <Box component="section" sx={{ p: 2, border: '3px solid red', width: '900px' }}>
               <RadioGroup
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
@@ -203,39 +218,45 @@ export default function TongKetKiemHang() {
                   value="today"
                   // disabled
                   control={<Radio />}
-                  label="Xem kết quả kiểm hàng hôm nay" />
-                <FormControlLabel value="month" control={<Radio />} label="Xem kết quả kiểm hàng trong tháng" />
-                <Button size="small" variant="contained" id='loadDSKH' onClick={() => loadDSkiemhang()}>Hiển thị</Button>
+                  label="Kiểm hàng hôm nay" />
+                <FormControlLabel value="monthAll" control={<Radio />} label="Trong tháng" />
+                <FormControlLabel value="monthThieu" control={<Radio />} label="Hàng thiếu/tháng" />
+                <FormControlLabel value="monthDu" control={<Radio />} label="Hàng dư/tháng" />
+                <label><Button size="medium" variant="outlined" id='loadDSKH' onClick={() => loadDSkiemhang()}>Hiển thị</Button></label>
               </RadioGroup>
-            </MDBRow>
-            <RadioGroup
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-              value={radioValueKG}
-              onChange={handleRadioKG} >
-              <FormControlLabel
-                value="all"
-                control={<Radio />}
-                label="Xem tất cả" />
-              <FormControlLabel value="kg" control={<Radio />} label="Xem ký gửi" />
-              <FormControlLabel value="Nonkg" control={<Radio />} label="Xem không ký gửi" />
-              <FormControlLabel value="NonZero" control={<Radio />} label="Xem tồn khác 0" />
-            </RadioGroup>
+            </Box>
+            <Box component="section" sx={{ p: 2, border: '2px solid red', width: '900px' }}>
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+                value={radioValueKG}
+                onChange={handleRadioKG} >
+                <FormControlLabel
+                  value="all"
+                  control={<Radio />}
+                  label="Xem tất cả" />
+                <FormControlLabel value="nonZero" control={<Radio />} label="Xem khác 0" />
+                <FormControlLabel value="kg" control={<Radio />} label="Xem ký gửi" />
+                <FormControlLabel value="Nonkg" control={<Radio />} label="Xem không ký gửi" />
+                <label>
+                  <ReactToPrint
+                    trigger={() => <div >
+                      <Button variant="outlined" size="medium" id="checkOut" >In danh sách</Button>
+                    </div>}
+                    content={() => componentRef}
+                  />
+                  <div style={{ display: "none" }} >
+                    <ComponentToPrint ref={el => (componentRef = el)} />
+                  </div>
+                </label>
+                <label><Button variant="outlined" size="medium" id="sendEmail" onClick={() => SendEmail(data)}>Gửi Báo cáo</Button></label>
+              </RadioGroup>
+            </Box>
+
             {/* Print table */}
-            <div>
-              <ReactToPrint
-                trigger={() => <div >
-                  <Button variant="outlined" size="medium" id="checkOut" >In danh sách</Button>
-                </div>}
-                content={() => componentRef}
-              />
-              <div style={{ display: "none" }} >
-                <ComponentToPrint ref={el => (componentRef = el)} />
-              </div>
-            </div>
             <DataTable
-              title="Danh sách hàng"
+              // title="Danh sách hàng"
               className="tenhang"
               columns={columns}
               data={data}
