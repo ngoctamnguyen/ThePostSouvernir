@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import Button from '@mui/material/Button';
 import Input from '@mui/joy/Input';
 import axios from "axios";
 import './table.css';
@@ -58,7 +59,7 @@ function GhiseDataForm(props) {
     }
   };
   const changeSoluong = (event) => {
-    if (+event.target.value < 1) {
+    if (+event.target.value < 0) {
       setslNhapBanThem(1);
     } else {
       setslNhapBanThem(+event.target.value);
@@ -92,23 +93,32 @@ function GhiseDataForm(props) {
     setslNhapBanThem(1);
   };
 
+  function selectText() {
+    const input = document.getElementById("number");
+    input.focus();
+    input.select();
+  }
+
   return (
     <div className="dataTop">
       <label>Item ID
         <Input type='text'
           size="lg"
           placeholder="Nhập mã hàng"
-          style={{ width: '200px', textAlign: 'center', fontWeight: 'bold' }}
+          style={{ width: '150px', textAlign: 'center', fontWeight: 'bold' }}
           value={mahang}
           onChange={(e) => changeMahang(e)} /></label>
 
       <label style={{ paddingLeft: 20 }}>Quantity
         <Input type='number'
+          id='number'
           size="lg"
           placeholder="Nhập số lượng"
-          style={{ width: '200px', textAlign: 'center', fontWeight: 'bold' }}
+          style={{ width: '150px', textAlign: 'center', fontWeight: 'bold' }}
           value={slNhapBanThem}
-          onChange={(e) => changeSoluong(e)} /></label>
+          onClick={() => selectText()}
+          onChange={(e) => changeSoluong(e)} />
+      </label>
 
       <label style={{ paddingLeft: 20 }}>Order Number
         <Input type='text'
@@ -116,7 +126,7 @@ function GhiseDataForm(props) {
           // disabled={true}
           size="lg"
           placeholder="Số phiếu"
-          style={{ width: '200px', textAlign: 'center', fontWeight: 'bold' }}
+          style={{ width: '150px', textAlign: 'center', fontWeight: 'bold' }}
           value={billNumber} /></label>
       <label style={{ paddingLeft: 20 }}>Quantity of items
         <Input type='text'
@@ -124,7 +134,7 @@ function GhiseDataForm(props) {
           // disabled={true}
           size="lg"
           placeholder="Tổng số lượng"
-          style={{ width: '200px', textAlign: 'center', fontWeight: 'bold' }}
+          style={{ width: '150px', textAlign: 'center', fontWeight: 'bold' }}
           value={props.quantity} /></label>
 
       <label style={{ paddingLeft: 20 }}>Grand Total
