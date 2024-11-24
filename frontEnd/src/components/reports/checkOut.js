@@ -1,4 +1,5 @@
 import React, { useRef, useContext } from "react";
+import { MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import ReactToPrint from "react-to-print";
 import DateObject from "react-date-object";
 import { Context } from "../../context/Context";
@@ -25,9 +26,9 @@ export default function Check(props) {
     return (
       <tr key={i}>
         <td className='tenhangCk' >{data.tenhang}</td>
-        <td className='tableRightCk'>{data.slNhapBanThem}</td>
-        <td className='tableRightCk'>{data.dongia.toLocaleString('en-US')}</td>
-        <td className='tableRightCk'>{data.thanhtien.toLocaleString('en-US')}</td>
+        <td className='tableRightCKQuantity'>{data.slNhapBanThem}</td>
+        <td className='tableRightCkMoney'>{data.dongia.toLocaleString('en-US')}</td>
+        <td className='tableRightCkMoney'>{data.thanhtien.toLocaleString('en-US')}</td>
       </tr>
     );
   });
@@ -40,41 +41,43 @@ export default function Check(props) {
     render() {
       return (
         <div>
-          <div className="row justify-content-center">
-            <div className="col-sm-4 shop">
+          <div className="row justify-content-left" >
+            <div className="col-sm-2 shop">
               <label>{user.shop}</label><br></br>
               <label>02 Cong xa Paris</label>
             </div>
-            <div className="col-sm-8 title">
-              <h5 style={{ textAlign: "center" }}>Sales Invoive</h5>
+            <div className="col-sm-3 title">
+              <h6 style={{ textAlign: "center" }}>Sales Invoive</h6>
               <label>Date: {date}</label><br></br>
               <label>Order Number: {sophieu} </label>
             </div>
           </div>
-          <hr></hr>
-          <table>
-            <thead>
-              <tr>
-                <th className='tenhangHeaderCk' >Item</th>
-                <th className='tableRightCk'>Qty</th>
-                <th className='tableRightCk'>Price</th>
-                <th className='tableRightCk'>Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tableRows}
-            </tbody>
-          </table>
-          <hr></hr>
+          <hr className="col-sm-5"></hr>
+          <div className="col-sm-5">
+            <table >
+              <thead>
+                <tr>
+                  <th className='tenhangCk' >Item</th>
+                  <th className='tableRightCKQuantity'>Qty</th>
+                  <th className='tableRightCkMoney'>Price</th>
+                  <th className='tableRightCkMoney'>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {tableRows}
+              </tbody>
+            </table>
+          </div>
+          <hr className="col-sm-5"></hr>
           <div className="row justify-content-left">
-            <div className="col-sm-6 footer">
+            <div className="col-sm-2 footer">
               <label>Grand Total: {itemsTotal.toLocaleString('en-US')}</label><br />
             </div>
-            <div className="col-sm-6 footer">
+            <div className="col-sm-2 footer">
               <label>Total: {grandTotal.toLocaleString('en-US')}</label><br />
             </div>
           </div>
-          <div className="see">
+          <div className="row justify-content-left">
             <label>Thank you & See You Again !!!</label>
           </div>
         </div>

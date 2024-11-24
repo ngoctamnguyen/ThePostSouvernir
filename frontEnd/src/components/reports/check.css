@@ -54,11 +54,6 @@
   width: 2px;
 }
 
-.tableRightCk {
-   text-align: right;
-   width: 80px;
-   font-size:xx-small;
-}
 .tableCenterCk {
    text-align: center;
    width: 80px;
@@ -73,8 +68,25 @@
 
 .tenhangCk {
    text-align: left;
-   width: 170px;
-   font-family: '.VnArial';
+   width: 100px;
+   font-family: 'Arial';
    font-size:  xx-small;
    padding-left: 0%;
+}
+
+.tableRightCk {
+  text-align: right;
+  width: 40px;
+  font-size:xx-small;
+}
+.tableRightCKQuantity {
+  text-align: right;
+  width: 30px;
+  font-size:xx-small;
+}
+
+.tableRightCkMoney {
+  text-align: right;
+  width: 50px;
+  font-size:xx-small;
 }
