@@ -199,10 +199,10 @@ function GhiseTableForm() {
       <table className="table table-stripped">
         <thead className="banner">
           <tr>
-            <th className='orderNumber'>Number</th>
+            <th className='orderNumber'></th>
             <th className='mahang'>ID</th>
             <th className='tenhangHeader'>Item</th>
-            <th className='tableRight'>Quantity</th>
+            <th className='tableRight'>Quan.</th>
             <th className='tableRight'>Price<br /></th>
             <th className='tableRight'>Total</th>
             <th className='tableCenter'>Action</th>

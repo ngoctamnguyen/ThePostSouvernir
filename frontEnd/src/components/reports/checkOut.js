@@ -1,5 +1,4 @@
 import React, { useRef, useContext } from "react";
-import { MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import ReactToPrint from "react-to-print";
 import DateObject from "react-date-object";
 import { Context } from "../../context/Context";
@@ -94,7 +93,7 @@ export default function Check(props) {
           content={() => componentRef}
         />
         <div style={{ display: "none" }}>
-          <ComponentToPrint ref={(el) => (componentRef = el)} />
+          <ComponentToPrint ref={(el) => (componentRef = el)}/>
         </div>
       </div>
     </>

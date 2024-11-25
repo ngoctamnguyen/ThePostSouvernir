@@ -40,7 +40,7 @@ export default function TongKetKiemHang() {
       alert("Quá thời gian đăng nhập, hãy đăng nhập lại")
       dispatch({ type: "LOGOUT" });
       localStorage.clear('user');
-      navigate("/")
+      navigate("/");
     }
   }, [user])
 
@@ -250,7 +250,7 @@ export default function TongKetKiemHang() {
                     <ComponentToPrint ref={el => (componentRef = el)} />
                   </div>
                 </label>
-                <label><Button variant="outlined" size="medium" id="sendEmail" onClick={() => SendEmail(data)}>Gửi Báo cáo</Button></label>
+                <label><Button variant="outlined" size="medium" id="sendEmail" onClick={() => SendEmail(data, user.shop)}>Gửi Báo cáo</Button></label>
               </RadioGroup>
             </Box>
 

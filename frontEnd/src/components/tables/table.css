@@ -9,19 +9,14 @@
   font-family: '.VnArial', Arial, Helvetica, sans-serif;
 }
 
-.tableRight {
-  text-align: right;
-  width: 200px;
-}
-
 .orderNumber {
   text-align: center;
-  width: 80px;
+  width: 40px;
 }
 
 .mahang {
   text-align: center;
-  width: 200px;
+  width: 100px;
 }
 
 .tenhangHeader {
@@ -37,9 +32,12 @@
 
 .tableCenter {
   text-align: center;
-  width: 200px;
+  width: 100px;
 }
-
+.tableRight {
+  text-align: right;
+  width: 100px;
+}
 .btn {
   width: 20px;
   text-align: center;

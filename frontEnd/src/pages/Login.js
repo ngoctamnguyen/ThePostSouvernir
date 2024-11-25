@@ -46,12 +46,12 @@ export default function Login() {
   }
 
   return (
-    <div style={{ width: '100%', height: '75%',  }}>
+    <div style={{ width: '100%', height: '75%', }}>
       <section className="vh-100">
         <div className="container-fluid h-custom">
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-              <div className="text-center fs-2" style={{color:"green"}}>
+              <div className="text-center fs-2" style={{ color: "green" }}>
                 ĐĂNG NHẬP
               </div>
               <form onSubmit={(e) => handleSubmit(loginUser, e)} >

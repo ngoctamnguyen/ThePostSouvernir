@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import Button from '@mui/material/Button';
 import Input from '@mui/joy/Input';
 import axios from "axios";
 import './table.css';
@@ -143,7 +142,7 @@ function GhiseDataForm(props) {
           // disabled={true}
           size="lg"
           placeholder="Tổng tiền"
-          style={{ width: '200px', textAlign: 'center', fontWeight: 'bold' }}
+          style={{ width: '150px', textAlign: 'center', fontWeight: 'bold' }}
           value={new Intl.NumberFormat('en-US').format(props.grandTotal)} /></label>
 
       <label style={{ paddingLeft: 20 }}>$
@@ -152,7 +151,7 @@ function GhiseDataForm(props) {
           // disabled={true}
           size="lg"
           placeholder="$"
-          style={{ width: '200px', textAlign: 'center', fontWeight: 'bold' }}
+          style={{ width: '150px', textAlign: 'center', fontWeight: 'bold' }}
           value={new Intl.NumberFormat('en-US').format(props.grandTotal / props.tygia)} /></label>
     </div>
   );
