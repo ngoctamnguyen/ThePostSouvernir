@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import ExcelExportTongKiemhang from '../components/excelExportTongKiemhang';
 import Box from '@mui/material/Box';
 import SendEmail from '../components/sendEmail';
 import 'react-dropdown/style.css';
@@ -29,6 +30,7 @@ export default function TongKetKiemHang() {
   const navigate = useNavigate();
   const { user, dispatch } = useContext(Context);
 
+  //Validate user and time
   function tokenValid() {
     if (!user) return 1;
     const currentDate = new Date();
@@ -42,8 +44,16 @@ export default function TongKetKiemHang() {
       localStorage.clear('user');
       navigate("/");
     }
-  }, [user])
+  }, [user]);
+  //creat file name to export excel
+  const formattedDate = new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric'
+  }).format(new Date());
+  const exportfileName = user.shop + '_BC KIEM HANG_' + formattedDate + '.xlsx'
 
+  //creat table format
   const columns = [
     {
       name: 'Mã hàng',
@@ -207,7 +217,7 @@ export default function TongKetKiemHang() {
         <MDBRow center style={{ height: "100vh" }}>
           <MDBCol size='20'>
             <label style={{ padding: '5px', color: 'red', textAlign: 'center' }}><h5>TỔNG HỢP KIỂM HÀNG</h5></label>
-            <Box component="section" sx={{ p: 2, border: '3px solid red', width: '900px' }}>
+            <Box component="section" sx={{ p: 2, border: '3px solid red', width: '1000px' }}>
               <RadioGroup
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
@@ -225,7 +235,7 @@ export default function TongKetKiemHang() {
                 <label><Button size="medium" variant="outlined" id='loadDSKH' onClick={() => loadDSkiemhang()}>Hiển thị</Button></label>
               </RadioGroup>
             </Box>
-            <Box component="section" sx={{ p: 2, border: '2px solid red', width: '900px' }}>
+            <Box component="section" sx={{ p: 2, border: '2px solid red', width: '1000px' }}>
               <RadioGroup
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
@@ -251,6 +261,7 @@ export default function TongKetKiemHang() {
                   </div>
                 </label>
                 <label><Button variant="outlined" size="medium" id="sendEmail" onClick={() => SendEmail(data, user.shop)}>Gửi Báo cáo</Button></label>
+                <label><ExcelExportTongKiemhang data={data} fileName={exportfileName} /></label>
               </RadioGroup>
             </Box>
 
