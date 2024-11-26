@@ -117,17 +117,18 @@ export default function TongKetKiemHang() {
       const headers = { 'Authorization': 'Bearer ' + user.token };
       await axios.get(DB_URL + 'items/kiemhang/thang', { headers })
         .then((result) => {
+          const sortedItems = [...result.data.data].sort((a, b) => a.Mahang - b.Mahang);
           if (radioValue === 'monthAll') {
-            setData(result.data.data);
-            setTempData(result.data.data);
+            setData(sortedItems);
+            setTempData(sortedItems);
           } else {
             if (radioValue === 'monthThieu') {
-              setData(result.data.data.filter(item => item.chenhLech < 0));
-              setTempData(result.data.data.filter(item => item.chenhLech < 0));
+              setData(sortedItems.filter(item => item.chenhLech < 0));
+              setTempData(sortedItems.filter(item => item.chenhLech < 0));
             } else {
               if (radioValue === 'monthDu') {
-                setData(result.data.data.filter(item => item.chenhLech > 0));
-                setTempData(result.data.data.filter(item => item.chenhLech > 0));
+                setData(sortedItems.filter(item => item.chenhLech > 0));
+                setTempData(sortedItems.filter(item => item.chenhLech > 0));
               }
             }
           }
@@ -142,8 +143,9 @@ export default function TongKetKiemHang() {
       const headers = { 'Authorization': 'Bearer ' + user.token };
       await axios.get(DB_URL + 'items/kiemhang/today', { headers })
         .then((result) => {
-          setData(result.data.data);
-          setTempData(result.data.data);
+          const sortedItems = [...result.data.data].sort((a, b) => a.Mahang - b.Mahang);
+          setData(sortedItems);
+          setTempData(sortedItems);
         });
     } catch (err) {
       console.log(err.message);
