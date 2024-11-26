@@ -50,7 +50,7 @@ module.exports.getTongKetKiemhang = async (req, res, next) => {
      try {
           const today= new Date();
           const thisMonth = today.getMonth() + 1; //Note: 0=January, 1=February etc.
-          let stringSQL = "SELECT kiemhang.Mahang, Mathang.TenhangUnicode, kiemhang.chenhLech, FORMAT(kiemhang.Ngay, 'MM/dd/yyyy') AS Ngay, Mathang.kygoi, kiemhang.ghichu ";
+          let stringSQL = "SELECT kiemhang.Mahang, Mathang.TenhangUnicode, Mathang.mancc, kiemhang.chenhLech, FORMAT(kiemhang.Ngay, 'MM/dd/yyyy') AS Ngay, Mathang.kygoi, kiemhang.ghichu ";
           stringSQL += "FROM kiemhang LEFT JOIN Mathang ON kiemhang.Mahang = Mathang.Mahang ";
           stringSQL += "WHERE kiemhang.chenhLech<>0 AND Month([Ngay])='" + thisMonth + "' AND Year([Ngay]) = '"+ today.getFullYear() + "' ";
           stringSQL += "ORDER BY kiemhang.Ngay;"
@@ -65,7 +65,7 @@ module.exports.getTongKetKiemhangNgay = async (req, res, next) => {
      try {
           const today= new Date();
           const thisMonth = today.getMonth() + 1; //Note: 0=January, 1=February etc.
-          let stringSQL = "SELECT kiemhang.Mahang, Mathang.TenhangUnicode, kiemhang.chenhLech, FORMAT(kiemhang.Ngay, 'MM/dd/yyyy') AS Ngay, Mathang.kygoi, kiemhang.ghichu ";
+          let stringSQL = "SELECT kiemhang.Mahang, Mathang.TenhangUnicode, Mathang.mancc, kiemhang.chenhLech, FORMAT(kiemhang.Ngay, 'MM/dd/yyyy') AS Ngay, Mathang.kygoi, kiemhang.ghichu ";
           stringSQL += "FROM kiemhang LEFT JOIN Mathang ON kiemhang.Mahang = Mathang.Mahang ";
           stringSQL += "WHERE Day([Ngay])='" + today.getDate() + "' AND Month([Ngay]) = '" + thisMonth + "' AND Year([Ngay]) = '"+ today.getFullYear() + "' ";
           stringSQL += "ORDER BY kiemhang.Ngay;"
