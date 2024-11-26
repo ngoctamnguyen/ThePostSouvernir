@@ -217,7 +217,7 @@ export default function TongKetKiemHang() {
         <MDBRow center style={{ height: "100vh" }}>
           <MDBCol size='20'>
             <label style={{ padding: '5px', color: 'red', textAlign: 'center' }}><h5>TỔNG HỢP KIỂM HÀNG</h5></label>
-            <Box component="section" sx={{ p: 2, border: '3px solid red', width: '1000px' }}>
+            <Box component="section" sx={{ p: 2, border: '3px solid red', width: '100%' }}>
               <RadioGroup
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
@@ -235,7 +235,7 @@ export default function TongKetKiemHang() {
                 <label><Button size="medium" variant="outlined" id='loadDSKH' onClick={() => loadDSkiemhang()}>Hiển thị</Button></label>
               </RadioGroup>
             </Box>
-            <Box component="section" sx={{ p: 2, border: '2px solid red', width: '1000px' }}>
+            <Box component="section" sx={{ p: 2, border: '2px solid red', width: '100%' }}>
               <RadioGroup
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
