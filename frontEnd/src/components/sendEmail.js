@@ -1,5 +1,8 @@
 import emailjs from '@emailjs/browser';
 
+//Go to EmailJS to get 'YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', 'Publis key' and design template
+//https://dashboard.emailjs.com/admin/templates/a18ofrf
+
 export default function SendEmail(props, shop) {
   // eslint-disable-next-line no-useless-concat
   const myString = props.map((item, index) => +index + 1 + ': ' + item.Mahang + ' - ' + item.TenhangUnicode + ' : ' + '\t\t' + item.chenhLech).join('\n');

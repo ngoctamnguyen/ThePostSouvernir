@@ -1,7 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import DataTable from 'react-data-table-component';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import Input from '@mui/joy/Input';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Dropdown from 'react-dropdown';
 import ReactToPrint from "react-to-print";
 import PrintBarcode from "../components/printBarcode";
@@ -168,7 +170,7 @@ export default function BarcodeLabel() {
   }
   //Action when input on searching box
   const handleInputChange = (e) => {
-    setData(tempData.filter(item => item.Tenhang.includes(e.target.value)))
+    setData(tempData.filter(item => item.TenhangUnicode.includes(e.target.value)))
     if (e.target.value === '') setData(tempData)
     setSearchItem(e.target.value)
   }
@@ -196,6 +198,13 @@ export default function BarcodeLabel() {
     setGroupedArray([]);
     setLabelNumber(1);
   }
+  //Select all when got focus
+  function selectText() {
+    const input = document.getElementById("labelNumber");
+    input.focus();
+    input.select();
+  }
+
   // Print Table
   // ?? check if undefined
   const tableToPrint = groupedArray.map((data, i) => {
@@ -229,14 +238,31 @@ export default function BarcodeLabel() {
       <MDBContainer style={{ margin: '1%' }}>
         <MDBRow center style={{ height: "100vh", margin: "1%" }}>
           <MDBCol size='5' style={{ margin: '0%' }}>
-            <Dropdown className="tenhang" options={nhomhang} onChange={(e) => handleDropdownList(e)} value={defaultOption} placeholder="Chọn nhóm hàng" />
-            <input className="tenhang" type='text' value={searchItem} onChange={handleInputChange} placeholder='Tìm tên hàng'></input>
-            <span><button onClick={() => clearSearchInput()}>X</button></span>
-            <label style={{ paddingLeft: 20 }}>Số tem
-              <Input type='number'
-                size="sm"
-                style={{ width: '120px', textAlign: 'center' }}
+            <MDBRow>
+              <MDBCol size='auto'>
+                <Dropdown className="inputHeaderSmall" options={nhomhang} onChange={(e) => handleDropdownList(e)} value={defaultOption} placeholder="Chọn nhóm hàng" />
+              </MDBCol>
+              <MDBCol size='auto'>
+                <label>
+                  <Input type='text'
+                    className="inputHeaderSmall"
+                    size="lg"
+                    placeholder="Tìm tên hàng"
+                    value={searchItem}
+                    onChange={handleInputChange} />
+                </label>
+                <IconButton aria-label="delete" onClick={() => clearSearchInput()}>
+                  <DeleteIcon />
+                </IconButton>
+              </MDBCol>
+            </MDBRow>
+            <label>Số tem
+              <Input
+                id='labelNumber'
+                type='number'
+                className="inputHeaderSmall"
                 value={labelNmuber}
+                onClick={() => selectText()}
                 onChange={(e) => changeSoluong(e)} /></label>
             <DataTable
               title="Danh sách mặt hàng"
@@ -252,21 +278,27 @@ export default function BarcodeLabel() {
             />
           </MDBCol>
           <MDBCol size='5' style={{ margin: '0%' }}>
-            <Button variant="outlined" size="large" style={{ marginTop: '20px', marginBottom: '30px' }} onClick={() => handleClearList()}>Clear list</Button>
-            <div>
-              <ReactToPrint
-                trigger={() => <div >
-                  <Button variant="outlined" size="large" id="checkOut" >In Tem 109</Button>
-                </div>}
-                content={() => componentRef}
-              />
-              <div style={{ display: "none" }} >
-                <ComponentToPrint ref={el => (componentRef = el)} />
-              </div>
-            </div>
+            <MDBRow>
+              <MDBCol>
+                <Button variant="contained" size="large" onClick={() => handleClearList()}>Clear list</Button>
+              </MDBCol>
+              <MDBCol>
+                <div>
+                  <ReactToPrint
+                    trigger={() => <div >
+                      <Button variant="contained" size="large" id="checkOut" >In Tem 109</Button>
+                    </div>}
+                    content={() => componentRef}
+                  />
+                  <div style={{ display: "none" }} >
+                    <ComponentToPrint ref={el => (componentRef = el)} />
+                  </div>
+                </div>
+              </MDBCol>
+            </MDBRow>
             <DataTable
               title="Danh sách mặt hàng in tem"
-              className="tenhang"
+              className='listItems'
               columns={columnsSelected}
               data={labelData}
               defaultSortFieldId={1}

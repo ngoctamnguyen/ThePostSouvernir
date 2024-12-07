@@ -5,9 +5,12 @@ import DateObject from "react-date-object";
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import CheckIcon from '@mui/icons-material/Check';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
+import Input from '@mui/joy/Input';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 import 'react-dropdown/style.css';
 import { MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import React, { useRef } from "react";
@@ -27,7 +30,8 @@ export default function KiemHang() {
   const [data, setData] = useState([]);
   const [tempData, setTempData] = useState([]);
   const [searchItem, setSearchItem] = useState('');
-  const [nhomhang, setNhomHang] = useState([])
+  const [nhomhang, setNhomHang] = useState([]);
+  const [displayTenhang, setDisplayTenHang] = useState(true);
   const [maNhom, setMaNhom] = useState('')
   const [options] = useState([]);
   const defaultOption = options[0];
@@ -57,24 +61,35 @@ export default function KiemHang() {
       name: 'Mã H',
       selector: row => row.Mahang,
       sortable: true,
-      width: '70px',
+      width: '60px',
       style: {
-        background: "cyan",
-        paddingRight: '1px',
+        background: "lightblue",
+        paddingRight: '0px',
+        paddingLeft: '0px',
         marginRight: '0px'
       }
     },
     {
       name: 'Tên hàng',
       selector: row => row.TenhangUnicode,
-      width: '140px',
+      width: displayTenhang ? '140px' : '0px',
+      style: {
+        paddingRight: '0px',
+        paddingLeft: '0px',
+        marginRight: '0px'
+      }
     },
     {
       name: 'SL kiểm',
-      width: '170px',
+      width: '100px',
+      style: {
+        paddingRight: '0px',
+        paddingLeft: '0px',
+        marginRight: '0px'
+      },
       selector: row => <div>
         <input
-          style={{ width: '70px', height: '40px', paddingRight: '5px' }}
+          style={{ width: '40px', height: '30px', paddingRight: '2px' }}
           type='number'
           id='checkedNumberInput'
           placeholder='SL kiểm...'
@@ -85,13 +100,29 @@ export default function KiemHang() {
           //   }
           // }}
           onChange={(e) => handleInput(e)}></input>
-        <Button id='checkButtonNumber' variant="outlined" size="medium" onClick={() => handleSLkiem(row)}>OK</Button>
+        <IconButton aria-label="delete" onClick={() => handleSLkiem(row)}>
+          <CheckIcon />
+        </IconButton>
+        {/* <Button id='checkButtonNumber'
+          variant="outlined"
+          size='small'
+          onClick={() => handleSLkiem(row)}>
+          <IconButton aria-label="delete" onClick={() => clearSearchItem()}>
+            <DeleteIcon />
+          </IconButton>
+        </Button> */}
       </div>
     },
     {
       name: 'Tồn',
       selector: row => row.Tonhientai,
-      width: '60px',
+      width: '40px',
+      style: {
+        background: "lightblue",
+        paddingRight: '0px',
+        paddingLeft: '0px',
+        marginRight: '0px'
+      },
       textAlign: 'center'
     },
     {
@@ -146,7 +177,6 @@ export default function KiemHang() {
     }
   }
 
-
   async function getNhomHang() {
     try {
       const headers = { 'Authorization': 'Bearer ' + user.token };
@@ -165,7 +195,7 @@ export default function KiemHang() {
     //Nếu ngày kiểm có rồi => update lại số kiểm mới
     try {
       if (checkNumer < 0) {
-        alert('Chưa nhập số lượng kiểm hoặc nhập số âm');
+        alert('KHÔNG nhập số lượng kiểm < 0');
         return 0;
       }
       const date = new DateObject();
@@ -257,6 +287,9 @@ export default function KiemHang() {
     setRadioValue(event.target.value);
     handleFilterGetData(tempData, event.target.value);
   }
+  const handleDisplayTenHang = () => {
+    setDisplayTenHang(!displayTenhang)
+  }
 
   // Print Table
   const tableToPrint = data.map((data, i) => {
@@ -299,24 +332,34 @@ export default function KiemHang() {
   }
 
   return (
-    <div style={{ width: '100%', height: '75%', backgroundColor: "rgba(0, 0, 255, 0.1)" }}>
+    <div style={{ width: '100%', height: '75%', backgroundColor: "rgba(0, 0, 255, 0.1)"}}>
       <MDBContainer>
         <MDBRow center style={{ height: "100vh", margin: "0", padding: "0" }}>
           <MDBCol size='20'>
             <label style={{ padding: '5px', color: 'red', textAlign: 'center' }}><h5>KIỂM ĐẾM SỐ LƯỢNG HÀNG TỒN</h5></label>
             <MDBRow>
-              <MDBCol size='3'>
-                <Dropdown className="tenhang" options={nhomhang} onChange={(e) => handleDropdownList(e)} value={defaultOption} placeholder="Chọn nhóm hàng" />
+              <MDBCol size='auto'>
+                <Dropdown className="inputHeader"
+                  options={nhomhang}
+                  onChange={(e) => handleDropdownList(e)}
+                  value={defaultOption}
+                  placeholder="Chọn nhóm hàng" />
               </MDBCol>
-              <MDBCol size='4'>
-                <input className="tenhang" type='text' value={searchItem} onChange={handleItemname} placeholder='Tìm tên hàng'></input>
-                <span style={{ paddingRight: '15px' }}>
-                  <IconButton aria-label="delete" onClick={() => clearSearchItem()}>
-                    <DeleteIcon />
-                  </IconButton>
-                </span>
+              <MDBCol size='auto'>
+                <label>
+                  <Input type='text'
+                    className="inputHeader"
+                    size="lg"
+                    placeholder="Tìm tên hàng"
+                    value={searchItem}
+                    onChange={handleItemname} />
+
+                </label>
+                <IconButton aria-label="delete" onClick={() => clearSearchItem()}>
+                  <DeleteIcon />
+                </IconButton>
               </MDBCol>
-              <MDBCol size='4'>
+              <MDBCol>
                 {/* Print table */}
                 <span>
                   <ReactToPrint
@@ -351,6 +394,13 @@ export default function KiemHang() {
               <FormControlLabel value="homnay" control={<Radio />} label="Hiển thị Hôm nay" />
             </RadioGroup>
             {/* Table */}
+            <label>Ẩn/Hiện cột tên hàng
+              <Switch
+                checked={displayTenhang}
+                onChange={handleDisplayTenHang}
+                inputProps={{ 'aria-label': 'controlled' }}
+              />
+            </label>
             <DataTable
               // title="Danh sách nhóm hàng"
               className="dataTable"

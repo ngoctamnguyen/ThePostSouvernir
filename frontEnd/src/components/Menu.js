@@ -63,17 +63,9 @@ export default function FadeMenu() {
   const handleCloseMatHang = () => {
     setAnchorMatHang(null);
   };
-  function handleItemMatHang() {
-    navigate("/mathang")
-    setAnchorMatHang(null);
-  }
+
   function handleChangeItemName() {
     navigate("/changeItemName")
-    setAnchorMatHang(null);
-  }
-
-  function handlePrintBarcode() {
-    navigate("/barcode")
     setAnchorMatHang(null);
   }
 
@@ -175,7 +167,6 @@ export default function FadeMenu() {
       >
         {/* <MenuItem onClick={handleItemMatHang}>Mặt Hàng</MenuItem> */}
         <MenuItem onClick={handleChangeItemName}>Đổi tên hàng</MenuItem>
-        <MenuItem onClick={handlePrintBarcode}>Barcode</MenuItem>
         <MenuItem onClick={handleBarcodeLabel}>Barcode Label</MenuItem>
       </Menu>
 

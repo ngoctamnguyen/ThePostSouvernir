@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const { getItems, getItem, updateMathang, getNhomHang, getGroupItem, getNhomKiemhang, saveKiemhang, getTongKetKiemhang, getTongKetKiemhangNgay, updateItemNameUnicode} = require('../controllers/itemsControllers')
+const { getItem, getItems, updateMathang, getNhomHang, getGroupItem, getNhomKiemhang, saveKiemhang, getTongKetKiemhang, getTongKetKiemhangNgay, updateItemNameUnicode } = require('../controllers/itemsControllers')
 
 router.get('/', getItems);
 router.get('/nhomhang/', getNhomHang);

@@ -7,7 +7,6 @@ const jwt = require('jsonwebtoken');
 
 const connection = ADODB.open('Provider=Microsoft.Jet.OLEDB.4.0;Data Source=' + DB_URL + ';Jet OLEDB:Database Password= ' + DB_KEY + ';');
 
-
 module.exports.login = async (req, res, next) => {
    try {
       const results = await connection.query('SELECT Tennv, pass, quyen FROM Nhanvien where Tennv = "' + req.body.username + '";');

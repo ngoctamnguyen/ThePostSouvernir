@@ -141,6 +141,22 @@
     font-family: 'Arial';
   }
 
+  .inputHeader {
+    text-align: left;
+    margin: '5px';
+    width: 250px;
+    font-family: 'Arial';
+  }
+  .listItems {
+    margin-top: '5px';
+  }
+  .inputHeaderSmall {
+    text-align: left;
+    margin: '5px';
+    width: 200px;
+    font-family: 'Arial';
+  }
+
   .tableCenter {
     text-align: center;
     width: 200px;
@@ -150,6 +166,7 @@
     text-align: left;
     width: 250px;
     font-family: 'Arial';
+    font-size: small;
   }
 
   .barCode {

@@ -44,7 +44,7 @@ export default function TongKetKiemHang() {
       localStorage.clear('user');
       navigate("/");
     }
-  }, [user]);
+  });
   //creat file name to export excel
   const formattedDate = new Intl.DateTimeFormat('en-US', {
     month: 'short',

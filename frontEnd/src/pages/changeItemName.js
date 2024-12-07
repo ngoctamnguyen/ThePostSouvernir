@@ -2,6 +2,9 @@
 import DataTable from 'react-data-table-component';
 import Button from '@mui/material/Button';
 import Dropdown from 'react-dropdown';
+import IconButton from '@mui/material/IconButton';
+import Input from '@mui/joy/Input';
+import DeleteIcon from '@mui/icons-material/Delete';
 import ChangeItemNameUnicode from '../components/changeItemNameUnicode';
 import 'react-dropdown/style.css';
 import { MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit';
@@ -42,7 +45,7 @@ export default function ChangeItemName() {
     }
   })
   useEffect(() => {
-      getNhomHang();
+    getNhomHang();
   }, []);
 
 
@@ -164,9 +167,24 @@ export default function ChangeItemName() {
       <MDBContainer style={{ margin: '1%' }}>
         <MDBRow center style={{ height: "100vh", margin: "1%" }}>
           <MDBCol size='7' style={{ margin: '0%' }}>
-            <Dropdown className="tenhang" options={nhomhang} onChange={(e) => handleDropdownList(e)} value={defaultOption} placeholder="Chọn nhóm hàng" />
-            <input className="tenhang" type='text' value={searchItem} onChange={handleInputChange} placeholder='Tìm tên hàng'></input>
-            <span><button onClick={() => clearSearchInput()}>X</button></span>
+            <MDBRow>
+              <MDBCol size='auto'>
+                <Dropdown className="inputHeader" options={nhomhang} onChange={(e) => handleDropdownList(e)} value={defaultOption} placeholder="Chọn nhóm hàng" />
+              </MDBCol>
+              <MDBCol size='auto'>
+                <label>
+                  <Input type='text'
+                    className="inputHeader"
+                    size="lg"
+                    placeholder="Tìm tên hàng"
+                    value={searchItem}
+                    onChange={handleInputChange} />
+                </label>
+                <IconButton aria-label="delete" onClick={() => clearSearchInput()}>
+                  <DeleteIcon />
+                </IconButton>
+              </MDBCol>
+            </MDBRow>
             <DataTable
               title="Danh sách mặt hàng"
               className="tenhang"

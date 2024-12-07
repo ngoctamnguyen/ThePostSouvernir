@@ -8,7 +8,6 @@ import Ghise from "./pages/Ghise";
 import KiemHang from "./pages/Kiemhang";
 import HDV from "./pages/hdv";
 import Mathang from "./pages/Mathang";
-import InBarcode from "./pages/InBarcode";
 import ChangeItemName from "./pages/changeItemName";
 import TongKetKiemHang from "./pages/TongKetKiemHang";
 import BarcodeLabel from "./pages/BarcodeLabel";
@@ -26,7 +25,6 @@ function App() {
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/ghise" element={<Ghise />}></Route>
         <Route path="/mathang" element={<Mathang />}></Route>
-        <Route path="/barcode" element={<InBarcode />}></Route>
         <Route path="/barcodelabel" element={<BarcodeLabel />}></Route>
         <Route path="/changeItemName" element={<ChangeItemName />}></Route>
         <Route path="/kiemhang" element={<KiemHang />}></Route>
