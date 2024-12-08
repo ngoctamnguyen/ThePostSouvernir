@@ -144,7 +144,16 @@
   .inputHeader {
     text-align: left;
     margin: '5px';
-    width: 250px;
+    width: 200px;
+    height: 40px;
+    font-family: 'Arial';
+  }
+
+  .inputBox {
+    text-align: left;
+    margin: '5px';
+    width: 150px;
+    height: 40px;
     font-family: 'Arial';
   }
   .listItems {

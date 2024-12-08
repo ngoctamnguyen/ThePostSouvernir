@@ -30,6 +30,7 @@ export default function KiemHang() {
   const [data, setData] = useState([]);
   const [tempData, setTempData] = useState([]);
   const [searchItem, setSearchItem] = useState('');
+  const [searchItemId, setSearchItemId] = useState('');
   const [nhomhang, setNhomHang] = useState([]);
   const [displayTenhang, setDisplayTenHang] = useState(true);
   const [maNhom, setMaNhom] = useState('')
@@ -243,8 +244,22 @@ export default function KiemHang() {
     setSearchItem(e.target.value);
   }
 
+  const handleItemId = (e) => {
+    if (e.target.value === '') {
+      setData(tempData);
+    } else {
+      setData(tempData.filter(item => item.Mahang.includes(e.target.value)));
+    }
+    setSearchItemId(e.target.value);
+  }
+
   function clearSearchItem() {
     setSearchItem('');
+    setData(tempData);
+  }
+
+  function clearSearchItemId() {
+    setSearchItemId('');
     setData(tempData);
   }
 
@@ -332,14 +347,15 @@ export default function KiemHang() {
   }
 
   return (
-    <div style={{ width: '100%', height: '75%', backgroundColor: "rgba(0, 0, 255, 0.1)"}}>
+    <div style={{ width: '100%', height: '75%', fontWeight: 'normal', fontSize: '8', backgroundColor: "rgba(0, 0, 255, 0.1)"}}>
       <MDBContainer>
         <MDBRow center style={{ height: "100vh", margin: "0", padding: "0" }}>
-          <MDBCol size='20'>
+          <MDBCol size='auto'>
             <label style={{ padding: '5px', color: 'red', textAlign: 'center' }}><h5>KIỂM ĐẾM SỐ LƯỢNG HÀNG TỒN</h5></label>
             <MDBRow>
               <MDBCol size='auto'>
                 <Dropdown className="inputHeader"
+                  size='sm'
                   options={nhomhang}
                   onChange={(e) => handleDropdownList(e)}
                   value={defaultOption}
@@ -348,8 +364,22 @@ export default function KiemHang() {
               <MDBCol size='auto'>
                 <label>
                   <Input type='text'
-                    className="inputHeader"
-                    size="lg"
+                    className="inputBox"
+                    size="sm"
+                    placeholder="Tìm mã hàng"
+                    value={searchItemId}
+                    onChange={handleItemId} />
+
+                </label>
+                <IconButton aria-label="delete" onClick={() => clearSearchItemId()}>
+                  <DeleteIcon />
+                </IconButton>
+              </MDBCol>
+              <MDBCol size='auto'>
+                <label>
+                  <Input type='text'
+                    className="inputBox"
+                    size="sm"
                     placeholder="Tìm tên hàng"
                     value={searchItem}
                     onChange={handleItemname} />
@@ -377,6 +407,7 @@ export default function KiemHang() {
             <RadioGroup
               row
               aria-labelledby="demo-row-radio-buttons-group-label"
+              style={{fontWeight:'normal', fontSize: '6'}}
               name="row-radio-buttons-group"
               value={radioValue}
               onChange={handleRadioChange}
