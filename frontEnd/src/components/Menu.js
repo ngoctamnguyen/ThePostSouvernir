@@ -145,6 +145,18 @@ export default function FadeMenu() {
         <MenuItem onClick={handleItemTongKetKiemHang}>Tổng Kết Kiểm Hàng</MenuItem>
       </Menu>
 
+
+      {/* *********Menu In Tem********* */}
+      {!user ? false :(user.quyen.includes('kho') || user.quyen.includes('superman')) && <Button
+        id="kiemHang"
+        aria-controls={openKiemHang ? 'fade_mnuKiemHang' : undefined}
+        aria-haspopup="true"
+        aria-expanded={openKiemHang ? 'true' : undefined}
+        onClick={handleBarcodeLabel}
+      >
+        In tem
+      </Button>}
+
       {/* *********Menu Mat Hang********* */}
       {!user ? false : user.quyen.includes('superman') && <Button
         id="mathang"

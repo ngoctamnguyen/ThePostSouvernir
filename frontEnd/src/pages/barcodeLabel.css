@@ -1,0 +1,113 @@
+
+@page {
+  size: auto;
+  margin-top: 2mm;
+  margin-right: 6mm;
+  margin-bottom: 10mm;
+  margin-left: 10mm;
+}
+  .tableRightNumber {
+    text-align: right;
+    width: 150px;
+  }
+
+  .tableRightDate {
+    text-align: right;
+    width: 300px;
+  }
+
+  .tableRightNumberHeader {
+    text-align: right;
+    width: 150px;
+    font-family: 'Arial';
+  }
+
+  .tableRightDateHeader {
+    text-align: center;
+    width: 300px;
+    font-family: 'Arial';
+  }
+
+  .orderNumber {
+    text-align: left;
+    width: 100px;
+  }
+
+  .mahangHeader {
+    text-align: center;
+    width: 100px;
+  }
+  .mahang {
+    text-align: center;
+    width: 100px;
+    font-family: '.Arial';
+  }
+
+  .tenhangHeader {
+    text-align: center;
+    width: 200px;
+  }
+
+  .tenhang {
+    text-align: left;
+    width: 250px;
+    font-family: 'Arial';
+  }
+
+  .inputHeader {
+    text-align: left;
+    margin: '5px';
+    width: 200px;
+    height: 40px;
+    font-family: 'Arial';
+  }
+
+  .inputBox {
+    text-align: left;
+    margin: '5px';
+    width: 150px;
+    height: 40px;
+    font-family: 'Arial';
+  }
+  .listItems {
+    margin-top: '5px';
+  }
+  .inputHeaderSmall {
+    text-align: left;
+    margin: '5px';
+    width: 200px;
+    font-family: 'Arial';
+  } */ */
+/*
+  .tableCenter {
+    text-align: center;
+    width: 200px;
+  }
+
+  .dataTable {
+    text-align: left;
+    width: 250px;
+    font-family: 'Arial';
+    font-size: small;
+  } */
+
+  .barCode {
+    text-align: left;
+    width: '139.8px';
+    height: '45.35',
+  }
+  .inputHeaderSmall {
+    text-align: left;
+    margin: '5px';
+    width: 200px;
+    font-family: 'Arial';
+  }
+  .inputSearchIdItem {
+    text-align: left;
+    width: 200px;
+    font-family: 'Arial';
+    margin-top: '20px';
+    margin-bottom: '0px';
+    padding-top: '20px';
+    padding-bottom: '0px';
+  }

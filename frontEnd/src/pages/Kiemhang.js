@@ -56,7 +56,7 @@ export default function KiemHang() {
       navigate("/")
     }
   })
-
+  //Table design
   const columns = [
     {
       name: 'Mã H',
@@ -104,14 +104,6 @@ export default function KiemHang() {
         <IconButton aria-label="delete" onClick={() => handleSLkiem(row)}>
           <CheckIcon />
         </IconButton>
-        {/* <Button id='checkButtonNumber'
-          variant="outlined"
-          size='small'
-          onClick={() => handleSLkiem(row)}>
-          <IconButton aria-label="delete" onClick={() => clearSearchItem()}>
-            <DeleteIcon />
-          </IconButton>
-        </Button> */}
       </div>
     },
     {
@@ -157,6 +149,7 @@ export default function KiemHang() {
 
   useEffect(() => {
     getNhomHang();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function getData(manhom) {

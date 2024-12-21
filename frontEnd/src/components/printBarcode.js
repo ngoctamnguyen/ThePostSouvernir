@@ -12,7 +12,7 @@ const Barcode = ({ value, format }) => {
         format: format,
         displayValue: true,
         width: 1,
-        height: 20,
+        height: 18,
         fontSize: 11,
         textMargin: 0,
         marginTop: '-2px',
@@ -40,19 +40,36 @@ export default function PrintBarcode(props) {
       <MDBCol size='8'>
         <div style={{
           fontSize: "11px",
-          width: '139.8px',
-          height: '45.35px',
+          width: '147px',
+          height: '40.35px',
           border: '0px',
-          padding: '0px',
-          marginLeft: '15px',
-          marginBottom: '-5px'
+          paddingLeft: '-10px',
+          paddingRight: '10px',
+          marginLeft: '-10px',
+          marginright: '10px',
+          marginBottom: '9.5px',
         }} >
-          <span style={{marginLeft: '6px'}}>{priceItem}</span> {' '}
-          <span style={{fontSize: "11px",marginBottom: '-3px', display: 'inline-block', width:'60px', height:'15px', overflow:'hidden', textWrap: 'nowrap'}}>{nameItem}</span>
-          {idItem && <Barcode value={idItem} format="CODE128" />}
+          <span style={{ marginLeft: '8px', marginBottom: '-20px', fontSize: "9px" }}>{priceItem.toLocaleString('en-US')}</span> {' '}
+          <span
+            style={{
+              fontSize: "8px",
+              marginBottom: '-7px',
+              display: 'inline-block',
+              width: '60px',
+              height: '15px',
+              overflow: 'hidden',
+              textWrap: 'nowrap'
+            }}>
+            {nameItem}
+          </span>
+          <span
+            style={{
+              fontSize: "9px",
+            }}>
+            {idItem && <Barcode value={idItem} format="CODE128" />}
+          </span>
         </div>
       </MDBCol>
-
     </div>
   )
 }

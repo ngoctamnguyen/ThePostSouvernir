@@ -7,12 +7,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Dropdown from 'react-dropdown';
 import ReactToPrint from "react-to-print";
 import PrintBarcode from "../components/printBarcode";
-import 'react-dropdown/style.css';
+//import 'react-dropdown/style.css';
 import { MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useContext, useRef } from 'react';
-import './login.css';
+import './barcodeLabel.css';
 import axios from "axios";
 import { Context } from "../context/Context";
 const { DB_URL } = require('../config.json');
@@ -25,6 +25,7 @@ export default function BarcodeLabel() {
   const [dataPrint, setDataPrint] = useState([]);
   const [groupedArray, setGroupedArray] = useState([])
   const [searchItem, setSearchItem] = useState('');
+  const [searchIdItem, setSearchIdItem] = useState('');
   const [nhomhang, setNhomHang] = useState([]);
   const [labelNmuber, setLabelNumber] = useState(1);
   const [totalLabel, setTotalLabel] = useState(0);
@@ -123,14 +124,9 @@ export default function BarcodeLabel() {
       width: '200px',
     },
     {
-      name: 'SL tem',
+      name: 'SL tem: ' + totalLabel,
       selector: row => row.soluongTem,
       width: '100px'
-    },
-    {
-      name: 'Action',
-      selector: row => <Button variant="outlined" size="small" onClick={() => handleDelete(row)}>Delete</Button>,
-      width: '120px'
     },
   ];
 
@@ -174,9 +170,18 @@ export default function BarcodeLabel() {
     if (e.target.value === '') setData(tempData)
     setSearchItem(e.target.value)
   }
+  const handleInputIdChange = (e) => {
+    setData(tempData.filter(item => item.Mahang.includes(e.target.value)))
+    if (e.target.value === '') setData(tempData)
+      setSearchIdItem(e.target.value)
+  }
   //Action clear selected items list
   function clearSearchInput() {
     setSearchItem('');
+    setData(tempData);
+  }
+  function clearSearchIdInput() {
+    setSearchIdItem('')
     setData(tempData);
   }
   //Action when change number of item when click add button
@@ -187,16 +192,13 @@ export default function BarcodeLabel() {
       setLabelNumber(+event.target.value);
     }
   }
-
-  function handleDelete(event) {
-    console.log(event)
-  }
   //Ations when click on button clear list to clear selected item list
   function handleClearList() {
     setLabelData([]);
     setDataPrint([]);
     setGroupedArray([]);
     setLabelNumber(1);
+    setTotalLabel(0)
   }
   //Select all when got focus
   function selectText() {
@@ -256,14 +258,32 @@ export default function BarcodeLabel() {
                 </IconButton>
               </MDBCol>
             </MDBRow>
-            <label>Số tem
-              <Input
-                id='labelNumber'
-                type='number'
-                className="inputHeaderSmall"
-                value={labelNmuber}
-                onClick={() => selectText()}
-                onChange={(e) => changeSoluong(e)} /></label>
+            <MDBRow>
+              <MDBCol size='auto'>
+                <label>Số tem
+                  <Input
+                    id='labelNumber'
+                    type='number'
+                    className="inputHeaderSmall"
+                    value={labelNmuber}
+                    onClick={() => selectText()}
+                    onChange={(e) => changeSoluong(e)} /></label>
+              </MDBCol>
+              <MDBCol size='auto'>
+                <label>
+                  <Input type='text'
+                    className="inputSearchIdItem"
+                    size="lg"
+                    placeholder="Tìm mã hàng"
+                    value={searchIdItem}
+                    onChange={handleInputIdChange} />
+                </label>
+                <IconButton aria-label="delete" onClick={() => clearSearchIdInput()}>
+                  <DeleteIcon />
+                </IconButton>
+              </MDBCol>
+            </MDBRow>
+
             <DataTable
               title="Danh sách mặt hàng"
               className="tenhang"
@@ -282,7 +302,7 @@ export default function BarcodeLabel() {
               <MDBCol>
                 <Button variant="contained" size="large" onClick={() => handleClearList()}>Clear list</Button>
               </MDBCol>
-              <MDBCol>
+              <MDBCol >
                 <div>
                   <ReactToPrint
                     trigger={() => <div >
